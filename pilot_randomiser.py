@@ -18,5 +18,30 @@ device_list = []
 target_percent = 0.12
 parse_datatable(spreadsheet, department_list, user_list, device_list)
 
-selected_users = []
-selected_device_list = []
+departments = list(department_list.values())
+user_list = list(user_list.values())
+
+aad_map = {}
+#Selecting AAD_Joined devices
+for department in departments:
+    device_user = set()
+    for user in department.user_list:
+        for device in user.device_list:
+            if device.group == 'AAD_Joined':
+                device_user.add((user, device))
+                aad_map[department] = device_user
+
+result_map = {}
+
+#Selecting 45 AAD_Joined devices for Pilot group
+target = 45
+count = 0
+
+while count < target:
+    department = random.choice(departments)
+    if(department in aad_map):
+        device = aad_map[department]
+        aad_map.pop(department)
+        result_map[department] = device
+        count+=1
+    departments.remove(department)
