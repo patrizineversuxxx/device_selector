@@ -22,7 +22,7 @@ departments = list(department_list.values())
 user_list = list(user_list.values())
 
 aad_map = {}
-#Selecting AAD_Joined devices
+# Selecting AAD_Joined devices
 for department in departments:
     device_user = set()
     for user in department.user_list:
@@ -33,17 +33,17 @@ for department in departments:
 
 result_map = {}
 
-#Selecting 45 AAD_Joined devices for Pilot group
+# Selecting 45 AAD_Joined devices for Pilot group
 target = 45
 count = 0
 
 while count < target:
     department = random.choice(departments)
-    if(department in aad_map):
+    if (department in aad_map):
         user_device = aad_map[department]
         aad_map.pop(department)
         result_map[department] = user_device
-        count+=1
+        count += 1
     departments.remove(department)
 
 departments = list(department_list.values())
@@ -54,11 +54,8 @@ for department in departments:
         while len(result_map[department]) < target:
             user = random.choice(department.user_list)
             device = random.choice(user.device_list)
-            result_map[department].add(set((user,device)))
+            result_map[department].add(set((user, device)))
     else:
         user = random.choice(department.user_list)
         device = random.choice(user.device_list)
-        result_map[department]= set((user,device))
-
-
-            #result_map[department].add(user.device_list[random(size)])
+        result_map[department] = set((user, device))
