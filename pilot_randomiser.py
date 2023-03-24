@@ -40,8 +40,25 @@ count = 0
 while count < target:
     department = random.choice(departments)
     if(department in aad_map):
-        device = aad_map[department]
+        user_device = aad_map[department]
         aad_map.pop(department)
-        result_map[department] = device
+        result_map[department] = user_device
         count+=1
     departments.remove(department)
+
+departments = list(department_list.values())
+
+for department in departments:
+    target = int(len(department.user_list) * 0.12)+1
+    if department in result_map:
+        while len(result_map[department]) < target:
+            user = random.choice(department.user_list)
+            device = random.choice(user.device_list)
+            result_map[department].add(set((user,device)))
+    else:
+        user = random.choice(department.user_list)
+        device = random.choice(user.device_list)
+        result_map[department]= set((user,device))
+
+
+            #result_map[department].add(user.device_list[random(size)])
