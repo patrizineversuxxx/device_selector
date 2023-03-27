@@ -49,20 +49,20 @@ while count < target:
         count += 1
     departments.remove(department)
     
+departments = list(department_list.values())
+
+for department in departments:
+    target = int(len(department.user_list) * 0.12)+1
+    if department in result_map:
+        while len(result_map[department]) < target:
+            user = random.choice(department.user_list)
+            device = random.choice(user.device_list)
+            result_map[department][user]= device
+    else:
+        user = random.choice(department.user_list)
+        device = random.choice(user.device_list)
+        result_map[department] = {}
+        result_map[department][user] = device
+
+
 save_result(result_map)
-
-#departments = list(department_list.values())
-
-#for department in departments:
-#    target = int(len(department.user_list) * 0.12)+1
-#    if department in result_map:
-#        while len(result_map[department]) < target:
-#            user = random.choice(department.user_list)
-#            device = random.choice(user.device_list)
-#            result_map[department].add(set((user, device)))
-#    else:
-#        user = random.choice(department.user_list)
-#        device = random.choice(user.device_list)
-#        result_map[department] = set((user, device))
-
-#save_result(result_map)
