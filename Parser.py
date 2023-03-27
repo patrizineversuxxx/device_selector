@@ -58,21 +58,22 @@ def save_result(result_map):
 
     row_counter = 2
 
-    for department, users_devices in result_map.items():
+    for department in result_map.keys():
 
         department_name = department.name
         cost_center = department.cost_center
 
         # Iterate over the set of user-device tuples
-        for user_device in users_devices:
-            device_name = user_device[1].name
-            group = user_device[1].group
-            os = user_device[1].os
-            last_checkin_date = user_device[1].last_checkin_date
-            username = user_device[0].name
-            manager = user_device[0].manager
-            job_title = user_device[0].job_title
-            location = user_device[0].location
+        for user in result_map[department]:
+            device = result_map[department][user]
+            device_name = device.name
+            group = device.group
+            os = device.os
+            last_checkin_date = device.last_checkin_date
+            username = user.name
+            manager = user.manager
+            job_title = user.job_title
+            location = user.location
 
             result_sheet.cell(row=row_counter, column=1, value=device_name)
             result_sheet.cell(row=row_counter, column=2, value=group)
@@ -83,10 +84,10 @@ def save_result(result_map):
             result_sheet.cell(row=row_counter, column=6, value=manager)
             result_sheet.cell(row=row_counter, column=7, value=job_title)
             result_sheet.cell(row=row_counter, column=8, value=location)
-            result_sheet.cell(row=row_counter, column=9, value=department_name)
-            result_sheet.cell(row=row_counter, column=10, value=cost_center)
+            result_sheet.cell(row=row_counter, column=9,
+                              value=department_name)
+            result_sheet.cell(row=row_counter, column=10,
+                              value=cost_center)
 
             row_counter += 1
-        if (row_counter == 65):
-            break
-        result_book.save('C:\KEK\homosek.xslx')
+    result_book.save(r'C:\KEK\test.xlsx')
