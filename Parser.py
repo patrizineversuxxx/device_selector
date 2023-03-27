@@ -48,7 +48,7 @@ def save_result(result_map):
     result_sheet.cell(row=1, column=1, value='devicename')
     result_sheet.cell(row=1, column=2, value='group')
     result_sheet.cell(row=1, column=3, value='os')
-    result_sheet.cell(row=1, column=3, value='last_checkin_date')
+    result_sheet.cell(row=1, column=4, value='last_checkin_date')
     result_sheet.cell(row=1, column=5, value='username')
     result_sheet.cell(row=1, column=6, value='manager')
     result_sheet.cell(row=1, column=7, value='job_title')
