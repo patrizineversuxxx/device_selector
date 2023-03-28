@@ -3,11 +3,16 @@ import datetime
 
 
 class Device:
-    def __init__(self, name: str, group: str, os: str, last_checkin_date: datetime):
+    def __init__(self, id: str, name: str, group: str, os: str, last_checkin_date: datetime):
+        self._id = id
         self._name = name
         self._group = group
         self._os = os
         self._last_checkin_date = last_checkin_date
+
+    @property
+    def id(self) -> str:
+        return self._id
 
     @property
     def name(self) -> str:
@@ -27,16 +32,26 @@ class Device:
 
 
 class User:
-    def __init__(self, name: str, manager: str, job_title: str, location: str, device_list: array):
+    def __init__(self, id: str, name: str, mail: str, manager: str, job_title: str, location: str, device_list: array):
+        self._id = id
         self._name = name
+        self._mail = mail
         self._manager = manager
         self._job_title = job_title
         self._location = location
         self._device_list = device_list
 
     @property
+    def id(self) -> str:
+        return self._id
+
+    @property
     def name(self) -> str:
         return self._name
+
+    @property
+    def mail(self) -> str:
+        return self._mail
 
     @property
     def manager(self) -> str:

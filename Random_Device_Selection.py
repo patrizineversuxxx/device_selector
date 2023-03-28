@@ -17,7 +17,7 @@ user_list = {}
 device_list = []
 
 target_percent = 0.12
-parse_datatable(spreadsheet, department_list, user_list, device_list)
+get_data_from_xlsx(spreadsheet, department_list, user_list, device_list)
 
 departments = list(department_list.values())
 user_list = list(user_list.values())
@@ -65,4 +65,4 @@ for department in departments:
         result_map[department][user] = device
 
 
-save_result(result_map)
+save_data_to_xlsx(result_map)

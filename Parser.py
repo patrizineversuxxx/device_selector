@@ -1,8 +1,9 @@
+import json
 import openpyxl
 from Data import *
 
 
-def parse_datatable(spreadsheet, department_list, user_list, device_list):
+def get_data_from_xlsx(spreadsheet, department_list, user_list, device_list):
     for row in spreadsheet.iter_rows(2):
 
         device_name = row[0].value
@@ -41,7 +42,58 @@ def parse_datatable(spreadsheet, department_list, user_list, device_list):
                 department_list[department_name] = department
 
 
-def save_result(result_map):
+def get_data_from_json(params:dict):
+    f = open(params['path_user'])
+    records = json.load(f)
+
+    department_list = {}
+    for record in records:
+        department_name = record['department']
+        department_cost_center = 0
+        department_user_list = []
+        department_list[department_name] = Department(
+            name=department_name, cost_center=department_cost_center, user_list=department_user_list)
+
+    for record in records:
+        user_id = record['id']
+        user_name = record['displayName']
+        user_mail = record['mail']
+        user_job_title = record['jobTitle']
+        user_location = record['officeLocation']
+        user_manager = record['manager']
+        user_department_name = record['department']
+        user_device_list = []
+
+        user = User(id=user_id, name=user_name, mail=user_mail, manager=user_manager,
+                    job_title=user_job_title, location=user_location, device_list=user_device_list)
+
+        department_list[user_department_name].user_list.append(user)
+
+    f = open(params['path_device'])
+    records = json.load(f)
+
+    for record in records:
+        if record['usersLoggedOn'] == []:
+            continue
+        else:
+            device_last_checkin_date = record['usersLoggedOn'][0]['lastLogOnDateTime']
+        device_id = record['azureActiveDirectoryDeviceId']
+        device_name = record['deviceName']
+        device_enrollment_type = record['deviceEnrollmentType']
+        device_os = record['operatingSystem']
+        device_group = ""
+        if (device_enrollment_type == "windowsAzureADJoin") & (device_os == "Windows"):
+            device_group = "AAD_Joined"
+        else:
+            if (device_enrollment_type == "windowsCoManagement") & (device_os == "Windows"):
+                device_group = "Hybrid_Joined"
+            else:
+                if (device_enrollment_type == "userEnrollment") & (device_os == "Windows"):
+                    device_group = "macOS"
+        device = Device(id=device_id, name=device_name, group=device_group, os=device_os, last_checkin_date=device_last_checkin_date)
+        device_user_id = record['userId']
+
+def save_data_to_xlsx(result_map):
     result_book = openpyxl.Workbook()
     result_sheet = result_book.active
 
