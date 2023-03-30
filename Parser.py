@@ -47,6 +47,8 @@ def get_data_from_json(params:dict):
     records = json.load(f)
 
     department_list = {}
+    user_list = {}
+
     for record in records:
         department_name = record['department']
         department_cost_center = 0
@@ -66,7 +68,8 @@ def get_data_from_json(params:dict):
 
         user = User(id=user_id, name=user_name, mail=user_mail, manager=user_manager,
                     job_title=user_job_title, location=user_location, device_list=user_device_list)
-
+        
+        user_list[user_id]=user
         department_list[user_department_name].user_list.append(user)
 
     f = open(params['path_device'])
@@ -77,11 +80,13 @@ def get_data_from_json(params:dict):
             continue
         else:
             device_last_checkin_date = record['usersLoggedOn'][0]['lastLogOnDateTime']
+
         device_id = record['azureActiveDirectoryDeviceId']
         device_name = record['deviceName']
         device_enrollment_type = record['deviceEnrollmentType']
         device_os = record['operatingSystem']
         device_group = ""
+
         if (device_enrollment_type == "windowsAzureADJoin") & (device_os == "Windows"):
             device_group = "AAD_Joined"
         else:
@@ -90,8 +95,19 @@ def get_data_from_json(params:dict):
             else:
                 if (device_enrollment_type == "userEnrollment") & (device_os == "Windows"):
                     device_group = "macOS"
+                
         device = Device(id=device_id, name=device_name, group=device_group, os=device_os, last_checkin_date=device_last_checkin_date)
         device_user_id = record['userId']
+        if device_user_id in user_list:
+            user_list[device_user_id].device_list.append(device)
+        else:
+            continue
+
+    for deparment in department_list.values():
+        for user in deparment.user_list:
+            user.device_list = user_list[user.id].device_list
+
+    print(3)
 
 def save_data_to_xlsx(result_map):
     result_book = openpyxl.Workbook()

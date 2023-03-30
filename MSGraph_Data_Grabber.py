@@ -3,11 +3,13 @@ import webbrowser
 import requests
 import json
 from Data import *
+from Parser import *
 
 
 def read_config():
     f = open("config.json")
     params = json.load(f)
+    f.close()
     return params
 
 
@@ -41,7 +43,7 @@ def user_to_json_grabbing(headers, path):
     save_json(all_entities=all_users, path=path)
 
 
-def device_to_json_grabbing(headers, path):
+def device_to_json_grabbing(headers, params):
     all_devices = []
 
     naming_tags = params['naming_tags']
@@ -55,43 +57,42 @@ def device_to_json_grabbing(headers, path):
             all_devices += json_data["value"]
             next_link = json_data.get("@odata.nextLink")
 
-    save_json(all_entities=all_devices, path=path)
+    save_json(all_entities=all_devices, path=params['path_device'])
+
+
+def device_flow_connection(app, scopes):
+    flow = app.initiate_device_flow(scopes=scopes)
+    print(flow['user_code'])
+    webbrowser.open(flow['verification_uri'])
+
+    token = app.acquire_token_by_device_flow(flow)
+    return token
 
 
 def connect_to_api(params):  # needed to rewrite to user auth flow
 
     id = params['client_id']
-    sec = params['client_secrets']
     authority_url = params['authority_url']
 
     scopes = ['User.Read', 'User.ReadBasic.All', 'Device.Read',
               'DeviceManagementManagedDevices.Read.All', 'Directory.Read.All']
 
     app = msal.PublicClientApplication(
-        id,
+        client_id=id,
         authority=authority_url
     )
 
-    flow = app.initiate_device_flow(scopes=scopes)
-    print(flow)
-    app_flow = flow['message']
-    webbrowser.open(flow['verification_uri'])
-
-    token = app.acquire_token_by_device_flow(flow)
-
-    access_token_id = token['access_token']
+    token = device_flow_connection(app, scopes)
+    access_token = token['access_token']
     headers = {'Authorization': 'Bearer ' +
-               access_token_id, 'ConsistencyLevel': 'eventual'}
+               access_token, 'ConsistencyLevel': 'eventual'}
+
+    return headers
 
 
-#r"https://graph.microsoft.com/beta/deviceManagement/managedDevices?$filter=(startswith(devicename, 'EVN')+or+startswith(devicename,'MOW'))&select=devicename"
-# user_to_json_grabbing(headers=headers)
-# device_to_json_grabbing(headers=headers)
 params = read_config()
-# Opening JSON file
-
-
-# Closing file
-f.close()
-
+#headers = connect_to_api(params=params)
+# user_to_json_grabbing(headers=headers)
+#device_to_json_grabbing(headers=headers, params=params)
+get_data_from_json(params=params)
 print('DONE!')
