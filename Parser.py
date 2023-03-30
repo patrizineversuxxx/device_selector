@@ -102,12 +102,8 @@ def get_data_from_json(params:dict):
             user_list[device_user_id].device_list.append(device)
         else:
             continue
-
-    for deparment in department_list.values():
-        for user in deparment.user_list:
-            user.device_list = user_list[user.id].device_list
-
-    print(3)
+        
+    return department_list
 
 def save_data_to_xlsx(result_map):
     result_book = openpyxl.Workbook()
