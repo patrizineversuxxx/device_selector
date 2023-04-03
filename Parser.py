@@ -3,41 +3,44 @@ import openpyxl
 from Data import *
 
 
-def get_data_from_xlsx(spreadsheet, department_list, user_list, device_list):
+def get_data_from_xlsx(spreadsheet, department_map, user_map, device_list):
     for row in spreadsheet.iter_rows(2):
 
         device_name = row[0].value
-        device_group = row[1].value
-        device_os = row[2].value
-        device_last_checkin_date = row[3].value
+        device_id = row[1].value
+        device_group = row[2].value
+        device_os = row[3].value
+        device_last_checkin_date = row[4].value
 
-        user_name = row[4].value
-        user_manager = row[5].value
-        user_job_title = row[6].value
-        user_location = row[7].value
+        user_id = row[5].value
+        user_name = row[6].value
+        user_mail = row[7].value
+        user_manager = row[8].value
+        user_job_title = row[9].value
+        user_location = row[10].value
 
-        department_name = row[8].value
-        department_cost_center = row[9].value
+        department_name = row[11].value
+        department_cost_center = row[12].value
 
-        device = Device(name=device_name, group=device_group,
+        device = Device(id=device_id, name=device_name, group=device_group,
                         os=device_os, last_checkin_date=device_last_checkin_date)
         device_list.append(device)
 
-        if user_name in user_list:
-            user_list[user_name].add_device(device)
+        if user_name in user_map:
+            user_map[user_name].add_device(device)
 
         else:
-            user = User(name=user_name, manager=user_manager,
+            user = User(id=user_id, name=user_name, mail=user_mail, manager=user_manager,
                         job_title=user_job_title, location=user_location, device_list=[])
-            user_list[user.name] = user
+            user_map[user.name] = user
 
-            if department_name in department_list:
-                department_list[department_name].add_user(user)
+            if department_name in department_map:
+                department_map[department_name].add_user(user)
 
             else:
                 department = Department(
                     name=department_name, cost_center=department_cost_center, user_list=[])
-                department_list[department_name] = department
+                department_map[department_name] = department
 
 
 def open_json(path: str):
