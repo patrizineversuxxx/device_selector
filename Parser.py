@@ -27,18 +27,16 @@ def get_data_from_xlsx(spreadsheet, department_list, user_list, device_list):
             user_list[user_name].add_device(device)
 
         else:
-            devices = [device]
             user = User(name=user_name, manager=user_manager,
-                        job_title=user_job_title, location=user_location, device_list=devices)
+                        job_title=user_job_title, location=user_location, device_list=[])
             user_list[user.name] = user
 
             if department_name in department_list:
                 department_list[department_name].add_user(user)
 
             else:
-                users = [user]
                 department = Department(
-                    name=department_name, cost_center=department_cost_center, user_list=users)
+                    name=department_name, cost_center=department_cost_center, user_list=[])
                 department_list[department_name] = department
 
 
