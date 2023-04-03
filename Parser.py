@@ -107,16 +107,19 @@ def save_data_to_xlsx(result_map):
     result_book = openpyxl.Workbook()
     result_sheet = result_book.active
 
-    result_sheet.cell(row=1, column=1, value='devicename')
-    result_sheet.cell(row=1, column=2, value='group')
-    result_sheet.cell(row=1, column=3, value='os')
-    result_sheet.cell(row=1, column=4, value='last_checkin_date')
-    result_sheet.cell(row=1, column=5, value='username')
-    result_sheet.cell(row=1, column=6, value='manager')
-    result_sheet.cell(row=1, column=7, value='job_title')
-    result_sheet.cell(row=1, column=8, value='location')
-    result_sheet.cell(row=1, column=9, value='department name')
-    result_sheet.cell(row=1, column=10, value='cost center')
+    result_sheet.cell(row=1, column=1, value='Device_name')
+    result_sheet.cell(row=1, column=2, value='Device_id')
+    result_sheet.cell(row=1, column=3, value='Device_Group')
+    result_sheet.cell(row=1, column=4, value='Device_os')
+    result_sheet.cell(row=1, column=5, value='Last_checkin_date')
+    result_sheet.cell(row=1, column=6, value='User_id')
+    result_sheet.cell(row=1, column=7, value='User_name')
+    result_sheet.cell(row=1, column=8, value='User_mail')
+    result_sheet.cell(row=1, column=9, value='Manager')
+    result_sheet.cell(row=1, column=10, value='Job_title')
+    result_sheet.cell(row=1, column=11, value='Location')
+    result_sheet.cell(row=1, column=12, value='Department name')
+    result_sheet.cell(row=1, column=13, value='Cost center')
 
     row_counter = 2
 
@@ -129,22 +132,29 @@ def save_data_to_xlsx(result_map):
         for user in result_map[department]:
             device = result_map[department][user]
             device_name = device.name
+            device_id = device.id
             group = device.group
             os = device.os
             last_checkin_date = device.last_checkin_date
+
+            user_id = user.id
             username = user.name
+            mail = user.mail
             manager = user.manager
             job_title = user.job_title
             location = user.location
 
             result_sheet.cell(row=row_counter, column=1, value=device_name)
-            result_sheet.cell(row=row_counter, column=2, value=group)
-            result_sheet.cell(row=row_counter, column=3, value=os)
-            result_sheet.cell(row=row_counter, column=4,
+            result_sheet.cell(row=row_counter, column=2, value=device_id)
+            result_sheet.cell(row=row_counter, column=3, value=group)
+            result_sheet.cell(row=row_counter, column=4, value=os)
+            result_sheet.cell(row=row_counter, column=5,
                               value=last_checkin_date)
-            result_sheet.cell(row=row_counter, column=5, value=username)
-            result_sheet.cell(row=row_counter, column=6, value=manager)
-            result_sheet.cell(row=row_counter, column=7, value=job_title)
+            result_sheet.cell(row=row_counter, column=6, value=user_id)
+            result_sheet.cell(row=row_counter, column=6, value=username)
+            result_sheet.cell(row=row_counter, column=6, value=mail)
+            result_sheet.cell(row=row_counter, column=7, value=manager)
+            result_sheet.cell(row=row_counter, column=8, value=job_title)
             result_sheet.cell(row=row_counter, column=8, value=location)
             result_sheet.cell(row=row_counter, column=9,
                               value=department_name)
