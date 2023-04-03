@@ -46,14 +46,14 @@ def get_data_from_json(params:dict):
     f = open(params['path_user'])
     records = json.load(f)
 
-    department_list = {}
-    user_list = {}
+    department_map = {}
+    user_map = {}
 
     for record in records:
         department_name = record['department']
         department_cost_center = 0
         department_user_list = []
-        department_list[department_name] = Department(
+        department_map[department_name] = Department(
             name=department_name, cost_center=department_cost_center, user_list=department_user_list)
 
     for record in records:
@@ -69,8 +69,8 @@ def get_data_from_json(params:dict):
         user = User(id=user_id, name=user_name, mail=user_mail, manager=user_manager,
                     job_title=user_job_title, location=user_location, device_list=user_device_list)
         
-        user_list[user_id]=user
-        department_list[user_department_name].user_list.append(user)
+        user_map[user_id]=user
+        department_map[user_department_name].user_list.append(user)
 
     f = open(params['path_device'])
     records = json.load(f)
@@ -98,12 +98,12 @@ def get_data_from_json(params:dict):
                 
         device = Device(id=device_id, name=device_name, group=device_group, os=device_os, last_checkin_date=device_last_checkin_date)
         device_user_id = record['userId']
-        if device_user_id in user_list:
-            user_list[device_user_id].device_list.append(device)
+        if device_user_id in user_map:
+            user_map[device_user_id].device_list.append(device)
         else:
             continue
         
-    return department_list
+    return department_map
 
 def save_data_to_xlsx(result_map):
     result_book = openpyxl.Workbook()
