@@ -16,14 +16,14 @@ def random_selection(params:dict):
     workbook = openpyxl.load_workbook(path)
     spreadsheet = workbook.active
 
-    department_list = {}
-    user_list = {}
+    department_map = {}
+    user_map = {}
     device_list = []
 
-    get_data_from_xlsx(spreadsheet, department_list, user_list, device_list)
+    get_data_from_xlsx(spreadsheet, department_map, user_map, device_list)
 
-    departments = list(department_list.values())
-    user_list = list(user_list.values())
+    departments = list(department_map.values())
+    user_map = list(user_map.values())
 
     aad_map = {}
     # Selecting AAD_Joined devices
@@ -52,7 +52,7 @@ def random_selection(params:dict):
             count += 1
         departments.remove(department)
 
-    departments = list(department_list.values())
+    departments = list(department_map.values())
 
     for department in departments:
         target = check_department_target(department, params)
