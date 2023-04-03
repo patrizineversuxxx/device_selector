@@ -21,7 +21,7 @@ def save_json(all_entities, path):
 def user_to_json_grabbing(headers, path):
     all_users = []
 
-    office_locations = ['AM+Yerevan', 'RU+Moscow', 'RU+Novosibirsk']
+    office_locations = params['office_locations']
 
     for office_location in office_locations:
         next_link = r'https://graph.microsoft.com/v1.0/users?$search="officeLocation:' + office_location + \
@@ -71,18 +71,12 @@ def device_flow_connection(app, scopes):
 
 def connect_to_api(params):  # needed to rewrite to user auth flow
 
-    id = params['client_id']
-    authority_url = params['authority_url']
-
-    scopes = ['User.Read', 'User.ReadBasic.All', 'Device.Read',
-              'DeviceManagementManagedDevices.Read.All', 'Directory.Read.All']
-
     app = msal.PublicClientApplication(
-        client_id=id,
-        authority=authority_url
+        client_id=params['client_id'],
+        authority=params['authority_url']
     )
 
-    token = device_flow_connection(app, scopes)
+    token = device_flow_connection(app, params['scopes'])
     access_token = token['access_token']
     headers = {'Authorization': 'Bearer ' +
                access_token, 'ConsistencyLevel': 'eventual'}
@@ -91,8 +85,8 @@ def connect_to_api(params):  # needed to rewrite to user auth flow
 
 
 params = read_config()
-#headers = connect_to_api(params=params)
-# user_to_json_grabbing(headers=headers)
-#device_to_json_grabbing(headers=headers, params=params)
+headers = connect_to_api(params=params)
+user_to_json_grabbing(headers=headers)
+device_to_json_grabbing(headers=headers, params=params)
 get_data_from_json(params=params)
 print('DONE!')
