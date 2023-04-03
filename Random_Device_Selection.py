@@ -4,14 +4,12 @@ from Data import *
 from Parser import *
 
 
-
-
 def check_department_target(department, params):
     target_percent = params[target_percent]
     return int(target_percent * len(department.user_list))+1
 
 
-def random_selection(params:dict):
+def random_selection(params: dict):
     path = params['middle_file']
     workbook = openpyxl.load_workbook(path)
     spreadsheet = workbook.active

@@ -39,11 +39,13 @@ def get_data_from_xlsx(spreadsheet, department_list, user_list, device_list):
                     name=department_name, cost_center=department_cost_center, user_list=[])
                 department_list[department_name] = department
 
+
 def open_json(path: str):
     f = open(path)
     records = json.load(f)
     f.close()
     return records
+
 
 def get_data_from_json(params: dict):
     records = open_json(params['path_user'])
@@ -87,7 +89,7 @@ def get_data_from_json(params: dict):
 
         device = Device(id=record['azureActiveDirectoryDeviceId'], name=record['deviceName'], group=device_group,
                         os=device_os, last_checkin_date=device_last_checkin_date)
-        
+
         device_user_id = record['userId']
 
         if device_user_id in user_map:
