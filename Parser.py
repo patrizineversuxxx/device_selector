@@ -39,10 +39,14 @@ def get_data_from_xlsx(spreadsheet, department_list, user_list, device_list):
                     name=department_name, cost_center=department_cost_center, user_list=[])
                 department_list[department_name] = department
 
+def open_json(path: str):
+    f = open(path)
+    records = json.load(f)
+    f.close()
+    return records
 
 def get_data_from_json(params: dict):
-    f = open(params['path_user'])
-    records = json.load(f)
+    records = open_json(params['path_user'])
 
     department_map = {}
     user_map = {}
@@ -60,8 +64,7 @@ def get_data_from_json(params: dict):
         user_map[user_id] = user
         department_map[record['department']].user_list.append(user)
 
-    f = open(params['path_device'])
-    records = json.load(f)
+    records = open_json(params['path_device'])
 
     for record in records:
         if record['usersLoggedOn'] == []:
