@@ -49,7 +49,7 @@ def device_to_json_grabbing(headers, params):
     naming_tags = params['naming_tags']
     for naming_tag in naming_tags:
         next_link = r"https://graph.microsoft.com/beta/deviceManagement/managedDevices?$filter=startswith(devicename,'"+naming_tag + \
-            "')&select=id,devicename,userid,azureActiveDirectoryDeviceId,deviceEnrollmentType,operatingSystem,usersLoggedOn"
+            "')&select=devicename,userid,azureActiveDirectoryDeviceId,deviceEnrollmentType,operatingSystem,usersLoggedOn"
 
         while next_link:
             response = requests.get(next_link, headers=headers)
