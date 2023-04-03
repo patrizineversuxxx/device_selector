@@ -32,11 +32,12 @@ class Device:
 
 
 class User:
-    def __init__(self, id: str, name: str, mail: str, manager: str, job_title: str, location: str, device_list: array):
+    def __init__(self, id: str, name: str, mail: str, manager_name: str, manager_mail: str, job_title: str, location: str, device_list: array):
         self._id = id
         self._name = name
         self._mail = mail
-        self._manager = manager
+        self._manager_name = manager_name
+        self._manager_mail = manager_mail
         self._job_title = job_title
         self._location = location
         self._device_list = device_list
@@ -54,8 +55,12 @@ class User:
         return self._mail
 
     @property
-    def manager(self) -> str:
-        return self._manager
+    def manager_name(self) -> str:
+        return self._manager_name
+    
+    @property
+    def manager_mail(self) -> str:
+        return self._manager_mail
 
     @property
     def job_title(self) -> str:

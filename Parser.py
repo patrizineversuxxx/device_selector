@@ -30,7 +30,7 @@ def get_data_from_xlsx(spreadsheet, department_map, user_map, device_list):
             user_map[user_name].add_device(device)
 
         else:
-            user = User(id=user_id, name=user_name, mail=user_mail, manager=user_manager,
+            user = User(id=user_id, name=user_name, mail=user_mail, manager_name=user_manager,
                         job_title=user_job_title, location=user_location, device_list=[])
             user_map[user.name] = user
 
@@ -63,7 +63,7 @@ def get_data_from_json(params: dict):
     for record in records:
         user_id = record['id']
 
-        user = User(id=user_id, name=record['displayName'], mail=record['mail'], manager=record['manager'],
+        user = User(id=user_id, name=record['displayName'], mail=record['mail'], manager_name=record['manager'],
                     job_title=record['jobTitle'], location=record['officeLocation'], device_list=[])
 
         user_map[user_id] = user
