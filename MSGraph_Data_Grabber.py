@@ -18,7 +18,7 @@ def save_json(all_entities, path):
         json.dump(all_entities, file)
 
 
-def user_to_json_grabbing(headers, path):
+def user_to_json_grabbing(headers, params):
     all_users = []
 
     office_locations = params['office_locations']
@@ -86,7 +86,7 @@ def connect_to_api(params):  # needed to rewrite to user auth flow
 
 params = read_config()
 headers = connect_to_api(params=params)
-user_to_json_grabbing(headers=headers)
+user_to_json_grabbing(headers=headers,params=params)
 device_to_json_grabbing(headers=headers, params=params)
 get_data_from_json(params=params)
 print('DONE!')
