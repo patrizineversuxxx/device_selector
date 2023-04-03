@@ -55,19 +55,12 @@ def get_data_from_json(params: dict):
 
     for record in records:
         user_id = record['id']
-        user_name = record['displayName']
-        user_mail = record['mail']
-        user_job_title = record['jobTitle']
-        user_location = record['officeLocation']
-        user_manager = record['manager']
-        user_department_name = record['department']
-        user_device_list = []
 
-        user = User(id=user_id, name=user_name, mail=user_mail, manager=user_manager,
-                    job_title=user_job_title, location=user_location, device_list=user_device_list)
+        user = User(id=user_id, name=record['displayName'], mail=record['mail'], manager=record['manager'],
+                    job_title=record['jobTitle'], location=record['officeLocation'], device_list=[])
 
         user_map[user_id] = user
-        department_map[user_department_name].user_list.append(user)
+        department_map[record['department']].user_list.append(user)
 
     f = open(params['path_device'])
     records = json.load(f)
@@ -78,8 +71,6 @@ def get_data_from_json(params: dict):
         else:
             device_last_checkin_date = record['usersLoggedOn'][0]['lastLogOnDateTime']
 
-        device_id = record['azureActiveDirectoryDeviceId']
-        device_name = record['deviceName']
         device_enrollment_type = record['deviceEnrollmentType']
         device_os = record['operatingSystem']
         device_group = ""
@@ -93,9 +84,11 @@ def get_data_from_json(params: dict):
                 if (device_enrollment_type == "userEnrollment") & (device_os == "Windows"):
                     device_group = "macOS"
 
-        device = Device(id=device_id, name=device_name, group=device_group,
+        device = Device(id=record['azureActiveDirectoryDeviceId'], name=record['deviceName'], group=device_group,
                         os=device_os, last_checkin_date=device_last_checkin_date)
+        
         device_user_id = record['userId']
+
         if device_user_id in user_map:
             user_map[device_user_id].device_list.append(device)
         else:
