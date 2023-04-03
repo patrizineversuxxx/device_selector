@@ -25,7 +25,8 @@ def user_to_json_grabbing(headers, params):
 
     for office_location in office_locations:
         next_link = r'https://graph.microsoft.com/v1.0/users?$search="officeLocation:' + office_location + \
-            r'"&$filter=accountEnabled+eq+true&$select=id,displayname,mail,jobtitle,department,officeLocation,accountEnabled'
+            r'"&$filter=accountEnabled+eq+true&$select=id,displayname,mail,jobtitle,department,officeLocation,' + \
+        r'accountEnabled&$filter=onPremisesExtensionAttributes/extensionAttribute11+eq+"Employee"'
 
         while next_link:
             response = requests.get(next_link, headers=headers)
@@ -35,7 +36,7 @@ def user_to_json_grabbing(headers, params):
 
     for user in all_users:
         if user.get('id'):
-            manager_url = f'https://graph.microsoft.com/v1.0/users/{user["id"]}/manager?$select=mail'
+            manager_url = r'https://graph.microsoft.com/v1.0/users/{user["id"]}/manager?$select=displayName,mail'
             manager_response = requests.get(manager_url, headers=headers)
             manager_data = manager_response.json()
             user['manager'] = manager_data.get('mail')
@@ -49,7 +50,7 @@ def device_to_json_grabbing(headers, params):
     naming_tags = params['naming_tags']
     for naming_tag in naming_tags:
         next_link = r"https://graph.microsoft.com/beta/deviceManagement/managedDevices?$filter=startswith(devicename,'"+naming_tag + \
-            "')&select=devicename,userid,azureActiveDirectoryDeviceId,deviceEnrollmentType,operatingSystem,usersLoggedOn"
+            r"')&select=devicename,userid,azureActiveDirectoryDeviceId,deviceEnrollmentType,operatingSystem,usersLoggedOn"
 
         while next_link:
             response = requests.get(next_link, headers=headers)
@@ -86,7 +87,7 @@ def connect_to_api(params):  # needed to rewrite to user auth flow
 
 params = read_config()
 headers = connect_to_api(params=params)
-user_to_json_grabbing(headers=headers,params=params)
+user_to_json_grabbing(headers=headers, params=params)
 device_to_json_grabbing(headers=headers, params=params)
 get_data_from_json(params=params)
 print('DONE!')
