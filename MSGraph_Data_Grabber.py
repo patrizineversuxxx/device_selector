@@ -30,7 +30,7 @@ def user_to_json_grabbing(headers, params):
         while next_link:
             response = requests.get(next_link, headers=headers)
             json_data = response.json()
-            all_users += json_data["value"]
+            all_users += json_data['value']
             next_link = json_data.get("@odata.nextLink")
 
     for user in all_users:
@@ -40,7 +40,7 @@ def user_to_json_grabbing(headers, params):
             manager_data = manager_response.json()
             user['manager'] = manager_data.get('mail')
 
-    save_json(all_entities=all_users, path=path)
+    save_json(all_entities=all_users, path=params['path_user'])
 
 
 def device_to_json_grabbing(headers, params):
@@ -54,7 +54,7 @@ def device_to_json_grabbing(headers, params):
         while next_link:
             response = requests.get(next_link, headers=headers)
             json_data = response.json()
-            all_devices += json_data["value"]
+            all_devices += json_data['value']
             next_link = json_data.get("@odata.nextLink")
 
     save_json(all_entities=all_devices, path=params['path_device'])
