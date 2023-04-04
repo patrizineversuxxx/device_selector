@@ -15,12 +15,13 @@ def get_data_from_xlsx(spreadsheet, department_map, user_map, device_list):
         user_id = row[5].value
         user_name = row[6].value
         user_mail = row[7].value
-        user_manager = row[8].value
-        user_job_title = row[9].value
-        user_location = row[10].value
+        user_manager_name = row[8].value
+        user_manager_mail = row[9].value
+        user_job_title = row[10].value
+        user_location = row[11].value
 
-        department_name = row[11].value
-        department_cost_center = row[12].value
+        department_name = row[12].value
+        department_cost_center = row[13].value
 
         device = Device(id=device_id, name=device_name, group=device_group,
                         os=device_os, last_checkin_date=device_last_checkin_date)
@@ -30,7 +31,7 @@ def get_data_from_xlsx(spreadsheet, department_map, user_map, device_list):
             user_map[user_name].add_device(device)
 
         else:
-            user = User(id=user_id, name=user_name, mail=user_mail, manager_name=user_manager,
+            user = User(id=user_id, name=user_name, mail=user_mail, manager_name=user_manager_name, manager_mail=user_manager_mail,
                         job_title=user_job_title, location=user_location, device_list=[])
             user_map[user.name] = user
 
@@ -63,7 +64,7 @@ def get_data_from_json(params: dict):
     for record in records:
         user_id = record['id']
 
-        user = User(id=user_id, name=record['displayName'], mail=record['mail'], manager_name=record['manager'],
+        user = User(id=user_id, name=record['displayName'], mail=record['mail'], manager_name=record['manager_name'], manager_mail=record['manager_mail'],
                     job_title=record['jobTitle'], location=record['officeLocation'], device_list=[])
 
         user_map[user_id] = user
@@ -87,7 +88,7 @@ def get_data_from_json(params: dict):
             if (device_enrollment_type == "windowsCoManagement") & (device_os == "Windows"):
                 device_group = "Hybrid_Joined"
             else:
-                if (device_enrollment_type == "userEnrollment") & (device_os == "Windows"):
+                if (device_enrollment_type == "userEnrollment") & (device_os == "macOS"):
                     device_group = "macOS"
 
         device = Device(id=record['azureActiveDirectoryDeviceId'], name=record['deviceName'], group=device_group,
@@ -103,6 +104,71 @@ def get_data_from_json(params: dict):
     return department_map
 
 
+def save_data_to_xlsx_prepational_step(result_map):
+    result_book = openpyxl.Workbook()
+    result_sheet = result_book.active
+
+    result_sheet.cell(row=1, column=1, value='Device_name')
+    result_sheet.cell(row=1, column=2, value='Device_id')
+    result_sheet.cell(row=1, column=3, value='Device_Group')
+    result_sheet.cell(row=1, column=4, value='Device_os')
+    result_sheet.cell(row=1, column=5, value='Last_checkin_date')
+    result_sheet.cell(row=1, column=6, value='User_id')
+    result_sheet.cell(row=1, column=7, value='User_name')
+    result_sheet.cell(row=1, column=8, value='User_mail')
+    result_sheet.cell(row=1, column=9, value='Manager_name')
+    result_sheet.cell(row=1, column=10, value='Manager_name')
+    result_sheet.cell(row=1, column=11, value='Job_title')
+    result_sheet.cell(row=1, column=12, value='Location')
+    result_sheet.cell(row=1, column=13, value='Department name')
+    result_sheet.cell(row=1, column=14, value='Cost center')
+
+    row_counter = 2
+
+    for department in result_map.values():
+
+        department_name = department.name
+        cost_center = department.cost_center
+
+        # Iterate over the set of user-device tuples
+        for user in department.user_list:
+            for device in user.device_list:
+                device_name = device.name
+                device_id = device.id
+                group = device.group
+                os = device.os
+                last_checkin_date = device.last_checkin_date
+
+                user_id = user.id
+                username = user.name
+                mail = user.mail
+                manager_name = user.manager_name
+                manager_mail = user.manager_mail
+                job_title = user.job_title
+                location = user.location
+
+                result_sheet.cell(row=row_counter, column=1, value=device_name)
+                result_sheet.cell(row=row_counter, column=2, value=device_id)
+                result_sheet.cell(row=row_counter, column=3, value=group)
+                result_sheet.cell(row=row_counter, column=4, value=os)
+                result_sheet.cell(row=row_counter, column=5,
+                                value=last_checkin_date)
+                result_sheet.cell(row=row_counter, column=6, value=user_id)
+                result_sheet.cell(row=row_counter, column=7, value=username)
+                result_sheet.cell(row=row_counter, column=8, value=mail)
+                result_sheet.cell(row=row_counter, column=9, value=manager_name)
+                result_sheet.cell(row=row_counter, column=10, value=manager_mail)
+                result_sheet.cell(row=row_counter, column=11, value=job_title)
+                result_sheet.cell(row=row_counter, column=12, value=location)
+                result_sheet.cell(row=row_counter, column=13,
+                                value=department_name)
+                result_sheet.cell(row=row_counter, column=14,
+                                value=cost_center)
+
+                row_counter += 1
+    result_book.save(r'C:\KEK\KEK.xlsx')
+
+
 def save_data_to_xlsx(result_map):
     result_book = openpyxl.Workbook()
     result_sheet = result_book.active
@@ -115,11 +181,12 @@ def save_data_to_xlsx(result_map):
     result_sheet.cell(row=1, column=6, value='User_id')
     result_sheet.cell(row=1, column=7, value='User_name')
     result_sheet.cell(row=1, column=8, value='User_mail')
-    result_sheet.cell(row=1, column=9, value='Manager')
-    result_sheet.cell(row=1, column=10, value='Job_title')
-    result_sheet.cell(row=1, column=11, value='Location')
-    result_sheet.cell(row=1, column=12, value='Department name')
-    result_sheet.cell(row=1, column=13, value='Cost center')
+    result_sheet.cell(row=1, column=9, value='Manager_name')
+    result_sheet.cell(row=1, column=10, value='Manager_name')
+    result_sheet.cell(row=1, column=11, value='Job_title')
+    result_sheet.cell(row=1, column=12, value='Location')
+    result_sheet.cell(row=1, column=13, value='Department name')
+    result_sheet.cell(row=1, column=14, value='Cost center')
 
     row_counter = 2
 
@@ -140,7 +207,8 @@ def save_data_to_xlsx(result_map):
             user_id = user.id
             username = user.name
             mail = user.mail
-            manager = user.manager
+            manager_name = user.manager_name
+            manager_mail = user.manager_mail
             job_title = user.job_title
             location = user.location
 
@@ -151,14 +219,17 @@ def save_data_to_xlsx(result_map):
             result_sheet.cell(row=row_counter, column=5,
                               value=last_checkin_date)
             result_sheet.cell(row=row_counter, column=6, value=user_id)
-            result_sheet.cell(row=row_counter, column=6, value=username)
-            result_sheet.cell(row=row_counter, column=6, value=mail)
-            result_sheet.cell(row=row_counter, column=7, value=manager)
-            result_sheet.cell(row=row_counter, column=8, value=job_title)
-            result_sheet.cell(row=row_counter, column=8, value=location)
+            result_sheet.cell(row=row_counter, column=7, value=username)
+            result_sheet.cell(row=row_counter, column=8, value=mail)
             result_sheet.cell(row=row_counter, column=9,
-                              value=department_name)
+                              value=manager_name)
             result_sheet.cell(row=row_counter, column=10,
+                              value=manager_mail)
+            result_sheet.cell(row=row_counter, column=11, value=job_title)
+            result_sheet.cell(row=row_counter, column=12, value=location)
+            result_sheet.cell(row=row_counter, column=13,
+                              value=department_name)
+            result_sheet.cell(row=row_counter, column=14,
                               value=cost_center)
 
             row_counter += 1
