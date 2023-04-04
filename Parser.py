@@ -107,10 +107,7 @@ def get_data_from_json(params: dict):
     return department_map
 
 
-def save_data_to_xlsx_prepational_step(result_map):
-    result_book = openpyxl.Workbook()
-    result_sheet = result_book.active
-
+def create_table_header(result_sheet):
     result_sheet.cell(row=1, column=1, value='Device_name')
     result_sheet.cell(row=1, column=2, value='Device_id')
     result_sheet.cell(row=1, column=3, value='Device_Group')
@@ -125,6 +122,34 @@ def save_data_to_xlsx_prepational_step(result_map):
     result_sheet.cell(row=1, column=12, value='Location')
     result_sheet.cell(row=1, column=13, value='Department name')
     result_sheet.cell(row=1, column=14, value='Cost center')
+
+
+def create_table_row(result_sheet, row_counter, device_name, device_id, group, os, last_checkin_date, user_id, username, mail, manager_name, manager_mail, job_title, location, department_name, cost_center):
+    result_sheet.cell(row=row_counter, column=1, value=device_name)
+    result_sheet.cell(row=row_counter, column=2, value=device_id)
+    result_sheet.cell(row=row_counter, column=3, value=group)
+    result_sheet.cell(row=row_counter, column=4, value=os)
+    result_sheet.cell(row=row_counter, column=5,
+                      value=last_checkin_date)
+    result_sheet.cell(row=row_counter, column=6, value=user_id)
+    result_sheet.cell(row=row_counter, column=7, value=username)
+    result_sheet.cell(row=row_counter, column=8, value=mail)
+    result_sheet.cell(row=row_counter, column=9,
+                      value=manager_name)
+    result_sheet.cell(row=row_counter, column=10,
+                      value=manager_mail)
+    result_sheet.cell(row=row_counter, column=11, value=job_title)
+    result_sheet.cell(row=row_counter, column=12, value=location)
+    result_sheet.cell(row=row_counter, column=13,
+                      value=department_name)
+    result_sheet.cell(row=row_counter, column=14,
+                      value=cost_center)
+    
+def save_data_to_xlsx_prepational_step(result_map):
+    result_book = openpyxl.Workbook()
+    result_sheet = result_book.active
+
+    create_table_header(result_sheet)
 
     row_counter = 2
 
@@ -150,26 +175,9 @@ def save_data_to_xlsx_prepational_step(result_map):
                 job_title = user.job_title
                 location = user.location
 
-                result_sheet.cell(row=row_counter, column=1, value=device_name)
-                result_sheet.cell(row=row_counter, column=2, value=device_id)
-                result_sheet.cell(row=row_counter, column=3, value=group)
-                result_sheet.cell(row=row_counter, column=4, value=os)
-                result_sheet.cell(row=row_counter, column=5,
-                                  value=last_checkin_date)
-                result_sheet.cell(row=row_counter, column=6, value=user_id)
-                result_sheet.cell(row=row_counter, column=7, value=username)
-                result_sheet.cell(row=row_counter, column=8, value=mail)
-                result_sheet.cell(row=row_counter, column=9,
-                                  value=manager_name)
-                result_sheet.cell(row=row_counter, column=10,
-                                  value=manager_mail)
-                result_sheet.cell(row=row_counter, column=11, value=job_title)
-                result_sheet.cell(row=row_counter, column=12, value=location)
-                result_sheet.cell(row=row_counter, column=13,
-                                  value=department_name)
-                result_sheet.cell(row=row_counter, column=14,
-                                  value=cost_center)
-
+                create_table_row(result_sheet, row_counter, device_name, device_id, group, os, last_checkin_date, user_id,
+                username, mail, manager_name, manager_mail, job_title, location, department_name, cost_center)
+                
                 row_counter += 1
     result_book.save(r'C:\KEK\KEK.xlsx')
 
@@ -178,20 +186,7 @@ def save_data_to_xlsx(result_map):
     result_book = openpyxl.Workbook()
     result_sheet = result_book.active
 
-    result_sheet.cell(row=1, column=1, value='Device_name')
-    result_sheet.cell(row=1, column=2, value='Device_id')
-    result_sheet.cell(row=1, column=3, value='Device_Group')
-    result_sheet.cell(row=1, column=4, value='Device_os')
-    result_sheet.cell(row=1, column=5, value='Last_checkin_date')
-    result_sheet.cell(row=1, column=6, value='User_id')
-    result_sheet.cell(row=1, column=7, value='User_name')
-    result_sheet.cell(row=1, column=8, value='User_mail')
-    result_sheet.cell(row=1, column=9, value='Manager_name')
-    result_sheet.cell(row=1, column=10, value='Manager_name')
-    result_sheet.cell(row=1, column=11, value='Job_title')
-    result_sheet.cell(row=1, column=12, value='Location')
-    result_sheet.cell(row=1, column=13, value='Department name')
-    result_sheet.cell(row=1, column=14, value='Cost center')
+    create_table_header(result_sheet)
 
     row_counter = 2
 
@@ -218,25 +213,8 @@ def save_data_to_xlsx(result_map):
         job_title = user.job_title
         location = user.location
 
-        result_sheet.cell(row=row_counter, column=1, value=device_name)
-        result_sheet.cell(row=row_counter, column=2, value=device_id)
-        result_sheet.cell(row=row_counter, column=3, value=group)
-        result_sheet.cell(row=row_counter, column=4, value=os)
-        result_sheet.cell(row=row_counter, column=5,
-                          value=last_checkin_date)
-        result_sheet.cell(row=row_counter, column=6, value=user_id)
-        result_sheet.cell(row=row_counter, column=7, value=username)
-        result_sheet.cell(row=row_counter, column=8, value=mail)
-        result_sheet.cell(row=row_counter, column=9,
-                          value=manager_name)
-        result_sheet.cell(row=row_counter, column=10,
-                          value=manager_mail)
-        result_sheet.cell(row=row_counter, column=11, value=job_title)
-        result_sheet.cell(row=row_counter, column=12, value=location)
-        result_sheet.cell(row=row_counter, column=13,
-                          value=department_name)
-        result_sheet.cell(row=row_counter, column=14,
-                          value=cost_center)
+        create_table_row(result_sheet, row_counter, device_name, device_id, group, os, last_checkin_date, user_id,
+                username, mail, manager_name, manager_mail, job_title, location, department_name, cost_center)
 
         row_counter += 1
     result_book.save(r'C:\KEK\test.xlsx')
