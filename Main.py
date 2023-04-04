@@ -13,9 +13,9 @@ def read_config():
 
 
 params = read_config()
-#headers = connect_to_api(params=params)
-#user_to_json_grabbing(headers=headers, params=params)
-#device_to_json_grabbing(headers=headers, params=params)
+headers = connect_to_api(params=params)
+user_to_json_grabbing(headers=headers, params=params)
+device_to_json_grabbing(headers=headers, params=params)
 
 save_data_to_xlsx_prepational_step(get_data_from_json(params=params))
 check_xlsx_for_vip(params=params)
