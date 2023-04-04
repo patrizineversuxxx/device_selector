@@ -124,7 +124,11 @@ def create_table_header(result_sheet):
     result_sheet.cell(row=1, column=14, value='Cost center')
 
 
-def create_table_row(result_sheet, row_counter, device_name, device_id, group, os, last_checkin_date, user_id, username, mail, manager_name, manager_mail, job_title, location, department_name, cost_center):
+def create_table_row(result_sheet, row_counter, device_name, device_id,
+                     group, os, last_checkin_date, user_id, username, mail,
+                     manager_name, manager_mail, job_title, location,
+                     department_name, cost_center):
+
     result_sheet.cell(row=row_counter, column=1, value=device_name)
     result_sheet.cell(row=row_counter, column=2, value=device_id)
     result_sheet.cell(row=row_counter, column=3, value=group)
@@ -144,7 +148,8 @@ def create_table_row(result_sheet, row_counter, device_name, device_id, group, o
                       value=department_name)
     result_sheet.cell(row=row_counter, column=14,
                       value=cost_center)
-    
+
+
 def save_data_to_xlsx_prepational_step(result_map):
     result_book = openpyxl.Workbook()
     result_sheet = result_book.active
@@ -176,8 +181,8 @@ def save_data_to_xlsx_prepational_step(result_map):
                 location = user.location
 
                 create_table_row(result_sheet, row_counter, device_name, device_id, group, os, last_checkin_date, user_id,
-                username, mail, manager_name, manager_mail, job_title, location, department_name, cost_center)
-                
+                                 username, mail, manager_name, manager_mail, job_title, location, department_name, cost_center)
+
                 row_counter += 1
     result_book.save(r'C:\KEK\KEK.xlsx')
 
@@ -214,7 +219,7 @@ def save_data_to_xlsx(result_map):
         location = user.location
 
         create_table_row(result_sheet, row_counter, device_name, device_id, group, os, last_checkin_date, user_id,
-                username, mail, manager_name, manager_mail, job_title, location, department_name, cost_center)
+                         username, mail, manager_name, manager_mail, job_title, location, department_name, cost_center)
 
         row_counter += 1
     result_book.save(r'C:\KEK\test.xlsx')
