@@ -184,6 +184,7 @@ def save_data_to_xlsx_prepational_step(result_map, params):
                                  username, mail, manager_name, manager_mail, job_title, location, department_name, cost_center)
 
                 row_counter += 1
+                
     result_book.save(params["start_file"])
 
 
@@ -222,5 +223,5 @@ def save_data_to_xlsx(result_map, params):
                          username, mail, manager_name, manager_mail, job_title, location, department_name, cost_center)
 
         row_counter += 1
-        
+
     result_book.save(params["result_file"])
