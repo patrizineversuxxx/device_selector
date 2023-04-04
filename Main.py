@@ -1,8 +1,8 @@
 from Parser import *
 from MSGraph_Data_Grabber import *
-from JobTitleSelector import *
+from Job_Title_Selector import *
 from Data import *
-from Random_Device_Selection import *
+from Random_Device_Selector import *
 
 
 def read_config():

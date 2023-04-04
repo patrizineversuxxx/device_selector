@@ -4,7 +4,7 @@ import requests
 import json
 from Data import *
 from Parser import *
-from Random_Device_Selection import *
+from Random_Device_Selector import *
 
 
 def save_json(all_entities, path):
