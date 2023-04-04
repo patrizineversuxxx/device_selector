@@ -66,12 +66,12 @@ def get_data_from_json(params: dict):
         user_map[user_id] = user
 
         department_name = record['department']
-        
+
         if department_name in department_map:
             department_map[department_name].user_list.append(user)
         else:
             department_map[department_name] = Department(
-                name=department_name, cost_center=0, user_list=[])
+                name=department_name, cost_center=0, user_list=[user])
 
     records = open_json(params['path_device'])
 
