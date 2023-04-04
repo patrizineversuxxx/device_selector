@@ -117,7 +117,7 @@ def save_data_to_xlsx_prepational_step(result_map):
     result_sheet.cell(row=1, column=7, value='User_name')
     result_sheet.cell(row=1, column=8, value='User_mail')
     result_sheet.cell(row=1, column=9, value='Manager_name')
-    result_sheet.cell(row=1, column=10, value='Manager_name')
+    result_sheet.cell(row=1, column=10, value='Manager_mail')
     result_sheet.cell(row=1, column=11, value='Job_title')
     result_sheet.cell(row=1, column=12, value='Location')
     result_sheet.cell(row=1, column=13, value='Department name')
