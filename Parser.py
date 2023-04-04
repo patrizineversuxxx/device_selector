@@ -58,17 +58,20 @@ def get_data_from_json(params: dict):
     user_map = {}
 
     for record in records:
-        department_map[record['department']] = Department(
-            name=record['department'], cost_center=0, user_list=[])
-
-    for record in records:
         user_id = record['id']
 
         user = User(id=user_id, name=record['displayName'], mail=record['mail'], manager_name=record['manager_name'], manager_mail=record['manager_mail'],
                     job_title=record['jobTitle'], location=record['officeLocation'], device_list=[])
 
         user_map[user_id] = user
-        department_map[record['department']].user_list.append(user)
+
+        department_name = record['department']
+        
+        if department_name in department_map:
+            department_map[department_name].user_list.append(user)
+        else:
+            department_map[department_name] = Department(
+                name=department_name, cost_center=0, user_list=[])
 
     records = open_json(params['path_device'])
 
