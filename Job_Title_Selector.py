@@ -3,13 +3,16 @@ import openpyxl
 
 def check_vip(job_title):
     job_title = job_title.lower()
-    if job_title.__contains__("country manager") | (job_title.__contains__("sr") & job_title.__contains__("manager")) | (job_title.__contains__("senior") & job_title.__contains__("manager")) | job_title.__contains__("gm") | job_title.__contains__("president") | job_title.__contains__("director"):
+    if ("country manager" in job_title) | (("sr" in job_title) & ("manager" in job_title)) | \
+        (("senior" in job_title) & ("manager" in job_title)) | ("gm" in job_title) | \
+        ("president" in job_title) | ("director" in job_title):
         return True
     else:
         return False
 
+
 def check_xlsx_for_vip(params):
-    workbook = openpyxl.load_workbook("C:\KEK\KEK.xlsx")
+    workbook = openpyxl.load_workbook(params['start_file'])
     spreadsheet = workbook.active
     result_book = openpyxl.Workbook()
     result_sheet = result_book.active
