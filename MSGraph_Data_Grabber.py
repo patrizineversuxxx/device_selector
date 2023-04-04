@@ -7,13 +7,6 @@ from Parser import *
 from Random_Device_Selection import *
 
 
-def read_config():
-    f = open("config.json")
-    params = json.load(f)
-    f.close()
-    return params
-
-
 def save_json(all_entities, path):
     with open(path, "w") as file:
         json.dump(all_entities, file)
@@ -25,8 +18,8 @@ def user_to_json_grabbing(headers, params):
     office_locations = params['office_locations']
 
     for office_location in office_locations:
-        next_link = "https://graph.microsoft.com/v1.0/users?$count=true&$filter=officeLocation+eq+'" + office_location + \
-            "'+and+onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
+        next_link = r"https://graph.microsoft.com/v1.0/users?$count=true&$filter=officeLocation+eq+'" + office_location + \
+            r"'+and+onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
         while next_link:
             response = requests.get(next_link, headers=headers)
             json_data = response.json()
@@ -35,7 +28,7 @@ def user_to_json_grabbing(headers, params):
 
     for user in all_users:
         if user.get('id'):
-            manager_url = r'https://graph.microsoft.com/v1.0/users/{user["id"]}/$select=displayName,mail'
+            manager_url = r'https://graph.microsoft.com/v1.0/users/'+user["id"]+r'/manager?$select=displayName,mail'
             manager_response = requests.get(manager_url, headers=headers)
             manager_data = manager_response.json()
             user['manager_name'] = manager_data.get('displayName')
@@ -83,12 +76,3 @@ def connect_to_api(params):  # needed to rewrite to user auth flow
                access_token, 'ConsistencyLevel': 'eventual'}
 
     return headers
-
-
-params = read_config()
-#headers = connect_to_api(params=params)
-#user_to_json_grabbing(headers=headers, params=params)
-#device_to_json_grabbing(headers=headers, params=params)
-
-#save_data_to_xlsx_prepational_step(get_data_from_json(params=params))
-random_selection(params=params)
