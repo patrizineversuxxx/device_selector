@@ -1,9 +1,9 @@
 import openpyxl
 
 
-def check_vip(kek):
-    kek = kek.lower()
-    if kek.__contains__("country manager") | (kek.__contains__("sr") & kek.__contains__("manager")) | (kek.__contains__("senior") & kek.__contains__("manager")) | kek.__contains__("gm") | kek.__contains__("president") | kek.__contains__("director"):
+def check_vip(job_title):
+    job_title = job_title.lower()
+    if job_title.__contains__("country manager") | (job_title.__contains__("sr") & job_title.__contains__("manager")) | (job_title.__contains__("senior") & job_title.__contains__("manager")) | job_title.__contains__("gm") | job_title.__contains__("president") | job_title.__contains__("director"):
         return True
     else:
         return False
