@@ -2,31 +2,39 @@ import openpyxl
 
 
 def is_vip(job_title):
+    # Convert job title to lowercase for case-insensitive matching
     job_title = job_title.lower()
-    if ("country manager" in job_title) | (("sr" in job_title) & ("manager" in job_title)) | \
-        (("senior" in job_title) & ("manager" in job_title)) | ("gm" in job_title) | \
-        ("president" in job_title) | ("director" in job_title):
+
+    # Check if the job title contains any VIP keywords
+    if "country manager" in job_title or \
+       ("sr" in job_title and "manager" in job_title) or \
+       ("senior" in job_title and "manager" in job_title) or \
+       "gm" in job_title or \
+       "president" in job_title or \
+       "director" in job_title:
         return True
     else:
         return False
 
 
 def check_xlsx_for_vip(params):
+    # Open the input and output workbooks
     workbook = openpyxl.load_workbook(params['start_file'])
     spreadsheet = workbook.active
     result_book = openpyxl.Workbook()
     result_sheet = result_book.active
 
+    # Iterate over each row in the input workbook
     for row in spreadsheet.iter_rows():
+        # Check if the job title is a VIP title
         if is_vip(row[10].value):
-            continue
-        else:
-            row_data = []
-            # Iterate through the cells in the current row
-            for cell in row:
-                # Append the cell value to the row data list
-                row_data.append(cell.value)
-            # Write the row data to the destination worksheet
-            result_sheet.append(row_data)
+            continue  # skip this row
 
+        # If the job title is not a VIP title, copy the row to the output workbook
+        row_data = []
+        for cell in row:
+            row_data.append(cell.value)
+        result_sheet.append(row_data)
+
+    # Save the output workbook
     result_book.save(params['middle_file'])
