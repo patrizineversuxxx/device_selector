@@ -5,7 +5,7 @@ from Parser import *
 
 
 def check_department_target(department, params):
-    target_percent = params[target_percent]
+    target_percent = params['target_percent']
     return int(target_percent * len(department.user_list))+1
 
 

@@ -32,7 +32,7 @@ def get_data_from_xlsx(spreadsheet, department_map, user_map, device_list):
 
         else:
             user = User(id=user_id, name=user_name, mail=user_mail, manager_name=user_manager_name, manager_mail=user_manager_mail,
-                        job_title=user_job_title, location=user_location, device_list=[])
+                        job_title=user_job_title, location=user_location, device_list=[device])
             user_map[user.name] = user
 
             if department_name in department_map:
@@ -40,7 +40,7 @@ def get_data_from_xlsx(spreadsheet, department_map, user_map, device_list):
 
             else:
                 department = Department(
-                    name=department_name, cost_center=department_cost_center, user_list=[])
+                    name=department_name, cost_center=department_cost_center, user_list=[user])
                 department_map[department_name] = department
 
 
@@ -152,18 +152,20 @@ def save_data_to_xlsx_prepational_step(result_map):
                 result_sheet.cell(row=row_counter, column=3, value=group)
                 result_sheet.cell(row=row_counter, column=4, value=os)
                 result_sheet.cell(row=row_counter, column=5,
-                                value=last_checkin_date)
+                                  value=last_checkin_date)
                 result_sheet.cell(row=row_counter, column=6, value=user_id)
                 result_sheet.cell(row=row_counter, column=7, value=username)
                 result_sheet.cell(row=row_counter, column=8, value=mail)
-                result_sheet.cell(row=row_counter, column=9, value=manager_name)
-                result_sheet.cell(row=row_counter, column=10, value=manager_mail)
+                result_sheet.cell(row=row_counter, column=9,
+                                  value=manager_name)
+                result_sheet.cell(row=row_counter, column=10,
+                                  value=manager_mail)
                 result_sheet.cell(row=row_counter, column=11, value=job_title)
                 result_sheet.cell(row=row_counter, column=12, value=location)
                 result_sheet.cell(row=row_counter, column=13,
-                                value=department_name)
+                                  value=department_name)
                 result_sheet.cell(row=row_counter, column=14,
-                                value=cost_center)
+                                  value=cost_center)
 
                 row_counter += 1
     result_book.save(r'C:\KEK\KEK.xlsx')
@@ -190,47 +192,48 @@ def save_data_to_xlsx(result_map):
 
     row_counter = 2
 
-    for department in result_map.keys():
+    for department, user_device in result_map.items():
 
         department_name = department.name
         cost_center = department.cost_center
 
         # Iterate over the set of user-device tuples
-        for user in result_map[department]:
-            device = result_map[department][user]
-            device_name = device.name
-            device_id = device.id
-            group = device.group
-            os = device.os
-            last_checkin_date = device.last_checkin_date
 
-            user_id = user.id
-            username = user.name
-            mail = user.mail
-            manager_name = user.manager_name
-            manager_mail = user.manager_mail
-            job_title = user.job_title
-            location = user.location
+        device = list(user_device.values())[0]
+        device_name = device.name
+        device_id = device.id
+        group = device.group
+        os = device.os
+        last_checkin_date = device.last_checkin_date
 
-            result_sheet.cell(row=row_counter, column=1, value=device_name)
-            result_sheet.cell(row=row_counter, column=2, value=device_id)
-            result_sheet.cell(row=row_counter, column=3, value=group)
-            result_sheet.cell(row=row_counter, column=4, value=os)
-            result_sheet.cell(row=row_counter, column=5,
-                              value=last_checkin_date)
-            result_sheet.cell(row=row_counter, column=6, value=user_id)
-            result_sheet.cell(row=row_counter, column=7, value=username)
-            result_sheet.cell(row=row_counter, column=8, value=mail)
-            result_sheet.cell(row=row_counter, column=9,
-                              value=manager_name)
-            result_sheet.cell(row=row_counter, column=10,
-                              value=manager_mail)
-            result_sheet.cell(row=row_counter, column=11, value=job_title)
-            result_sheet.cell(row=row_counter, column=12, value=location)
-            result_sheet.cell(row=row_counter, column=13,
-                              value=department_name)
-            result_sheet.cell(row=row_counter, column=14,
-                              value=cost_center)
+        user = list(user_device.keys())[0]
+        user_id = user.id
+        username = user.name
+        mail = user.mail
+        manager_name = user.manager_name
+        manager_mail = user.manager_mail
+        job_title = user.job_title
+        location = user.location
 
-            row_counter += 1
+        result_sheet.cell(row=row_counter, column=1, value=device_name)
+        result_sheet.cell(row=row_counter, column=2, value=device_id)
+        result_sheet.cell(row=row_counter, column=3, value=group)
+        result_sheet.cell(row=row_counter, column=4, value=os)
+        result_sheet.cell(row=row_counter, column=5,
+                          value=last_checkin_date)
+        result_sheet.cell(row=row_counter, column=6, value=user_id)
+        result_sheet.cell(row=row_counter, column=7, value=username)
+        result_sheet.cell(row=row_counter, column=8, value=mail)
+        result_sheet.cell(row=row_counter, column=9,
+                          value=manager_name)
+        result_sheet.cell(row=row_counter, column=10,
+                          value=manager_mail)
+        result_sheet.cell(row=row_counter, column=11, value=job_title)
+        result_sheet.cell(row=row_counter, column=12, value=location)
+        result_sheet.cell(row=row_counter, column=13,
+                          value=department_name)
+        result_sheet.cell(row=row_counter, column=14,
+                          value=cost_center)
+
+        row_counter += 1
     result_book.save(r'C:\KEK\test.xlsx')

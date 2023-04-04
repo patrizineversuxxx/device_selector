@@ -3,7 +3,7 @@ import openpyxl
 
 def check_vip(kek):
     kek = kek.lower()
-    if (kek.__contains__("country") & kek.__contains__("manager")) | (kek.__contains__("sr") & kek.__contains__("manager")) | (kek.__contains__("senior") & kek.__contains__("manager")) | kek.__contains__("gm") | kek.__contains__("president") | kek.__contains__("director"):
+    if (kek.__contains__("сountry") & kek.__contains__("manager")) | (kek.__contains__("sr") & kek.__contains__("manager")) | (kek.__contains__("senior") & kek.__contains__("manager")) | kek.__contains__("gm") | kek.__contains__("president") | kek.__contains__("director"):
         return True
     else:
         return False

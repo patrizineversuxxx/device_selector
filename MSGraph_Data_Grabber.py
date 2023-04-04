@@ -25,7 +25,8 @@ def user_to_json_grabbing(headers, params):
     office_locations = params['office_locations']
 
     for office_location in office_locations:
-        next_link = "https://graph.microsoft.com/v1.0/users?$count=true&$filter=officeLocation+eq+'" + office_location + "'+and+onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
+        next_link = "https://graph.microsoft.com/v1.0/users?$count=true&$filter=officeLocation+eq+'" + office_location + \
+            "'+and+onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
         while next_link:
             response = requests.get(next_link, headers=headers)
             json_data = response.json()
@@ -91,4 +92,3 @@ params = read_config()
 
 #save_data_to_xlsx_prepational_step(get_data_from_json(params=params))
 random_selection(params=params)
-print('DONE!')
