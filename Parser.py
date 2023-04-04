@@ -150,7 +150,7 @@ def create_table_row(result_sheet, row_counter, device_name, device_id,
                       value=cost_center)
 
 
-def save_data_to_xlsx_prepational_step(result_map):
+def save_data_to_xlsx_prepational_step(result_map, params):
     result_book = openpyxl.Workbook()
     result_sheet = result_book.active
 
@@ -184,10 +184,10 @@ def save_data_to_xlsx_prepational_step(result_map):
                                  username, mail, manager_name, manager_mail, job_title, location, department_name, cost_center)
 
                 row_counter += 1
-    result_book.save(r'C:\KEK\KEK.xlsx')
+    result_book.save(params["start_file"])
 
 
-def save_data_to_xlsx(result_map):
+def save_data_to_xlsx(result_map, params):
     result_book = openpyxl.Workbook()
     result_sheet = result_book.active
 
@@ -222,4 +222,4 @@ def save_data_to_xlsx(result_map):
                          username, mail, manager_name, manager_mail, job_title, location, department_name, cost_center)
 
         row_counter += 1
-    result_book.save(r'C:\KEK\test.xlsx')
+    result_book.save(params["result_file"])

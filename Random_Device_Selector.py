@@ -65,4 +65,4 @@ def random_selection(params: dict):
             result_map[department] = {}
             result_map[department][user] = device
 
-    save_data_to_xlsx(result_map)
+    save_data_to_xlsx(result_map, params)

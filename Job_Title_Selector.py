@@ -3,7 +3,7 @@ import openpyxl
 
 def check_vip(kek):
     kek = kek.lower()
-    if (kek.__contains__("сountry") & kek.__contains__("manager")) | (kek.__contains__("sr") & kek.__contains__("manager")) | (kek.__contains__("senior") & kek.__contains__("manager")) | kek.__contains__("gm") | kek.__contains__("president") | kek.__contains__("director"):
+    if kek.__contains__("country manager") | (kek.__contains__("sr") & kek.__contains__("manager")) | (kek.__contains__("senior") & kek.__contains__("manager")) | kek.__contains__("gm") | kek.__contains__("president") | kek.__contains__("director"):
         return True
     else:
         return False
@@ -26,4 +26,4 @@ def check_xlsx_for_vip(params):
             # Write the row data to the destination worksheet
             result_sheet.append(row_data)
 
-    result_book.save(r"C:\KEK\vip_checked_kek.xlsx")
+    result_book.save(params['middle_file'])
