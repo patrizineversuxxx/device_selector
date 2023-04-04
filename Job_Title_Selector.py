@@ -1,7 +1,7 @@
 import openpyxl
 
 
-def check_vip(job_title):
+def is_vip(job_title):
     job_title = job_title.lower()
     if ("country manager" in job_title) | (("sr" in job_title) & ("manager" in job_title)) | \
         (("senior" in job_title) & ("manager" in job_title)) | ("gm" in job_title) | \
@@ -18,7 +18,7 @@ def check_xlsx_for_vip(params):
     result_sheet = result_book.active
 
     for row in spreadsheet.iter_rows():
-        if check_vip(row[10].value):
+        if is_vip(row[10].value):
             continue
         else:
             row_data = []
