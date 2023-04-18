@@ -33,23 +33,22 @@ def get_data_from_json(params: dict) -> dict[str: Department]:
     records = open_json(params['path_device'])
 
     for record in records:
-        if record['usersLoggedOn'] == []:
+        if not record['usersLoggedOn']:
             continue
         else:
             device_last_checkin_date = record['usersLoggedOn'][0]['lastLogOnDateTime']
 
         device_enrollment_type = record['deviceEnrollmentType']
         device_os = record['operatingSystem']
-        device_group = ""
-
-        if (device_enrollment_type == "windowsAzureADJoin") & (device_os == "Windows"):
+        
+        if device_enrollment_type == "windowsAzureADJoin" and device_os == "Windows":
             device_group = "AAD_Joined"
+        elif device_enrollment_type == "windowsCoManagement" and device_os == "Windows":
+            device_group = "Hybrid_Joined"
+        elif device_enrollment_type == "userEnrollment" and device_os == "macOS":
+            device_group = "macOS"
         else:
-            if (device_enrollment_type == "windowsCoManagement") & (device_os == "Windows"):
-                device_group = "Hybrid_Joined"
-            else:
-                if (device_enrollment_type == "userEnrollment") & (device_os == "macOS"):
-                    device_group = "macOS"
+            continue
 
         device = Device(id=record['azureActiveDirectoryDeviceId'], name=record['deviceName'], group=device_group,
                         os=device_os, last_checkin_date=device_last_checkin_date)
