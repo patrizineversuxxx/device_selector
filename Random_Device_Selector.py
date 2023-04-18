@@ -9,21 +9,7 @@ def check_department_target(department, params):
     target_percent = params['target_percent']
     return int(target_percent * len(department.user_list))+1
 
-
-def random_selection(params: dict):
-    path = params['middle_file']
-    workbook = openpyxl.load_workbook(path)
-    spreadsheet = workbook.active
-
-    department_map = {}
-    user_map = {}
-    device_list = []
-
-    get_data_from_xlsx(spreadsheet, department_map, user_map, device_list)
-
-    departments = list(department_map.values())
-    user_map = list(user_map.values())
-
+def minimal_group(params, result_map, department_map) :
     minimal_group_map = {}
     # Selecting minimal group devices
     for department in departments:
@@ -33,10 +19,8 @@ def random_selection(params: dict):
                 if device.group == params["minimal_selected_group"]:
                     device_user[user] = device
                     minimal_group_map[department] = device_user
-
-    result_map = {}
-
-    # Selecting 45 AAD_Joined devices for Pilot group
+    
+    # Selecting minimal target devices for Pilot group
     minimal_target = params['minimal_target']
     count = 0
 
@@ -52,6 +36,21 @@ def random_selection(params: dict):
         departments.remove(department)
 
     departments = list(department_map.values())
+
+def random_selection(params: dict):
+    path = params['middle_file']
+    workbook = openpyxl.load_workbook(path)
+    spreadsheet = workbook.active
+
+    department_map = {}
+    user_map = {}
+    device_list = []
+
+    get_data_from_xlsx(spreadsheet, department_map, user_map, device_list)
+
+    departments = list(department_map.values())
+    user_map = list(user_map.values())
+    result_map = {}   
 
     for department in departments:
         department_target = check_department_target(department, params)
