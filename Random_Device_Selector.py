@@ -23,29 +23,29 @@ def random_selection(params: dict):
     departments = list(department_map.values())
     user_map = list(user_map.values())
 
-    aad_map = {}
+    minimal_group_map = {}
     # Selecting AAD_Joined devices
     for department in departments:
         device_user = {}
         for user in department.user_list:
             for device in user.device_list:
-                if device.group == 'AAD_Joined':
+                if device.group == params["minimal_selected_group"]:
                     device_user[user] = device
-                    aad_map[department] = device_user
+                    minimal_group_map[department] = device_user
 
     result_map = {}
 
     # Selecting 45 AAD_Joined devices for Pilot group
-    minimal_target = 45
+    minimal_target = params['minimal_target']
     count = 0
 
     while count < minimal_target:
         department = random.choice(departments)
-        if (department in aad_map):
-            temp = list(aad_map[department].items())[0]
+        if (department in minimal_group_map):
+            temp = list(minimal_group_map[department].items())[0]
             user_device = {}
             user_device[temp[0]] = temp[1]
-            aad_map.pop(department)
+            minimal_group_map.pop(department)
             result_map[department] = user_device
             count += 1
         departments.remove(department)
