@@ -3,7 +3,7 @@ import typing
 from Entities import *
 
 
-def open_json(path: str) -> dict:
+def open_json(path: str) -> typing.Dict[str, typing.Any]:
     """
     Opens a JSON file and returns its contents as a dictionary.
 
