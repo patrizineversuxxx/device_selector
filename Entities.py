@@ -32,7 +32,7 @@ class Device:
 
 
 class User:
-    def __init__(self, id: str, name: str, mail: str, manager_name: str, manager_mail: str, job_title: str, location: str, device_list: array):
+    def __init__(self, id: str, name: str, mail: str, manager_name: str, manager_mail: str, job_title: str, location: str, device_list: list):
         self._id = id
         self._name = name
         self._mail = mail
@@ -79,7 +79,7 @@ class User:
 
 
 class Department:
-    def __init__(self, name: str, cost_center: int, user_list: array):
+    def __init__(self, name: str, cost_center: int, user_list: list):
         self._name = name
         self._cost_center = cost_center
         self._user_list = user_list
