@@ -4,12 +4,30 @@ from Entities import *
 
 
 def open_json(path: str) -> dict:
+    """
+    Opens a JSON file and returns its contents as a dictionary.
+
+    Args:
+        path: A string representing the path to the JSON file.
+
+    Returns:
+        A dictionary representing the contents of the JSON file.
+    """
     with open(path) as f:
         records = json.load(f)
     return records
 
 
 def get_data_from_json(params: dict) -> typing.Dict[str, Department]:
+    """
+    Parses user and device data from JSON files and creates Department objects.
+
+    Args:
+        params: A dictionary containing the paths to the user and device JSON files.
+
+    Returns:
+        A dictionary containing Department objects indexed by department name.
+    """
     records = open_json(params['path_user'])
 
     department_map = {}
