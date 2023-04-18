@@ -24,7 +24,7 @@ def random_selection(params: dict):
     user_map = list(user_map.values())
 
     minimal_group_map = {}
-    # Selecting AAD_Joined devices
+    # Selecting minimal group devices
     for department in departments:
         device_user = {}
         for user in department.user_list:
