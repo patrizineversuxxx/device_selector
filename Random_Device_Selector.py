@@ -2,6 +2,7 @@ import random
 import openpyxl
 from Data import *
 from Parser import *
+from DataTable import *
 
 
 def check_department_target(department, params):
