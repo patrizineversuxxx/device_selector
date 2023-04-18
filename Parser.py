@@ -3,9 +3,8 @@ from Entities import *
 
 
 def open_json(path: str):
-    f = open(path)
-    records = json.load(f)
-    f.close()
+    with open(path) as f:
+        records = json.load(f)
     return records
 
 
