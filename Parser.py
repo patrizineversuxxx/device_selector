@@ -1,14 +1,15 @@
 import json
+import typing
 from Entities import *
 
 
-def open_json(path: str):
+def open_json(path: str) -> dict:
     with open(path) as f:
         records = json.load(f)
     return records
 
 
-def get_data_from_json(params: dict) -> dict[str: Department]:
+def get_data_from_json(params: dict) -> typing.Dict[str, Department]:
     records = open_json(params['path_user'])
 
     department_map = {}
@@ -40,7 +41,7 @@ def get_data_from_json(params: dict) -> dict[str: Department]:
 
         device_enrollment_type = record['deviceEnrollmentType']
         device_os = record['operatingSystem']
-        
+
         if device_enrollment_type == "windowsAzureADJoin" and device_os == "Windows":
             device_group = "AAD_Joined"
         elif device_enrollment_type == "windowsCoManagement" and device_os == "Windows":
