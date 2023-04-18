@@ -36,8 +36,15 @@ def get_data_from_json(params: dict) -> typing.Dict[str, Department]:
     for record in records:
         user_id = record['id']
 
-        user = User(id=user_id, name=record['displayName'], mail=record['mail'], manager_name=record['manager_name'], manager_mail=record['manager_mail'],
-                    job_title=record['jobTitle'], location=record['officeLocation'], device_list=[])
+        user = User(id=user_id,
+                    name=record['displayName'],
+                    mail=record['mail'],
+                    manager_name=record['manager_name'],
+                    manager_mail=record['manager_mail'],
+                    job_title=record['jobTitle'],
+                    location=record['officeLocation'],
+                    device_list=[]
+                    )
 
         user_map[user_id] = user
 
@@ -47,7 +54,10 @@ def get_data_from_json(params: dict) -> typing.Dict[str, Department]:
             department_map[department_name].user_list.append(user)
         else:
             department_map[department_name] = Department(
-                name=department_name, cost_center=0, user_list=[user])
+                name=department_name,
+                cost_center=0,
+                user_list=[user]
+            )
 
     records = open_json(params['path_device'])
 
@@ -69,8 +79,12 @@ def get_data_from_json(params: dict) -> typing.Dict[str, Department]:
         else:
             continue
 
-        device = Device(id=record['azureActiveDirectoryDeviceId'], name=record['deviceName'], group=device_group,
-                        os=device_os, last_checkin_date=device_last_checkin_date)
+        device = Device(id=record['azureActiveDirectoryDeviceId'],
+                        name=record['deviceName'],
+                        group=device_group,
+                        os=device_os,
+                        last_checkin_date=device_last_checkin_date
+                        )
 
         device_user_id = record['userId']
 
