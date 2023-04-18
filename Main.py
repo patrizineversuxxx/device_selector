@@ -3,7 +3,7 @@ from MSGraph_Data_Grabber import *
 from Job_Title_Selector import *
 from Entities import *
 from Random_Device_Selector import *
-
+from MS_Graph_Connector import *
 
 def read_config():
     f = open("config.json")
