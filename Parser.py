@@ -1,5 +1,5 @@
 import json
-from Data import *
+from Entities import *
 
 
 def open_json(path: str):

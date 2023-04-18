@@ -1,6 +1,6 @@
 import random
 import openpyxl
-from Data import *
+from Entities import *
 from Parser import *
 from DataTable import *
 

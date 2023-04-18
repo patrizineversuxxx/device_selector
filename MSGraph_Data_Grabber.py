@@ -2,7 +2,7 @@ import msal
 import webbrowser
 import requests
 import json
-from Data import *
+from Entities import *
 from Parser import *
 from Random_Device_Selector import *
 

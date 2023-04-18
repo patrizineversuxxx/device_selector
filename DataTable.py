@@ -1,5 +1,5 @@
 import openpyxl
-from Data import *
+from Entities import *
 
 
 def create_table_header(result_sheet):
