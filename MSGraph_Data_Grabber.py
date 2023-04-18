@@ -7,9 +7,9 @@ from Parser import *
 from Random_Device_Selector import *
 
 
-def save_json(all_entities, path):
-    with open(path, "w") as file:
-        json.dump(all_entities, file)
+def save_json(data, file_path):
+    with open(file_path, "w") as file:
+        json.dump(data, file)
 
 
 def user_to_json_grabbing(headers, params):
@@ -34,7 +34,7 @@ def user_to_json_grabbing(headers, params):
             user['manager_name'] = manager_data.get('displayName')
             user['manager_mail'] = manager_data.get('mail')
 
-    save_json(all_entities=all_users, path=params['path_user'])
+    save_json(data=all_users, file_path=params['path_user'])
 
 
 def device_to_json_grabbing(headers, params):
@@ -51,10 +51,10 @@ def device_to_json_grabbing(headers, params):
             all_devices += json_data['value']
             next_link = json_data.get("@odata.nextLink")
 
-    save_json(all_entities=all_devices, path=params['path_device'])
+    save_json(data=all_devices, file_path=params['path_device'])
 
 
-def device_flow_connection(app, scopes):
+def get_access_token_by_device_flow(app, scopes):
     flow = app.initiate_device_flow(scopes=scopes)
     print(flow['user_code'])
     webbrowser.open(flow['verification_uri'])
@@ -70,8 +70,7 @@ def connect_to_api(params):  # needed to rewrite to user auth flow
         authority=params['authority_url']
     )
 
-    token = device_flow_connection(app, params['scopes'])
-    access_token = token['access_token']
+    access_token = get_access_token_by_device_flow(app, params['scopes'])['access_token']
     headers = {'Authorization': 'Bearer ' +
                access_token, 'ConsistencyLevel': 'eventual'}
 
