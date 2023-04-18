@@ -28,11 +28,13 @@ def get_data_from_json(params: dict) -> typing.Dict[str, Department]:
     Returns:
         A dictionary containing Department objects indexed by department name.
     """
+    #Openning the user data JSON file
     records = open_json(params['path_user'])
 
     department_map = {}
     user_map = {}
 
+    #Read all of the user records in the file
     for record in records:
         user_id = record['id']
 
@@ -59,8 +61,10 @@ def get_data_from_json(params: dict) -> typing.Dict[str, Department]:
                 user_list=[user]
             )
 
+    #Openning the device data JSON file
     records = open_json(params['path_device'])
 
+    #Read all of the device records in the file
     for record in records:
         if not record['usersLoggedOn']:
             continue
