@@ -8,7 +8,7 @@ def open_json(path: str):
     return records
 
 
-def get_data_from_json(params: dict):
+def get_data_from_json(params: dict) -> dict[str: Department]:
     records = open_json(params['path_user'])
 
     department_map = {}
