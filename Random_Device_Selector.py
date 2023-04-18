@@ -36,10 +36,10 @@ def random_selection(params: dict):
     result_map = {}
 
     # Selecting 45 AAD_Joined devices for Pilot group
-    target = 45
+    minimal_target = 45
     count = 0
 
-    while count < target:
+    while count < minimal_target:
         department = random.choice(departments)
         if (department in aad_map):
             temp = list(aad_map[department].items())[0]
@@ -53,9 +53,9 @@ def random_selection(params: dict):
     departments = list(department_map.values())
 
     for department in departments:
-        target = check_department_target(department, params)
+        department_target = check_department_target(department, params)
         if department in result_map:
-            while len(result_map[department]) < target:
+            while len(result_map[department]) < department_target:
                 user = random.choice(department.user_list)
                 device = random.choice(user.device_list)
                 result_map[department][user] = device
