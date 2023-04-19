@@ -37,6 +37,13 @@ def minimal_group(params, result_map, department_map) :
 
     departments = list(department_map.values())
 
+def check_device_count(group, needed, requerments):
+    if needed[group] >= requerments[group]:
+        return True
+    else: 
+        needed[group] +=1
+        return False
+
 def random_selection(params: dict):
     path = params['middle_file']
     workbook = openpyxl.load_workbook(path)
@@ -50,7 +57,10 @@ def random_selection(params: dict):
 
     departments = list(department_map.values())
     user_map = list(user_map.values())
-    result_map = {}   
+    result_map = {}  
+    requerments = params['required']
+    needed = {"AAD_Joined":0, "Hybrid_Joined":0, "macOS":0}
+
 
     for department in departments:
         department_target = check_department_target(department, params)
@@ -58,11 +68,16 @@ def random_selection(params: dict):
             while len(result_map[department]) < department_target:
                 user = random.choice(department.user_list)
                 device = random.choice(user.device_list)
+                if check_device_count(device.group, needed, requerments):
+                    continue
                 result_map[department][user] = device
         else:
             user = random.choice(department.user_list)
             device = random.choice(user.device_list)
-            result_map[department] = {}
+            if check_device_count(device.group, needed, requerments):
+                continue
+            result_map[department] = {}            
             result_map[department][user] = device
+            
 
     save_data_to_xlsx(result_map, params)
