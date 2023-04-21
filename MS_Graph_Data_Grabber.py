@@ -1,5 +1,3 @@
-import msal
-import webbrowser
 import requests
 import json
 from Entities import *
@@ -34,8 +32,8 @@ def user_to_json_grabbing(headers, params):
             manager_data = manager_response.json()
             user['manager_name'] = manager_data.get('displayName')
             user['manager_mail'] = manager_data.get('mail')
-
-    save_json(data=all_users, file_path=params['path_user'])
+    return all_users
+    
 
 
 def device_to_json_grabbing(headers, params):
@@ -52,4 +50,4 @@ def device_to_json_grabbing(headers, params):
             all_devices += json_data['value']
             next_link = json_data.get("@odata.nextLink")
 
-    save_json(data=all_devices, file_path=params['path_device'])
+    return all_devices
