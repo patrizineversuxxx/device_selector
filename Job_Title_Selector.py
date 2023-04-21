@@ -1,7 +1,7 @@
 import openpyxl
 
 
-def is_vip(job_title):
+def is_vip(job_title):#nneds to be rewritten to job_titles gotten from config class
     # Convert job title to lowercase for case-insensitive matching
     job_title = job_title.lower()
 

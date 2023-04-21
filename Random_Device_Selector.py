@@ -57,7 +57,7 @@ def random_selection(params: typing.Dict) -> typing.Dict[Department, typing.Dict
     user_map = {}
     device_list = []
 
-    get_data_from_xlsx(spreadsheet, department_map, user_map, device_list)
+    get_data_from_xlsx(spreadsheet, department_map, user_map, device_list) #needs to be rewritten (strange call and void return)
 
     departments = list(department_map.values())
     user_map = list(user_map.values())
@@ -66,7 +66,7 @@ def random_selection(params: typing.Dict) -> typing.Dict[Department, typing.Dict
     requerments = params['required']
     needed = {"AAD_Joined": 0, "Hybrid_Joined": 0, "macOS": 0}
 
-    for department in departments:
+    for department in departments:#needs to be rewritten because of dict (d, dict) construction
         department_target = check_department_target(department, params)
         if department in result_map:
             while len(result_map[department]) < department_target:
