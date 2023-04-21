@@ -10,7 +10,7 @@ def check_department_target(department: Department, params: typing.Dict):
     return int(target_percent * len(department.user_list))+1
 
 
-def minimal_group(params: typing.Dict,
+def get_miniamal_group_devices(params: typing.Dict,
         result_map: typing.Dict,
         department_map: typing.Dict) -> typing.Dict(Department, typing.Dict(User, Device)):
     minimal_group_map = {}
