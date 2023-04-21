@@ -10,7 +10,7 @@ def check_department_target(department: Department, params: typing.Dict) -> int:
     return int(target_percent * len(department.user_list))+1
 
 
-def get_minimal_group_devices(params: typing.Dict, result_map: typing.Dict, 
+def get_minimal_group_devices(params: typing.Dict, result_map: typing.Dict,
                               department_map: typing.Dict) -> typing.Dict[Department, typing.Dict[User, Device]]:
     minimal_group_map = {}
     # Selecting minimal group devices
@@ -49,15 +49,10 @@ def check_device_count(group: str, needed: typing.Dict, requerments: typing.Dict
 
 
 def random_selection(params: typing.Dict) -> typing.Dict[Department, typing.Dict[User, Device]]:
-    path = params['middle_file']
-    workbook = openpyxl.load_workbook(path)
-    spreadsheet = workbook.active
+    data = get_data_from_xlsx(params)
 
-    department_map = {}
-    user_map = {}
-    device_list = []
-
-    get_data_from_xlsx(spreadsheet, department_map, user_map, device_list) #needs to be rewritten (strange call and void return)
+    department_map = data[0]
+    user_map = data[1]
 
     departments = list(department_map.values())
     user_map = list(user_map.values())
@@ -66,7 +61,8 @@ def random_selection(params: typing.Dict) -> typing.Dict[Department, typing.Dict
     requerments = params['required']
     needed = {"AAD_Joined": 0, "Hybrid_Joined": 0, "macOS": 0}
 
-    for department in departments:#needs to be rewritten because of dict (d, dict) construction
+    # needs to be rewritten because of dict (d, dict) construction
+    for department in departments:
         department_target = check_department_target(department, params)
         if department in result_map:
             while len(result_map[department]) < department_target:

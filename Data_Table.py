@@ -1,3 +1,4 @@
+import typing
 import openpyxl
 from Entities import *
 
@@ -44,7 +45,14 @@ def create_table_row(result_sheet, row_counter, device_name, device_id,
     result_sheet.cell(row=row_counter, column=14,
                       value=cost_center)
 
-def get_data_from_xlsx(spreadsheet, department_map, user_map, device_list):
+def get_data_from_xlsx(params: typing.Dict):
+    path = params['middle_file']
+    workbook = openpyxl.load_workbook(path)
+    spreadsheet = workbook.active
+
+    user_map = {}
+    department_map = {}
+
     for row in spreadsheet.iter_rows(2):
 
         device_name = row[0].value
@@ -66,7 +74,6 @@ def get_data_from_xlsx(spreadsheet, department_map, user_map, device_list):
 
         device = Device(id=device_id, name=device_name, group=device_group,
                         os=device_os, last_checkin_date=device_last_checkin_date)
-        device_list.append(device)
 
         if user_name in user_map:
             user_map[user_name].add_device(device)
@@ -83,6 +90,8 @@ def get_data_from_xlsx(spreadsheet, department_map, user_map, device_list):
                 department = Department(
                     name=department_name, cost_center=department_cost_center, user_list=[user])
                 department_map[department_name] = department
+                
+    return department_map, user_map
 
 def save_data_to_xlsx_prepational_step(result_map, params):
     result_book = openpyxl.Workbook()
