@@ -6,21 +6,13 @@ from Entities import *
 from Random_Device_Selector import *
 from MS_Graph_Connector import *
 
-#Reading all of the configurational files
-connection_parameters = open_json("config.json")
-file_paths = open_json("file_paths.json")
-selection_conditions = open_json("selection_conditions.json")
 
-# Creating an entity for using configurational parameters
-config = Config(
-        connection_parameters=connection_parameters,
-        file_paths=file_paths, 
-        selection_conditions = selection_conditions
-    )
+#Reading the configuration files
+configuration = get_config()
+configuration.connection_parameters
 
 # Creating a connection to API and saving requests headers
-headers = connect_to_api(params=connection_parameters) #   params['redirect_uri'] params['client_credentials']
-
+headers = connect_to_api(connection_parameters=configuration.connection_parameters)
 # Grabbing all of the users info from MS Graph
 users = user_to_json_grabbing(headers=headers, params=connection_parameters)
 
