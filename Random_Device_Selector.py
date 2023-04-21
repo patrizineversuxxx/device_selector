@@ -2,17 +2,16 @@ import random
 import openpyxl
 from Entities import *
 from Parser import *
-from DataTable import *
+from Data_Table import *
 
 
-def check_department_target(department: Department, params: typing.Dict):
+def check_department_target(department: Department, params: typing.Dict) -> int:
     target_percent = params['target_percent']
     return int(target_percent * len(department.user_list))+1
 
 
-def get_miniamal_group_devices(params: typing.Dict,
-        result_map: typing.Dict,
-        department_map: typing.Dict) -> typing.Dict(Department, typing.Dict(User, Device)):
+def get_minimal_group_devices(params: typing.Dict, result_map: typing.Dict, 
+                              department_map: typing.Dict) -> typing.Dict[Department, typing.Dict[User, Device]]:
     minimal_group_map = {}
     # Selecting minimal group devices
     for department in departments:
@@ -49,7 +48,7 @@ def check_device_count(group: str, needed: typing.Dict, requerments: typing.Dict
         return False
 
 
-def random_selection(params: typing.Dict):
+def random_selection(params: typing.Dict) -> typing.Dict[Department, typing.Dict[User, Device]]:
     path = params['middle_file']
     workbook = openpyxl.load_workbook(path)
     spreadsheet = workbook.active
