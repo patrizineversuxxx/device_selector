@@ -48,8 +48,8 @@ def check_device_count(group: str, needed: typing.Dict, requerments: typing.Dict
         return False
 
 
-def random_selection(selection_conditions: typing.Dict) -> typing.Dict[Department, typing.Dict[User, Device]]:
-    data = get_data_from_xlsx(selection_conditions)
+def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dict[Department, typing.Dict[User, Device]]:
+    data = get_data_from_xlsx(path)
 
     department_map = data[0]
     user_map = data[1]

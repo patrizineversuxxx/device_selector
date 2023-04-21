@@ -45,8 +45,8 @@ def create_table_row(result_sheet, row_counter, device_name, device_id,
     result_sheet.cell(row=row_counter, column=14,
                       value=cost_center)
 
-def get_data_from_xlsx(params: typing.Dict):
-    path = params['middle_file']
+def get_data_from_xlsx(path: str):
+    
     workbook = openpyxl.load_workbook(path)
     spreadsheet = workbook.active
 
@@ -131,7 +131,7 @@ def save_data_to_xlsx_prepational_step(result_map, file_path):
     result_book.save(file_path)
 
 
-def save_data_to_xlsx(result_map, params):
+def save_data_to_xlsx(result_map, path):
     result_book = openpyxl.Workbook()
     result_sheet = result_book.active
 
@@ -167,4 +167,4 @@ def save_data_to_xlsx(result_map, params):
 
         row_counter += 1
 
-    result_book.save(params["result_file"])
+    result_book.save(path)

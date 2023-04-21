@@ -9,7 +9,7 @@ from MS_Graph_Connector import *
 
 #Reading the configuration files
 configuration = get_config()
-"""
+
 # Creating a connection to API and saving requests headers
 headers = connect_to_api(connection_parameters=configuration.connection_parameters)
 # Grabbing all of the users info from MS Graph
@@ -23,7 +23,7 @@ devices = get_devices_from_API(headers=headers, naming_tags=configuration.select
 
 # Saving devices info into the JSON file
 save_json(data=devices, file_path=configuration.file_paths['path_device'])
-"""
+
 # Creating departments from users and devices data
 departmens = get_data_from_json(file_paths=configuration.file_paths)
 
@@ -34,7 +34,7 @@ save_data_to_xlsx_prepational_step(departmens, configuration.file_paths["start_f
 check_xlsx_for_vip(file_paths=configuration.file_paths)
 
 # Randomly selecting needed devices using user's conditions
-result = random_selection(selection_conditions=configuration.selection_conditions)
+result = random_selection(selection_conditions=configuration.selection_conditions, path = configuration.file_paths['middle_file'])
 
 # Saving the result in the xlsx table
 save_data_to_xlsx(result, configuration.file_paths['result_file'])
