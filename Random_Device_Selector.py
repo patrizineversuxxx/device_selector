@@ -84,4 +84,4 @@ def random_selection(params: typing.Dict):
             result_map[department] = {}
             result_map[department][user] = device
 
-    save_data_to_xlsx(result_map, params)
+    return result_map

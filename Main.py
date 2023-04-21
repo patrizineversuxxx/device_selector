@@ -19,4 +19,5 @@ device_to_json_grabbing(headers=headers, params=params)
 
 save_data_to_xlsx_prepational_step(get_data_from_json(params=params),params)
 check_xlsx_for_vip(params=params)
-random_selection(params=params)
+result = random_selection(params=params)
+save_data_to_xlsx(result, params)
