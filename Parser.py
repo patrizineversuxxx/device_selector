@@ -18,7 +18,17 @@ def open_json(path: str) -> typing.Dict[str, typing.Any]:
     return records
 
 
-def save_json(data, file_path):
+def save_json(data: typing.Dict, file_path: str):
+    """
+    A dictionary representing the contents of the needed JSON file
+
+    Args:
+        data: A dictionary with needed data
+        path: A string representing the path to the JSON file.
+
+    Returns:
+        Saves dictionary into the JSON file
+    """
     with open(file_path, "w") as file:
         json.dump(data, file)
 
