@@ -5,11 +5,6 @@ from Parser import *
 from Random_Device_Selector import *
 
 
-def save_json(data, file_path):
-    with open(file_path, "w") as file:
-        json.dump(data, file)
-
-
 def user_to_json_grabbing(headers, params):
     all_users = []
 
@@ -32,8 +27,8 @@ def user_to_json_grabbing(headers, params):
             manager_data = manager_response.json()
             user['manager_name'] = manager_data.get('displayName')
             user['manager_mail'] = manager_data.get('mail')
+
     return all_users
-    
 
 
 def device_to_json_grabbing(headers, params):

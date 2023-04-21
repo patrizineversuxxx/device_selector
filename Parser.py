@@ -18,6 +18,11 @@ def open_json(path: str) -> typing.Dict[str, typing.Any]:
     return records
 
 
+def save_json(data, file_path):
+    with open(file_path, "w") as file:
+        json.dump(data, file)
+
+
 def get_data_from_json(params: dict) -> typing.Dict[str, Department]:
     """
     Parses user and device data from JSON files and creates Department objects.
@@ -28,13 +33,13 @@ def get_data_from_json(params: dict) -> typing.Dict[str, Department]:
     Returns:
         A dictionary containing Department objects indexed by department name.
     """
-    #Openning the user data JSON file
+    # Openning the user data JSON file
     records = open_json(params['path_user'])
 
     department_map = {}
     user_map = {}
 
-    #Read all of the user records in the file
+    # Read all of the user records in the file
     for record in records:
         user_id = record['id']
 
@@ -61,10 +66,10 @@ def get_data_from_json(params: dict) -> typing.Dict[str, Department]:
                 user_list=[user]
             )
 
-    #Openning the device data JSON file
+    # Openning the device data JSON file
     records = open_json(params['path_device'])
 
-    #Read all of the device records in the file
+    # Read all of the device records in the file
     for record in records:
         if not record['usersLoggedOn']:
             continue
