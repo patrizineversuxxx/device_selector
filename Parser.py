@@ -14,8 +14,8 @@ def open_json(path: str) -> typing.Dict[str, typing.Any]:
         A dictionary representing the contents of the JSON file.
     """
     with open(path) as file:
-        records = json.load(file)
-    return records
+        data = json.load(file)
+    return data
 
 
 def save_json(data: typing.Dict, file_path: str):
