@@ -1,4 +1,4 @@
-from Parser import *
+from JSON_Parser import *
 from MS_Graph_Data_Grabber import *
 from Job_Title_Selector import *
 from Entities import *

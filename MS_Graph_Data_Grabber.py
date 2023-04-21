@@ -1,7 +1,7 @@
 import requests
 import json
 from Entities import *
-from Parser import *
+from JSON_Parser import *
 from Random_Device_Selector import *
 
 

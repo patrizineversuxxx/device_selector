@@ -1,8 +1,8 @@
 import random
 import openpyxl
 from Entities import *
-from Parser import *
-from Data_Table import *
+from JSON_Parser import *
+from XLSX_Parser import *
 
 
 def check_department_target(department: Department, params: typing.Dict) -> int:
