@@ -33,6 +33,7 @@ MANIFEST
 *.spec
 config.json
 file_paths.json
+selection_conditions.json
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
