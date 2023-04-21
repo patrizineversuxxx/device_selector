@@ -1,7 +1,7 @@
 import openpyxl
 
 
-def is_vip(job_title):#nneds to be rewritten to job_titles gotten from config class
+def is_vip(job_title: str) -> bool:#nneds to be rewritten to job_titles gotten from config class
     # Convert job title to lowercase for case-insensitive matching
     job_title = job_title.lower()
 
@@ -17,9 +17,9 @@ def is_vip(job_title):#nneds to be rewritten to job_titles gotten from config cl
         return False
 
 
-def check_xlsx_for_vip(params):
+def check_xlsx_for_vip(file_paths: list[str]):
     # Open the input and output workbooks
-    workbook = openpyxl.load_workbook(params['start_file'])
+    workbook = openpyxl.load_workbook(file_paths['start_file'])
     spreadsheet = workbook.active
     result_book = openpyxl.Workbook()
     result_sheet = result_book.active
@@ -37,4 +37,4 @@ def check_xlsx_for_vip(params):
         result_sheet.append(row_data)
 
     # Save the output workbook
-    result_book.save(params['middle_file'])
+    result_book.save(file_paths['middle_file'])

@@ -5,10 +5,8 @@ from JSON_Parser import *
 from Random_Device_Selector import *
 
 
-def get_users_from_API(headers, params):
+def get_users_from_API(headers, office_locations):
     all_users = []
-
-    office_locations = params['office_locations']
 
     for office_location in office_locations:
         next_link = r"https://graph.microsoft.com/v1.0/users?$count=true&$filter=officeLocation+eq+'" + office_location + \
@@ -31,10 +29,9 @@ def get_users_from_API(headers, params):
     return all_users
 
 
-def get_devices_from_API(headers, params):
+def get_devices_from_API(headers, naming_tags):
     all_devices = []
-
-    naming_tags = params['naming_tags']
+    
     for naming_tag in naming_tags:
         next_link = r"https://graph.microsoft.com/beta/deviceManagement/managedDevices?$filter=startswith(devicename,'"+naming_tag + \
             r"')&select=devicename,userid,azureActiveDirectoryDeviceId,deviceEnrollmentType,operatingSystem,usersLoggedOn"

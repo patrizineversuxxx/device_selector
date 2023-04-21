@@ -93,7 +93,7 @@ def get_data_from_xlsx(params: typing.Dict):
                 
     return department_map, user_map
 
-def save_data_to_xlsx_prepational_step(result_map, params):
+def save_data_to_xlsx_prepational_step(result_map, file_path):
     result_book = openpyxl.Workbook()
     result_sheet = result_book.active
 
@@ -128,7 +128,7 @@ def save_data_to_xlsx_prepational_step(result_map, params):
 
                 row_counter += 1
                 
-    result_book.save(params["start_file"])
+    result_book.save(file_path)
 
 
 def save_data_to_xlsx(result_map, params):

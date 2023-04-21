@@ -33,7 +33,7 @@ def save_json(data: typing.Dict, file_path: str):
         json.dump(data, file)
 
 
-def get_data_from_json(params: dict) -> typing.Dict[str, Department]:
+def get_data_from_json(file_paths: dict) -> typing.Dict[str, Department]:
     """
     Parses user and device data from JSON files and creates Department objects.
 
@@ -44,7 +44,7 @@ def get_data_from_json(params: dict) -> typing.Dict[str, Department]:
         A dictionary containing Department objects indexed by department name.
     """
     # Openning the user data JSON file
-    records = open_json(params['path_user'])
+    records = open_json(file_paths['path_user'])
 
     department_map = {}
     user_map = {}
@@ -77,7 +77,7 @@ def get_data_from_json(params: dict) -> typing.Dict[str, Department]:
             )
 
     # Openning the device data JSON file
-    records = open_json(params['path_device'])
+    records = open_json(file_paths['path_device'])
 
     # Read all of the device records in the file
     for record in records:

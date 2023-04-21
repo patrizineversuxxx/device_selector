@@ -9,33 +9,32 @@ from MS_Graph_Connector import *
 
 #Reading the configuration files
 configuration = get_config()
-configuration.connection_parameters
-
+"""
 # Creating a connection to API and saving requests headers
 headers = connect_to_api(connection_parameters=configuration.connection_parameters)
 # Grabbing all of the users info from MS Graph
-users = get_users_from_API(headers=headers, params=connection_parameters)
+users = get_users_from_API(headers=headers, office_locations=configuration.selection_conditions['office_locations'])
 
 # Saving users info into the JSON file
-save_json(data=users, file_path=connection_parameters['path_user'])
+save_json(data=users, file_path=configuration.file_paths['path_user'])
 
 # Grabbing all of the devices info from MS Graph
-devices = get_devices_from_API(headers=headers, params=connection_parameters)
+devices = get_devices_from_API(headers=headers, naming_tags=configuration.selection_conditions['naming_tags'])
 
 # Saving devices info into the JSON file
-save_json(data=users, file_path=connection_parameters['path_device'])
-
+save_json(data=devices, file_path=configuration.file_paths['path_device'])
+"""
 # Creating departments from users and devices data
-departmens = get_data_from_json(params=connection_parameters)
+departmens = get_data_from_json(file_paths=configuration.file_paths)
 
 # Saving records in xlsx table
-save_data_to_xlsx_prepational_step(departmens, connection_parameters)
+save_data_to_xlsx_prepational_step(departmens, configuration.file_paths["start_file"])
 
 # Deleting records from previous table, which contains filtered job titles, and saves the result in the another xlsx file
-check_xlsx_for_vip(params=connection_parameters)
+check_xlsx_for_vip(file_paths=configuration.file_paths)
 
 # Randomly selecting needed devices using user's conditions
-result = random_selection(params=connection_parameters)
+result = random_selection(selection_conditions=configuration.selection_conditions)
 
 # Saving the result in the xlsx table
-save_data_to_xlsx(result, connection_parameters)
+save_data_to_xlsx(result, configuration.file_paths['result_file'])
