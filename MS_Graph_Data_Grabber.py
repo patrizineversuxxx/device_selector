@@ -5,7 +5,7 @@ from JSON_Parser import *
 from Random_Device_Selector import *
 
 
-def user_to_json_grabbing(headers, params):
+def get_users_from_API(headers, params):
     all_users = []
 
     office_locations = params['office_locations']
@@ -31,7 +31,7 @@ def user_to_json_grabbing(headers, params):
     return all_users
 
 
-def device_to_json_grabbing(headers, params):
+def get_devices_from_API(headers, params):
     all_devices = []
 
     naming_tags = params['naming_tags']

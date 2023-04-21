@@ -14,13 +14,13 @@ configuration.connection_parameters
 # Creating a connection to API and saving requests headers
 headers = connect_to_api(connection_parameters=configuration.connection_parameters)
 # Grabbing all of the users info from MS Graph
-users = user_to_json_grabbing(headers=headers, params=connection_parameters)
+users = get_users_from_API(headers=headers, params=connection_parameters)
 
 # Saving users info into the JSON file
 save_json(data=users, file_path=connection_parameters['path_user'])
 
 # Grabbing all of the devices info from MS Graph
-devices = device_to_json_grabbing(headers=headers, params=connection_parameters)
+devices = get_devices_from_API(headers=headers, params=connection_parameters)
 
 # Saving devices info into the JSON file
 save_json(data=users, file_path=connection_parameters['path_device'])
