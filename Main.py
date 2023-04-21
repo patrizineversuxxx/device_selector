@@ -13,10 +13,7 @@ selection_conditions = open_json("selection_conditions.json")
 
 # Creating an entity for using configurational parameters
 config = Config(
-        redirect_uri=connection_parameters['client_id'], 
-        client_credentials=connection_parameters['client_id'], 
-        authority_url=connection_parameters['authority_url'], 
-        scopes=connection_parameters['scopes'], 
+        connection_parameters=connection_parameters,
         file_paths=file_paths, 
         selection_conditions = selection_conditions
     )
