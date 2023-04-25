@@ -48,7 +48,7 @@ def get_data_from_json(users: typing.Dict, devices: typing.Dict) -> typing.Dict[
 
     # Read all of the user records in the file
     for user_record in users:
-        user_id = record['id']
+        user_id = user_record['id']
 
         user = User(id=user_id,
                     name=user_record['displayName'],

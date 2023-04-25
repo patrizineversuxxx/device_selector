@@ -32,7 +32,17 @@ class Device:
 
 
 class User:
-    def __init__(self, id: str, name: str, mail: str, manager_name: str, manager_mail: str, job_title: str, location: str, device_list: list):
+    def __init__(
+            self,
+            id: str,
+            name: str,
+            mail: str,
+            manager_name: str,
+            manager_mail: str,
+            job_title: str,
+            location: str,
+            device_list: list[Device]
+    ):
         self._id = id
         self._name = name
         self._mail = mail
@@ -57,7 +67,7 @@ class User:
     @property
     def manager_name(self) -> str:
         return self._manager_name
-    
+
     @property
     def manager_mail(self) -> str:
         return self._manager_mail
@@ -71,7 +81,7 @@ class User:
         return self._location
 
     @property
-    def device_list(self) -> array:
+    def device_list(self) -> list[Device]:
         return self._device_list
 
     def add_device(self, device: Device):
@@ -79,7 +89,7 @@ class User:
 
 
 class Department:
-    def __init__(self, name: str, cost_center: int, user_list: list):
+    def __init__(self, name: str, cost_center: int, user_list: list[User]):
         self._name = name
         self._cost_center = cost_center
         self._user_list = user_list
@@ -93,7 +103,7 @@ class Department:
         return self._cost_center
 
     @property
-    def user_list(self) -> array:
+    def user_list(self) -> list[User]:
         return self._user_list
 
     def add_user(self, user: User):
