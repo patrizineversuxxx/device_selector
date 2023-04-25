@@ -4,19 +4,39 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Pilot groups creator</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-        <!--[if lt IE 7]>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Pilot groups creator</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <p>KEK</p>
-        <script src="" async defer></script>
-    </body>
+    <form>
+        <label for="naming_tags">Type in your devices' naming tags:</label><br>
+        <input type="text" id="naming_tags" name="naming_tags"><br><br>
+
+        <label for="office_locations">Type in your office locations:</label><br>
+        <input type="text" id="office_locations" name="office_locations"><br><br>
+
+        <label for="aad">Azure Active Directory Joined count:</label><br>
+        <input type="text" id="aad" name="aad"> <br> <br>
+
+        <label for="hybrid">Hybrid Joined count:</label><br>
+        <input type="text" id="hybrid" name="hybrid"> <br><br>
+
+        <label for="mac">MacOS Enrolled count:</label><br>
+        <input type="text" id="macos" name="macos"> <br> <br>
+
+        <input type="submit" value="Submit">
+    </form>
+    <script src="" async defer></script>
+</body>
+
 </html>
