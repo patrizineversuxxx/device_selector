@@ -25,7 +25,7 @@ devices = get_devices_from_API(headers=headers, naming_tags=configuration.select
 save_json(data=devices, file_path=configuration.file_paths['path_device'])
 
 # Creating departments from users and devices data
-departmens = get_data_from_json(file_paths=configuration.file_paths)
+departmens = get_data_from_json(users, devices)
 
 # Saving records in xlsx table
 save_data_to_xlsx_prepational_step(departmens, configuration.file_paths["start_file"])

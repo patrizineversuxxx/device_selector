@@ -33,7 +33,7 @@ def save_json(data: typing.Dict, file_path: str):
         json.dump(data, file)
 
 
-def get_data_from_json(file_paths: dict) -> typing.Dict[str, Department]:
+def get_data_from_json(users: typing.Dict, devices: typing.Dict) -> typing.Dict[str, Department]:
     """
     Parses user and device data from JSON files and creates Department objects.
 
@@ -43,29 +43,26 @@ def get_data_from_json(file_paths: dict) -> typing.Dict[str, Department]:
     Returns:
         A dictionary containing Department objects indexed by department name.
     """
-    # Openning the user data JSON file
-    records = open_json(file_paths['path_user'])
-
     department_map = {}
     user_map = {}
 
     # Read all of the user records in the file
-    for record in records:
+    for user_record in users:
         user_id = record['id']
 
         user = User(id=user_id,
-                    name=record['displayName'],
-                    mail=record['mail'],
-                    manager_name=record['manager_name'],
-                    manager_mail=record['manager_mail'],
-                    job_title=record['jobTitle'],
-                    location=record['officeLocation'],
+                    name=user_record['displayName'],
+                    mail=user_record['mail'],
+                    manager_name=user_record['manager_name'],
+                    manager_mail=user_record['manager_mail'],
+                    job_title=user_record['jobTitle'],
+                    location=user_record['officeLocation'],
                     device_list=[]
                     )
 
         user_map[user_id] = user
 
-        department_name = record['department']
+        department_name = user_record['department']
 
         if department_name in department_map:
             department_map[department_name].user_list.append(user)
@@ -76,18 +73,15 @@ def get_data_from_json(file_paths: dict) -> typing.Dict[str, Department]:
                 user_list=[user]
             )
 
-    # Openning the device data JSON file
-    records = open_json(file_paths['path_device'])
-
     # Read all of the device records in the file
-    for record in records:
-        if not record['usersLoggedOn']:
+    for device_record in devices:
+        if not device_record['usersLoggedOn']:
             continue
         else:
-            device_last_checkin_date = record['usersLoggedOn'][0]['lastLogOnDateTime']
+            device_last_checkin_date = device_record['usersLoggedOn'][0]['lastLogOnDateTime']
 
-        device_enrollment_type = record['deviceEnrollmentType']
-        device_os = record['operatingSystem']
+        device_enrollment_type = device_record['deviceEnrollmentType']
+        device_os = device_record['operatingSystem']
 
         if device_enrollment_type == "windowsAzureADJoin" and device_os == "Windows":
             device_group = "AAD_Joined"
@@ -98,14 +92,14 @@ def get_data_from_json(file_paths: dict) -> typing.Dict[str, Department]:
         else:
             continue
 
-        device = Device(id=record['azureActiveDirectoryDeviceId'],
-                        name=record['deviceName'],
+        device = Device(id=device_record['azureActiveDirectoryDeviceId'],
+                        name=device_record['deviceName'],
                         group=device_group,
                         os=device_os,
                         last_checkin_date=device_last_checkin_date
                         )
 
-        device_user_id = record['userId']
+        device_user_id = device_record['userId']
 
         if device_user_id in user_map:
             user_map[device_user_id].device_list.append(device)
