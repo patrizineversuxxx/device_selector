@@ -9,8 +9,8 @@ def get_users_from_API(headers, office_locations):
     all_users = []
 
     for office_location in office_locations:
-        next_link = r"https://graph.microsoft.com/v1.0/users?$count=true&$filter=officeLocation+eq+'" + office_location + \
-            r"'+and+onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
+        next_link = r"https://graph.microsoft.com/v1.0/users?$count=true&$filter=startswith(officeLocation,'" + office_location + "+')"+ \
+            r"+and+onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
         while next_link:
             response = requests.get(next_link, headers=headers)
             json_data = response.json()

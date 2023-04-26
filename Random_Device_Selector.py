@@ -6,7 +6,7 @@ from XLSX_Parser import *
 
 
 def check_department_target(department: Department, params: typing.Dict) -> int:
-    target_percent = params['target_percent']
+    target_percent = params['target_percent']/100
     return int(target_percent * len(department.user_list))+1
 
 

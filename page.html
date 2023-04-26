@@ -19,20 +19,20 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
     <form>
-        <label for="naming_tags">Type in your devices' naming tags:</label><br>
-        <input type="text" id="naming_tags" name="naming_tags" value='"EVN","MOW"'><br><br>
-
         <label for="office_locations">Type in your office locations:</label><br>
-        <input type="text" id="office_locations" name="office_locations" value='"AM+Yerevan","RU+Moscow","RU+Novosibirsk"'><br><br>
+        <input type="text" id="office_locations" name="office_locations" pattern="[A-Za-z]{2}" value='"AM+Yerevan","RU+Moscow","RU+Novosibirsk"'><br><br>
 
-        <label for="aad">Azure Active Directory Joined count:</label><br>
-        <input type="text" id="aad" name="aad"> <br> <br>
+        <label for="aad">Type in Azure Active Directory Joined count:</label><br>
+        <input type="text" id="aad" pattern="[1-9]{3}"name="aad"> <br> <br>
 
-        <label for="hybrid">Hybrid Joined count:</label><br>
-        <input type="text" id="hybrid" name="hybrid"> <br><br>
+        <label for="hybrid">Type in Hybrid Joined count:</label><br>
+        <input type="number" id="hybrid" pattern="[1-9]{3}" name="hybrid"> <br><br>
 
-        <label for="mac">MacOS Enrolled count:</label><br>
-        <input type="text" id="macos" name="macos"> <br> <br>
+        <label for="mac">Type in MacOS Enrolled count:</label><br>
+        <input type="number" id="macos" pattern="[1-9]{3}" name="macos"> <br> <br>
+
+        <label for="mac">Type in target percent value:</label><br>
+        <input type="number" id="target" pattern="[1-9]{4}" name="target"> <br> <br>
 
         <input type="submit" value="Submit">
     </form>
