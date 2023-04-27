@@ -3,11 +3,12 @@ import datetime
 
 
 class Device:
-    def __init__(self, id: str, name: str, group: str, os: str, last_checkin_date: datetime):
+    def __init__(self, id: str, name: str, group: str, os: str, type: str, last_checkin_date: datetime):
         self._id = id
         self._name = name
         self._group = group
         self._os = os
+        self._type = type
         self._last_checkin_date = last_checkin_date
 
     @property
@@ -25,6 +26,10 @@ class Device:
     @property
     def os(self) -> str:
         return self._os
+    
+    @property
+    def type(self) -> str:
+        return self._type
 
     @property
     def last_checkin_date(self) -> datetime:
