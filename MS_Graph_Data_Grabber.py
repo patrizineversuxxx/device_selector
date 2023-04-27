@@ -25,11 +25,17 @@ def get_users_from_API(headers, office_locations):
             manager_data = manager_response.json()
             user['manager_name'] = manager_data.get('displayName')
             user['manager_mail'] = manager_data.get('mail')
+            devices_url = r'https://graph.microsoft.com/v1.0/users/' + \
+            user["id"]+r'/ownedDevices?$count=true&$filter=isManaged+ne+false&$select=displayName,id,enrollmentType,operatingSystem,' + \
+            r'isManaged,approximateLastSignInDateTime'
+            devices_response = requests.get(devices_url, headers=headers)
+            devices_data = devices_response.json()
+            user['devices'] = devices_data.get('value')
 
     return all_users
 
 
-def get_devices_from_API(headers, naming_tags):
+def get_intune_devices_from_API(headers, naming_tags):
     all_devices = []
     
     for naming_tag in naming_tags:
