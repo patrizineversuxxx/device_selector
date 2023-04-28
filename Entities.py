@@ -3,7 +3,7 @@ import datetime
 
 
 class Device:
-    def __init__(self, id: str, name: str, group: str, enrollmentType:str,  os: str, type: str, last_checkin_date: datetime):
+    def __init__(self, id: str, name: str, group: str, enrollmentType: str,  os: str, type: str, last_checkin_date: datetime):
         self._id = id
         self._name = name
         self._group = group
@@ -23,7 +23,7 @@ class Device:
     @property
     def group(self) -> str:
         return self._group
-    
+
     @property
     def enrollment_type(self) -> str:
         return self._enrollment_type
@@ -31,7 +31,7 @@ class Device:
     @property
     def os(self) -> str:
         return self._os
-    
+
     @property
     def type(self) -> str:
         return self._type

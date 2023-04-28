@@ -3,6 +3,24 @@ import typing
 from Entities import *
 
 
+vm_vendors = ["Parallels International GmbH.",
+              "Parallels Software International Inc.", "VMware, Inc."]
+vm_models = ["Cloud PC Enterprise", "VirtualBox"]
+
+
+def check_virtual_device(device_record: typing.Dict):
+    device_manufacturer = device_record['manufacturer']
+    if device_manufacturer:
+        if device_manufacturer in vm_vendors:
+            return True
+        else:
+            device_model = device_record['model']
+            for vm_model in vm_models:
+                if vm_model in device_model:
+                    return True
+    return False
+
+
 def open_json(path: str) -> typing.Dict[str, typing.Any]:
     """
     Opens a JSON file and returns its contents as a dictionary.
@@ -33,7 +51,7 @@ def save_json(data: typing.Dict, file_path: str):
         json.dump(data, file)
 
 
-def get_data_from_json(users: typing.Dict, devices: typing.Dict) -> typing.Dict[str, Department]:
+def get_data_from_json(users: typing.Dict) -> typing.Dict[str, Department]:
     """
     Parses user and device data from JSON files and creates Department objects.
 
@@ -62,48 +80,80 @@ def get_data_from_json(users: typing.Dict, devices: typing.Dict) -> typing.Dict[
 
         user_map[user_id] = user
 
+        for device_record in user_record['devices']:
+
+            device_last_checkin_date = device_record['approximateLastSignInDateTime']
+
+            device_enrollment_type = device_record['enrollmentType']
+            device_os = device_record['operatingSystem']
+
+            if device_os == 'Windows':
+                if check_virtual_device(device_record):
+                    device_type = "virtual"
+                    if device_enrollment_type is None:
+                        continue
+                    elif device_enrollment_type == "OnPremiseCoManaged":
+                        device_enrollment_type = "HybridJoined"
+                        device_group = "Virtual HybridJoined"
+                    else:
+                        device_enrollment_type = "AzureADJoined"
+                        device_group = "Virtual AzureADJoined"
+                else:
+                    device_type = "computer"
+                    if device_enrollment_type is None:
+                        continue
+                    elif device_enrollment_type == "OnPremiseCoManaged":
+                        device_enrollment_type = "HybridJoined"
+                        device_group = "Computer HybridJoined"
+                    else:
+                        device_enrollment_type = "AzureADJoined"
+                        device_group = "Computer AzureADJoined"
+            elif "Mac" in device_os:
+                device_group = "Android MAM"
+                device_type = "phone"
+                device_enrollment_type = "MacMDM"
+            elif "Android" in device_os:
+                if device_enrollment_type is None:
+                    device_group = "Android MAM"
+                    device_type = "phone"
+                    device_enrollment_type = "MAM"
+                else:
+                    device_group = "Android MDM"
+                    device_type = "phone"
+                    device_enrollment_type = "MDM"
+            elif "IPad" in device_os:
+                device_group = "iPad MDM"
+                device_type = "tablet"
+                device_enrollment_type = "MDM"
+            elif "IPhone" in device_os:
+                device_group = "iPhone MDM"
+                device_type = "phone"
+                device_enrollment_type = "MDM"
+            else:
+                device_group = "iPhone MAM"
+                device_type = "phone"
+                device_enrollment_type = "MAM"
+
+            device = Device(id=device_record['id'],
+                            name=device_record['displayName'],
+                            group=device_group,
+                            enrollmentType=device_enrollment_type,
+                            os=device_os,
+                            type=device_type,
+                            last_checkin_date=device_last_checkin_date
+                            )
+
+            user.add_device(device)
+
         department_name = user_record['department']
 
         if department_name in department_map:
-            department_map[department_name].user_list.append(user)
+            department_map[department_name].add_user(user)
         else:
             department_map[department_name] = Department(
                 name=department_name,
                 cost_center=0,
                 user_list=[user]
             )
-
-    # Read all of the device records in the file
-    for device_record in devices:
-        if not device_record['usersLoggedOn']:
-            continue
-        else:
-            device_last_checkin_date = device_record['usersLoggedOn'][0]['lastLogOnDateTime']
-
-        device_enrollment_type = device_record['deviceEnrollmentType']
-        device_os = device_record['operatingSystem']
-
-        if device_enrollment_type == "windowsAzureADJoin" and device_os == "Windows":
-            device_group = "AAD_Joined"
-        elif device_enrollment_type == "windowsCoManagement" and device_os == "Windows":
-            device_group = "Hybrid_Joined"
-        elif device_enrollment_type == "userEnrollment" and device_os == "macOS":
-            device_group = "macOS"
-        else:
-            continue
-
-        device = Device(id=device_record['azureActiveDirectoryDeviceId'],
-                        name=device_record['deviceName'],
-                        group=device_group,
-                        os=device_os,
-                        last_checkin_date=device_last_checkin_date
-                        )
-
-        device_user_id = device_record['userId']
-
-        if device_user_id in user_map:
-            user_map[device_user_id].device_list.append(device)
-        else:
-            continue
 
     return department_map
