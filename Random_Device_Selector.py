@@ -59,10 +59,10 @@ def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dic
 
     requerments = selection_conditions['required']
 
-    needed = requerments.copy()
+    needed = {}
 
-    for type in needed.keys():
-        needed[type] = 0
+    for key in needed.keys():
+        key[type] = 0      
 
     # needs to be rewritten because of dict (d, dict) construction
     for department in departments:
