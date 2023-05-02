@@ -1,7 +1,7 @@
 import openpyxl
 
 
-def is_vip(job_title: str) -> bool:#nneds to be rewritten to job_titles gotten from config class
+def is_vip(job_title: str) -> bool:  # nneds to be rewritten to job_titles gotten from config class
     # Convert job title to lowercase for case-insensitive matching
     job_title = job_title.lower()
 
@@ -12,7 +12,7 @@ def is_vip(job_title: str) -> bool:#nneds to be rewritten to job_titles gotten f
        "gm" in job_title or \
        "president" in job_title or \
        "director" in job_title or \
-        "clinical" in job_title:
+            "clinical" in job_title:
         return True
     else:
         return False

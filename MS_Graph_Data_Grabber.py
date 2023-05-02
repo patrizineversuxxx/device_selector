@@ -25,7 +25,7 @@ def get_users_from_API(headers, office_locations):
         if user.get('id'):
             manager_url = r'https://graph.microsoft.com/v1.0/users/' + \
                 user["id"]+r'/manager?$select=displayName,mail'
-            
+
             manager_response = requests.get(manager_url, headers=headers)
             manager_data = manager_response.json()
 
@@ -35,7 +35,7 @@ def get_users_from_API(headers, office_locations):
             devices_url = r'https://graph.microsoft.com/v1.0/users/' + \
                 user["id"]+r'/ownedDevices?$count=true&$filter=isManaged+ne+false&$select=displayName,id,enrollmentType,operatingSystem,' + \
                 r'isManaged,approximateLastSignInDateTime,manufacturer,model'
-            
+
             devices_response = requests.get(devices_url, headers=headers)
             devices_data = devices_response.json()
 
@@ -43,7 +43,7 @@ def get_users_from_API(headers, office_locations):
 
             counter += 1
             progress = int(counter/persent)
-            
+
             if (progress > prev_progress):
                 prev_progress = progress
                 print(prev_progress, r"% completed")

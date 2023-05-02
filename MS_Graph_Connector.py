@@ -47,11 +47,12 @@ def get_access_token_by_auth_code(connection_parameters: typing.Dict) -> typing.
     return access_token
 
 
-def connect_to_api(connection_parameters: typing.Dict) -> typing.Dict:  # needed to rewrite to user auth flow
+# needed to rewrite to user auth flow
+def connect_to_api(connection_parameters: typing.Dict) -> typing.Dict:
 
     access_token = get_access_token_by_device_flow(
         connection_parameters)['access_token']
-    #access_token = get_access_token_by_auth_code(
+    # access_token = get_access_token_by_auth_code(
     # connection_parameters)['access_token']
     headers = {'Authorization': 'Bearer ' +
                access_token, 'ConsistencyLevel': 'eventual'}
