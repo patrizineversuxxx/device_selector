@@ -1,10 +1,10 @@
-from Config import *
-from JSON_Parser import *
-from MS_Graph_Data_Grabber import *
-from Job_Title_Selector import *
-from Entities import *
-from Random_Device_Selector import *
-from MS_Graph_Connector import *
+from сonfig import *
+from json_parser import *
+from ms_graph_data_grabber import *
+from job_title_selector import *
+from entities import *
+from random_device_selector import *
+from ms_graph_connector import *
 
 
 # Reading the configuration files

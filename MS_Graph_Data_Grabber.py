@@ -1,8 +1,8 @@
 import requests
 import json
-from Entities import *
-from JSON_Parser import *
-from Random_Device_Selector import *
+from entities import *
+from json_parser import *
+from random_device_selector import *
 
 
 def get_users_from_API(headers, office_locations):

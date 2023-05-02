@@ -1,8 +1,8 @@
 import random
 import openpyxl
-from Entities import *
-from JSON_Parser import *
-from XLSX_Parser import *
+from entities import *
+from json_parser import *
+from xlsx_parser import *
 
 
 def check_department_target(department: Department, params: typing.Dict) -> int:
@@ -61,7 +61,7 @@ def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dic
     requerments = selection_conditions['required']
 
     needed = requerments.copy()
-    
+
     for type in needed.keys():
         needed[type] = 0
 

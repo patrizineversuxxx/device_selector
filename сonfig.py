@@ -1,5 +1,5 @@
 import typing
-from JSON_Parser import open_json
+from json_parser import open_json
 
 
 class Config:

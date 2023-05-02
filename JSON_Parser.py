@@ -1,6 +1,6 @@
 import json
 import typing
-from Entities import *
+from entities import *
 
 
 vm_vendors = ["Parallels International GmbH.",

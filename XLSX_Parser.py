@@ -1,6 +1,6 @@
 import typing
 import openpyxl
-from Entities import *
+from entities import *
 
 
 def create_table_header(result_sheet):
