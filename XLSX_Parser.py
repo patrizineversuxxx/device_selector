@@ -1,4 +1,3 @@
-import typing
 import openpyxl
 from entities import *
 

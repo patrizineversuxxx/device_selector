@@ -1,5 +1,4 @@
 import random
-import openpyxl
 from entities import *
 from json_parser import *
 from xlsx_parser import *

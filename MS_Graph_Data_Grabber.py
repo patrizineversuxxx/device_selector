@@ -1,5 +1,4 @@
 import requests
-import json
 from entities import *
 from json_parser import *
 from random_device_selector import *
