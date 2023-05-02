@@ -22,40 +22,23 @@ def create_table_header(result_sheet):
 
 
 def create_table_row(result_sheet, row_counter, device, user, department_name, cost_center):
-
-    device_name = device.name
-    device_id = device.id
-    group = device.group
-    os = device.os
-    enrollment_type = device.enrollment_type
-    device_type = device.type
-    last_checkin_date = device.last_checkin_date
-
-    user_id = user.id
-    username = user.name
-    mail = user.mail
-    manager_name = user.manager_name
-    manager_mail = user.manager_mail
-    job_title = user.job_title
-    location = user.location
-
-    result_sheet.cell(row=row_counter, column=1, value=device_name)
-    result_sheet.cell(row=row_counter, column=2, value=device_id)
-    result_sheet.cell(row=row_counter, column=3, value=group)
-    result_sheet.cell(row=row_counter, column=4, value=os)
-    result_sheet.cell(row=row_counter, column=5, value=enrollment_type)
-    result_sheet.cell(row=row_counter, column=6, value=device_type)
+    result_sheet.cell(row=row_counter, column=1, value=device.name)
+    result_sheet.cell(row=row_counter, column=2, value=device.id)
+    result_sheet.cell(row=row_counter, column=3, value=device.group)
+    result_sheet.cell(row=row_counter, column=4, value=device.os)
+    result_sheet.cell(row=row_counter, column=5, value=device.enrollment_type)
+    result_sheet.cell(row=row_counter, column=6, value=device.type)
     result_sheet.cell(row=row_counter, column=7,
-                      value=last_checkin_date)
-    result_sheet.cell(row=row_counter, column=8, value=user_id)
-    result_sheet.cell(row=row_counter, column=9, value=username)
-    result_sheet.cell(row=row_counter, column=10, value=mail)
+                      value=device.last_checkin_date)
+    result_sheet.cell(row=row_counter, column=8, value=user.id)
+    result_sheet.cell(row=row_counter, column=9, value=user.name)
+    result_sheet.cell(row=row_counter, column=10, value=user.mail)
     result_sheet.cell(row=row_counter, column=11,
-                      value=manager_name)
+                      value=user.manager_name)
     result_sheet.cell(row=row_counter, column=12,
-                      value=manager_mail)
-    result_sheet.cell(row=row_counter, column=13, value=job_title)
-    result_sheet.cell(row=row_counter, column=14, value=location)
+                      value=user.manager_mail)
+    result_sheet.cell(row=row_counter, column=13, value=user.job_title)
+    result_sheet.cell(row=row_counter, column=14, value=user.location)
     result_sheet.cell(row=row_counter, column=15,
                       value=department_name)
     result_sheet.cell(row=row_counter, column=16,
