@@ -59,7 +59,9 @@ def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dic
     result_map = {}
 
     requerments = selection_conditions['required']
-    needed = {"AAD_Joined": 0, "Hybrid_Joined": 0, "macOS": 0}
+    needed = requerments.copy()
+    for type in needed.keys():
+        needed[type] = 0
 
     # needs to be rewritten because of dict (d, dict) construction
     for department in departments:
@@ -68,13 +70,20 @@ def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dic
             while len(result_map[department]) < department_target:
                 user = random.choice(department.user_list)
                 device = random.choice(user.device_list)
-                if check_device_count(device.group, needed, requerments):
+                if device.group in needed:
+                    if check_device_count(device.group, needed, requerments):
+                        continue
+                    
+                else:
                     continue
                 result_map[department][user] = device
         else:
             user = random.choice(department.user_list)
             device = random.choice(user.device_list)
-            if check_device_count(device.group, needed, requerments):
+            if device.group in needed:
+                if check_device_count(device.group, needed, requerments):
+                    continue
+            else:
                 continue
             result_map[department] = {}
             result_map[department][user] = device

@@ -3,11 +3,11 @@ import datetime
 
 
 class Device:
-    def __init__(self, id: str, name: str, group: str, enrollmentType: str,  os: str, type: str, last_checkin_date: datetime):
+    def __init__(self, id: str, name: str, group: str, enrollment_type: str,  os: str, type: str, last_checkin_date: datetime):
         self._id = id
         self._name = name
         self._group = group
-        self._enrollment_type = enrollmentType
+        self._enrollment_type = enrollment_type
         self._os = os
         self._type = type
         self._last_checkin_date = last_checkin_date

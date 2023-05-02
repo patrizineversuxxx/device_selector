@@ -28,7 +28,7 @@ def check_xlsx_for_vip(file_paths: list[str]):
     # Iterate over each row in the input workbook
     for row in spreadsheet.iter_rows():
         # Check if the job title is a VIP title
-        if is_vip(row[10].value):
+        if is_vip(row[12].value):
             continue  # skip this row
 
         # If the job title is not a VIP title, copy the row to the output workbook

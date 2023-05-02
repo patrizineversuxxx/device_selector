@@ -109,7 +109,7 @@ def get_data_from_json(users: typing.Dict) -> typing.Dict[str, Department]:
                         device_enrollment_type = "AzureADJoined"
                         device_group = "Computer AzureADJoined"
             elif "Mac" in device_os:
-                device_group = "Android MAM"
+                device_group = "MacMDM"
                 device_type = "phone"
                 device_enrollment_type = "MacMDM"
             elif "Android" in device_os:
@@ -137,7 +137,7 @@ def get_data_from_json(users: typing.Dict) -> typing.Dict[str, Department]:
             device = Device(id=device_record['id'],
                             name=device_record['displayName'],
                             group=device_group,
-                            enrollmentType=device_enrollment_type,
+                            enrollment_type=device_enrollment_type,
                             os=device_os,
                             type=device_type,
                             last_checkin_date=device_last_checkin_date
