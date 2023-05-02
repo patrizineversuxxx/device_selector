@@ -129,10 +129,10 @@ def get_data_from_json(users: typing.Dict) -> typing.Dict[str, Department]:
                 device_group = "iPhone MDM"
                 device_type = "phone"
                 device_enrollment_type = "MDM"
-            else:
-                device_group = "iPhone MAM"
+            elif "iOS" in device_os:
+                device_group = "iPhone MDM"
                 device_type = "phone"
-                device_enrollment_type = "MAM"
+                device_enrollment_type = "MDM"
 
             device = Device(id=device_record['id'],
                             name=device_record['displayName'],
