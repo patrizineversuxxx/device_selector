@@ -3,8 +3,10 @@ import openpyxl
 
 def is_vip(job_title: str) -> bool:  # nneds to be rewritten to job_titles gotten from config class
     # Convert job title to lowercase for case-insensitive matching
+    if not job_title:
+        return True
     job_title = job_title.lower()
-
+    
     # Check if the job title contains any VIP keywords
     if "country manager" in job_title or \
        ("sr" in job_title and "manager" in job_title) or \

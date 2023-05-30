@@ -80,6 +80,8 @@ def get_data_from_json(users: typing.Dict) -> typing.Dict[str, Department]:
 
         user_map[user_id] = user
 
+        if not user_record['devices']:
+            continue
         for device_record in user_record['devices']:
 
             device_last_checkin_date = device_record['approximateLastSignInDateTime']

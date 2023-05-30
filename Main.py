@@ -20,7 +20,7 @@ users = get_users_from_API(
 
 # Saving users info into the JSON file
 save_json(data=users, file_path=configuration.file_paths['path_user'])
-#users = open_json(configuration.file_paths['path_user'])
+users = open_json(configuration.file_paths['path_user'])
 
 # Creating departments from users and devices data
 departmens = get_data_from_json(users)

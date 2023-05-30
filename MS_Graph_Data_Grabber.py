@@ -1,3 +1,4 @@
+import time
 import requests
 from entities import *
 from json_parser import *
@@ -5,11 +6,11 @@ from random_device_selector import *
 
 
 def get_users_from_API(headers, office_locations):
+    start = time.time()
     all_users = []
 
     for office_location in office_locations:
-        next_link = r"https://graph.microsoft.com/v1.0/users?$count=true&$filter=startswith(officeLocation,'" + office_location + "+')" + \
-            r"+and+onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
+        next_link = r"https://graph.microsoft.com/v1.0/users?$count=true&$filter=onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
         while next_link:
             response = requests.get(next_link, headers=headers)
             json_data = response.json()
@@ -48,7 +49,11 @@ def get_users_from_API(headers, office_locations):
                 prev_progress = progress
                 print(prev_progress, r"% completed")
 
-    print("Data grabbing completed!")
+    end = time.time()
+    print("Data grabbing completed!", user_count)
+    print("Grabbing process took ", end-start)
+    print(start)
+    print(end)
     return all_users
 
 
