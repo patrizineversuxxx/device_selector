@@ -62,11 +62,11 @@ def get_access_token_by_auth_code(connection_parameters: typing.Dict) -> typing.
 
 
 # needed to rewrite to user auth flow
-def connect_to_api(connection_parameters: typing.Dict) -> typing.Dict:
+def connect_to_api(connection_parameters: typing.Dict, device_flow: bool) -> typing.Dict:
 
     access_token = get_access_token_silent(connection_parameters)
 
-    if access_token is None:
+    if device_flow is True:
         access_token = get_access_token_by_device_flow(
         connection_parameters)['access_token']
     else:

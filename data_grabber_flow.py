@@ -9,7 +9,7 @@ from сonfig import get_config
 configuration = get_config()
 
 headers = connect_to_api(
-    connection_parameters=configuration.connection_parameters)
+    connection_parameters=configuration.connection_parameters, device_flow=True)
 
 # Grabbing all of the users info from MS Graph
 users = get_users_from_API(
