@@ -131,10 +131,8 @@ def save_data_to_xlsx(result_map, path):
     for department, user_device in result_map.items():
 
         department_name = department.name
-        cost_center = department.cost_center
 
         # Iterate over the set of user-device tuples
-
         device = list(user_device.values())[0]
         user = list(user_device.keys())[0]
 
