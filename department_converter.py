@@ -33,7 +33,9 @@ def assign_device_group(device_record):
 
         case "MacMDM":
             device_type = "Computer"
-            device_group = "MacMDM"
+            device_enrollment_type = "Mac MDM"
+            device_group = "Mac MDM"
+            
 
         case "iOS":
             device_type = "iPhone"
@@ -43,13 +45,16 @@ def assign_device_group(device_record):
             if device_enrollment_type == "null":
                 return None
             device_type = "iPad"
+            device_enrollment_type = "MDM"
             device_group = "iPad MDM"
 
         case "IPhone":
             if device_enrollment_type == "null":
                 return None
             device_type = "iPhone"
+            device_enrollment_type = "MDM"
             device_group = "iPhone MDM"
+            
 
         case "Linux":
             if check_virtual_device(device_record):
