@@ -7,7 +7,7 @@ vm_vendors = ["Parallels International GmbH.",
 vm_models = ["Cloud PC Enterprise", "VirtualBox"]
 
 
-def check_virtual_device(device_record: typing.Dict):
+def check_virtual_device(device_record: typing.Dict) -> bool:
     device_manufacturer = device_record['manufacturer']
     if device_manufacturer:
         if device_manufacturer in vm_vendors:
@@ -20,7 +20,7 @@ def check_virtual_device(device_record: typing.Dict):
     return False
 
 
-def assign_device_group(device_record):
+def create_device_object(device_record) -> Device:
     device_is_managed = device_record['isManaged']
     device_last_checkin_date = device_record['approximateLastSignInDateTime']
     device_enrollment_type = device_record['enrollmentType']
@@ -138,7 +138,7 @@ def get_data_from_json(users: typing.Dict) -> typing.Dict[str, Department]:
         if not user_record['devices']:
             continue
         for device_record in user_record['devices']:
-            device = assign_device_group(device_record)
+            device = create_device_object(device_record)
             if device is None:
                 continue
             user.add_device(device)
