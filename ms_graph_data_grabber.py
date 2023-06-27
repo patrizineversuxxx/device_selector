@@ -9,8 +9,8 @@ def get_users_from_API(headers):
     start = time.time()
     all_users = []
     
-    next_link = r"https://graph.microsoft.com/beta/users?$count=true&$filter=onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
-
+    next_link = r"https://graph.microsoft.com/beta/users?$count=true&$filter=onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department,onPremisesExtensionAttributes"
+    
     while next_link:
         response = requests.get(next_link, headers=headers)
         json_data = response.json()
@@ -26,6 +26,9 @@ def get_users_from_API(headers):
         if user.get('id'):
             manager_url = r'https://graph.microsoft.com/beta/users/' + \
                 user['id']+r'/manager?$select=displayName,mail'
+            
+            user['cost_center'] = user.get("onPremisesExtensionAttributes").get("extensionAttribute15")
+            del user['onPremisesExtensionAttributes']
 
             manager_response = requests.get(manager_url, headers=headers)
             manager_data = manager_response.json()
