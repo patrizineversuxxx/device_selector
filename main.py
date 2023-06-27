@@ -11,7 +11,7 @@ from ms_graph_connector import *
 # Reading the configuration files
 configuration = get_config()
 
-#Open data grabbed from API
+# Open data grabbed from API
 users = open_json(configuration.file_paths['path_user'])
 
 # Creating departments from users and devices data
