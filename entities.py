@@ -50,6 +50,7 @@ class User:
             manager_mail: str,
             job_title: str,
             location: str,
+            cost_center: int,
             device_list: list[Device]
     ):
         self._id = id
@@ -59,6 +60,7 @@ class User:
         self._manager_mail = manager_mail
         self._job_title = job_title
         self._location = location
+        self._cost_center = cost_center
         self._device_list = device_list
 
     @property
@@ -90,6 +92,10 @@ class User:
         return self._location
 
     @property
+    def cost_center(self) -> int:
+        return self._cost_center
+
+    @property
     def device_list(self) -> list[Device]:
         return self._device_list
 
@@ -98,18 +104,13 @@ class User:
 
 
 class Department:
-    def __init__(self, name: str, cost_center: int, user_list: list[User]):
+    def __init__(self, name: str, user_list: list[User]):
         self._name = name
-        self._cost_center = cost_center
         self._user_list = user_list
 
     @property
     def name(self) -> str:
         return self._name
-
-    @property
-    def cost_center(self) -> int:
-        return self._cost_center
 
     @property
     def user_list(self) -> list[User]:

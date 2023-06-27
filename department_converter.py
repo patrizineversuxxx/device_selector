@@ -44,6 +44,7 @@ def assign_device_group(device_record):
         case "IPad":
             if device_enrollment_type == "null":
                 return None
+            
             device_type = "iPad"
             device_enrollment_type = "MDM"
             device_group = "iPad MDM"
@@ -51,6 +52,7 @@ def assign_device_group(device_record):
         case "IPhone":
             if device_enrollment_type == "null":
                 return None
+            
             device_type = "iPhone"
             device_enrollment_type = "MDM"
             device_group = "iPhone MDM"
