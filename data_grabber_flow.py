@@ -13,8 +13,7 @@ headers = connect_to_api(
     connection_parameters=configuration.connection_parameters, device_flow=True)
 
 # Grabbing all of the users info from MS Graph
-users = get_users_from_API(
-    headers=headers, office_locations=configuration.selection_conditions['office_locations'])
-#users = get_intune_devices_from_API(headers=headers, naming_tags=["EVN"])
+users = get_users_from_API(headers=headers)
+
 # Saving users info into the JSON file
-save_json(data=users, file_path='C:/KEK/kek.json')#file_path=configuration.file_paths['path_user'])
+save_json(data=users, file_path=configuration.file_paths['path_user'])

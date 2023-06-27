@@ -5,18 +5,17 @@ from json_parser import *
 from random_device_selector import *
 
 
-def get_users_from_API(headers, office_locations):
+def get_users_from_API(headers):
     start = time.time()
     all_users = []
+    
+    next_link = r"https://graph.microsoft.com/v1.0/users?$count=true&$filter=officeLocation+eq+'RU+Moscow'+and+onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
 
-    for office_location in office_locations:
-        next_link = r"https://graph.microsoft.com/v1.0/users?$count=true&$filter=officeLocation+eq+'RU+Moscow'+and+onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
-        #next_link
-        while next_link:
-            response = requests.get(next_link, headers=headers)
-            json_data = response.json()
-            all_users += json_data['value']
-            next_link = json_data.get("@odata.nextLink")
+    while next_link:
+        response = requests.get(next_link, headers=headers)
+        json_data = response.json()
+        all_users += json_data['value']
+        next_link = json_data.get("@odata.nextLink")
 
     counter = 0
     user_count = len(all_users)
