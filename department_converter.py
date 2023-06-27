@@ -7,25 +7,25 @@ vm_vendors = ["Parallels International GmbH.",
 vm_models = ["Cloud PC Enterprise", "VirtualBox"]
 
 
-def check_virtual_device(device_record: typing.Dict) -> bool:
-    device_manufacturer = device_record['manufacturer']
+def is_virtual(device_info: typing.Dict) -> bool:
+    device_manufacturer = device_info['manufacturer']
     if device_manufacturer:
         if device_manufacturer in vm_vendors:
             return True
         else:
-            device_model = device_record['model']
+            device_model = device_info['model']
             for vm_model in vm_models:
                 if vm_model in device_model:
                     return True
     return False
 
 
-def create_device_object(device_record) -> Device:
-    device_is_managed = device_record['isManaged']
-    device_last_checkin_date = device_record['approximateLastSignInDateTime']
-    device_enrollment_type = device_record['enrollmentType']
+def create_device_object(device_info) -> Device:
+    device_is_managed = device_info['isManaged']
+    device_last_checkin_date = device_info['approximateLastSignInDateTime']
+    device_enrollment_type = device_info['enrollmentType']
 
-    device_os = device_record['operatingSystem']
+    device_os = device_info['operatingSystem']
 
     match device_os:
         case "MacOS":
@@ -58,7 +58,7 @@ def create_device_object(device_record) -> Device:
             device_group = "iPhone MDM"
 
         case "Linux":
-            if check_virtual_device(device_record):
+            if is_virtual(device_info):
                 device_type = "Virtual Machine"
                 device_group = "Virtual Linux"
             else:
@@ -74,7 +74,7 @@ def create_device_object(device_record) -> Device:
             else:
                 device_enrollment_type = "Azure AD Joined"
 
-            if check_virtual_device(device_record):
+            if is_virtual(device_info):
                 device_type = "Virtual Machine"
                 device_group = "Virtual Windows " + device_enrollment_type
             else:
@@ -92,8 +92,8 @@ def create_device_object(device_record) -> Device:
                 device_group = "Android MDM"
 
     device = Device(
-        id=device_record['id'],
-        name=device_record['displayName'],
+        id=device_info['id'],
+        name=device_info['displayName'],
         group=device_group,
         enrollment_type=device_enrollment_type,
         os=device_os,
