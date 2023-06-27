@@ -9,7 +9,7 @@ def get_users_from_API(headers):
     start = time.time()
     all_users = []
     
-    next_link = r"https://graph.microsoft.com/v1.0/users?$count=true&$filter=officeLocation+eq+'RU+Moscow'+and+onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
+    next_link = r"https://graph.microsoft.com/v1.0/users?$count=true&$filter=onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
 
     while next_link:
         response = requests.get(next_link, headers=headers)
