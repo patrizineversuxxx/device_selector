@@ -1,3 +1,4 @@
+from department_converter import get_data_from_json
 from сonfig import *
 from json_parser import *
 from ms_graph_data_grabber import *
