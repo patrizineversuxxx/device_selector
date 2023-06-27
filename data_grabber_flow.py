@@ -10,7 +10,7 @@ configuration = get_config()
 
 # Create request headers
 headers = connect_to_api(
-    connection_parameters=configuration.connection_parameters, device_flow=True)
+    connection_parameters=configuration.connection_parameters, device_flow=False)
 
 # Grabbing all of the users info from MS Graph
 users = get_users_from_API(headers=headers)
