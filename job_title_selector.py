@@ -14,7 +14,10 @@ def is_vip(job_title: str) -> bool:  # nneds to be rewritten to job_titles gotte
        "gm" in job_title or \
        "president" in job_title or \
        "director" in job_title or \
-            "clinical" in job_title:
+            "clinical" in job_title or \
+                  "vp" in job_title or \
+                    "emc" in job_title or \
+                        "Executive Admin Assistant" in job_title:
         return True
     else:
         return False
