@@ -66,7 +66,7 @@ def create_device_object(device_record) -> Device:
                 device_group = "Linux"
 
         case "Windows":
-            if not device_is_managed == "true":
+            if not device_is_managed is True:
                 return None
 
             if device_enrollment_type == "OnPremiseCoManaged":
