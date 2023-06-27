@@ -9,7 +9,7 @@ from ms_graph_connector import *
 
 # Reading the configuration files
 configuration = get_config()
-#'''
+'''
 # Creating a connection to API and saving requests headers
 headers = connect_to_api(
     connection_parameters=configuration.connection_parameters)
@@ -39,4 +39,4 @@ result = random_selection(selection_conditions=configuration.selection_condition
 
 # Saving the result in the xlsx table
 save_data_to_xlsx(result, configuration.file_paths['result_file'])
-'''
+
