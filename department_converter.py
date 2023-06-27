@@ -35,10 +35,10 @@ def assign_device_group(device_record):
             device_type = "Computer"
             device_enrollment_type = "Mac MDM"
             device_group = "Mac MDM"
-            
 
         case "iOS":
             device_type = "iPhone"
+            device_enrollment_type = "MAM"
             device_group = "iPhone MAM"
 
         case "IPad":
@@ -54,7 +54,6 @@ def assign_device_group(device_record):
             device_type = "iPhone"
             device_enrollment_type = "MDM"
             device_group = "iPhone MDM"
-            
 
         case "Linux":
             if check_virtual_device(device_record):
@@ -90,14 +89,15 @@ def assign_device_group(device_record):
                 device_enrollment_type = "MDM"
                 device_group = "Android MDM"
 
-    device = Device(id=device_record['id'],
-                    name=device_record['displayName'],
-                    group=device_group,
-                    enrollment_type=device_enrollment_type,
-                    os=device_os,
-                    type=device_type,
-                    last_checkin_date=device_last_checkin_date
-                    )
+    device = Device(
+        id=device_record['id'],
+        name=device_record['displayName'],
+        group=device_group,
+        enrollment_type=device_enrollment_type,
+        os=device_os,
+        type=device_type,
+        last_checkin_date=device_last_checkin_date
+    )
 
     return device
 
@@ -119,15 +119,16 @@ def get_data_from_json(users: typing.Dict) -> typing.Dict[str, Department]:
     for user_record in users:
         user_id = user_record['id']
 
-        user = User(id=user_id,
-                    name=user_record['displayName'],
-                    mail=user_record['mail'],
-                    manager_name=user_record['manager_name'],
-                    manager_mail=user_record['manager_mail'],
-                    job_title=user_record['jobTitle'],
-                    location=user_record['officeLocation'],
-                    device_list=[]
-                    )
+        user = User(
+            id=user_id,
+            name=user_record['displayName'],
+            mail=user_record['mail'],
+            manager_name=user_record['manager_name'],
+            manager_mail=user_record['manager_mail'],
+            job_title=user_record['jobTitle'],
+            location=user_record['officeLocation'],
+            device_list=[]
+        )
 
         user_map[user_id] = user
 
