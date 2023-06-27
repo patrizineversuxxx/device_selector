@@ -19,7 +19,7 @@ departmens = get_data_from_json(users)
 
 # Saving records in xlsx table
 save_data_to_xlsx_prepational_step(
-    departmens, configuration.file_paths["start_file"])
+    departmens, configuration.file_paths['start_file'])
 
 # Deleting records from previous table, which contains filtered job titles, and saves the result in the another xlsx file
 check_xlsx_for_vip(file_paths=configuration.file_paths)
