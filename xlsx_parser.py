@@ -17,11 +17,11 @@ def create_table_header(result_sheet):
     result_sheet.cell(row=1, column=12, value='Manager_mail')
     result_sheet.cell(row=1, column=13, value='Job_title')
     result_sheet.cell(row=1, column=14, value='Location')
-    result_sheet.cell(row=1, column=15, value='Department name')
-    result_sheet.cell(row=1, column=16, value='Cost center')
+    result_sheet.cell(row=1, column=15, value='Cost center')
+    result_sheet.cell(row=1, column=16, value='Department name')
 
 
-def create_table_row(result_sheet, row_counter, device, user, department_name, cost_center):
+def create_table_row(result_sheet, row_counter, device, user, department_name):
     result_sheet.cell(row=row_counter, column=1, value=device.name)
     result_sheet.cell(row=row_counter, column=2, value=device.id)
     result_sheet.cell(row=row_counter, column=3, value=device.group)
@@ -40,9 +40,9 @@ def create_table_row(result_sheet, row_counter, device, user, department_name, c
     result_sheet.cell(row=row_counter, column=13, value=user.job_title)
     result_sheet.cell(row=row_counter, column=14, value=user.location)
     result_sheet.cell(row=row_counter, column=15,
-                      value=department_name)
+                      value=user.cost_center)
     result_sheet.cell(row=row_counter, column=16,
-                      value=cost_center)
+                      value=department_name)
 
 
 def get_data_from_xlsx(path: str):
@@ -70,9 +70,9 @@ def get_data_from_xlsx(path: str):
         user_manager_mail = row[11].value
         user_job_title = row[12].value
         user_location = row[13].value
-
-        department_name = row[14].value
-        department_cost_center = row[15].value
+        user_cost_center = row[14].value
+        department_name  = row[15].value
+        
 
         device = Device(id=device_id, name=device_name, group=device_group,
                         os=device_os, enrollment_type=device_enrollment_type, type=device_type,
@@ -83,7 +83,7 @@ def get_data_from_xlsx(path: str):
 
         else:
             user = User(id=user_id, name=user_name, mail=user_mail, manager_name=user_manager_name, manager_mail=user_manager_mail,
-                        job_title=user_job_title, location=user_location, device_list=[device])
+                        job_title=user_job_title, location=user_location, cost_center=user_cost_center, device_list=[device])
             user_map[user.name] = user
 
             if department_name in department_map:
@@ -91,7 +91,7 @@ def get_data_from_xlsx(path: str):
 
             else:
                 department = Department(
-                    name=department_name, cost_center=department_cost_center, user_list=[user])
+                    name=department_name, user_list=[user])
                 department_map[department_name] = department
 
     return department_map, user_map
@@ -108,14 +108,13 @@ def save_data_to_xlsx_prepational_step(result_map, file_path):
     for department in result_map.values():
 
         department_name = department.name
-        cost_center = department.cost_center
 
         # Iterate over the set of user-device tuples
         for user in department.user_list:
             for device in user.device_list:
 
                 create_table_row(result_sheet, row_counter, device, user,
-                                 department_name, cost_center)
+                                 department_name)
                 row_counter += 1
 
     result_book.save(file_path)
@@ -140,7 +139,7 @@ def save_data_to_xlsx(result_map, path):
         user = list(user_device.keys())[0]
 
         create_table_row(result_sheet, row_counter, device, user,
-                         department_name, cost_center)
+                         department_name)
 
         row_counter += 1
 

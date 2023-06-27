@@ -150,7 +150,6 @@ def get_data_from_json(users: typing.Dict) -> typing.Dict[str, Department]:
         else:
             department_map[department_name] = Department(
                 name=department_name,
-                cost_center=0,
                 user_list=[user]
             )
 
