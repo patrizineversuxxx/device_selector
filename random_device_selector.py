@@ -68,25 +68,29 @@ def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dic
     for department in departments:
         department_target = check_department_target(
             department, selection_conditions)
+        
         if department in result_map:
             while len(result_map[department]) < department_target:
                 user = random.choice(department.user_list)
                 device = random.choice(user.device_list)
+
                 if device.group in needed:
                     if check_device_count(device.group, needed, requirements):
                         continue
-
                 else:
                     continue
+
                 result_map[department][user] = device
         else:
             user = random.choice(department.user_list)
             device = random.choice(user.device_list)
+
             if device.group in needed:
                 if check_device_count(device.group, needed, requirements):
                     continue
             else:
                 continue
+
             result_map[department] = {}
             result_map[department][user] = device
 

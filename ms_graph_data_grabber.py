@@ -5,7 +5,7 @@ from json_parser import *
 from random_device_selector import *
 
 
-def get_users_from_API(headers):
+def get_users_from_API(headers: typing.Dict) -> typing.Dict:
     start = time.time()
     all_users = []
     
@@ -60,7 +60,7 @@ def get_users_from_API(headers):
     return all_users
 
 
-def get_intune_devices_from_API(headers, naming_tags):
+def get_intune_devices_from_API(headers: typing.Dict, naming_tags: typing.Dict) -> typing.Dict:
     all_devices = []
 
     for naming_tag in naming_tags:
