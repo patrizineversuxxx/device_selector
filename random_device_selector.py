@@ -39,8 +39,8 @@ def get_minimal_group_devices(selection_conditions: typing.Dict, result_map: typ
     departments = list(department_map.values())
 
 
-def check_device_count(group: str, needed: typing.Dict, requerments: typing.Dict) -> bool:
-    if needed[group] >= requerments[group]:
+def check_device_count(group: str, needed: typing.Dict, requirements: typing.Dict) -> bool:
+    if needed[group] >= requirements[group]:
         return True
     else:
         needed[group] += 1
@@ -57,11 +57,11 @@ def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dic
     user_map = list(user_map.values())
     result_map = {}
 
-    requerments = selection_conditions['required']
+    requirements = selection_conditions['required']
 
     needed = {}
 
-    for key in requerments.keys():
+    for key in requirements.keys():
         needed[key] = 0
 
     # needs to be rewritten because of dict (d, dict) construction
@@ -73,7 +73,7 @@ def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dic
                 user = random.choice(department.user_list)
                 device = random.choice(user.device_list)
                 if device.group in needed:
-                    if check_device_count(device.group, needed, requerments):
+                    if check_device_count(device.group, needed, requirements):
                         continue
 
                 else:
@@ -83,7 +83,7 @@ def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dic
             user = random.choice(department.user_list)
             device = random.choice(user.device_list)
             if device.group in needed:
-                if check_device_count(device.group, needed, requerments):
+                if check_device_count(device.group, needed, requirements):
                     continue
             else:
                 continue

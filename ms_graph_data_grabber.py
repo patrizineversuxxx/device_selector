@@ -14,7 +14,7 @@ def get_users_from_API(headers):
     while next_link:
         response = requests.get(next_link, headers=headers)
         json_data = response.json()
-        all_users += json_data['value']
+        all_users += json_data["value"]
         next_link = json_data.get("@odata.nextLink")
 
     counter = 0
@@ -25,22 +25,22 @@ def get_users_from_API(headers):
     for user in all_users:
         if user.get('id'):
             manager_url = r'https://graph.microsoft.com/v1.0/users/' + \
-                user["id"]+r'/manager?$select=displayName,mail'
+                user['id']+r'/manager?$select=displayName,mail'
 
             manager_response = requests.get(manager_url, headers=headers)
             manager_data = manager_response.json()
 
-            user['manager_name'] = manager_data.get('displayName')
-            user['manager_mail'] = manager_data.get('mail')
+            user['manager_name'] = manager_data.get("displayName")
+            user['manager_mail'] = manager_data.get("mail")
 
             devices_url = r'https://graph.microsoft.com/v1.0/users/' + \
-                user["id"]+r'/ownedDevices?$select=displayName,id,enrollmentType,operatingSystem,' + \
+                user['id']+r'/ownedDevices?$select=displayName,id,enrollmentType,operatingSystem,' + \
                 r'isManaged,approximateLastSignInDateTime,manufacturer,model'
 
             devices_response = requests.get(devices_url, headers=headers)
             devices_data = devices_response.json()
 
-            user['devices'] = devices_data.get('value')
+            user['devices'] = devices_data.get("value")
 
             counter += 1
             progress = int(counter/persent)
