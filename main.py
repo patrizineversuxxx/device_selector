@@ -9,18 +9,8 @@ from ms_graph_connector import *
 
 # Reading the configuration files
 configuration = get_config()
-'''
-# Creating a connection to API and saving requests headers
-headers = connect_to_api(
-    connection_parameters=configuration.connection_parameters)
 
-# Grabbing all of the users info from MS Graph
-users = get_users_from_API(
-    headers=headers, office_locations=configuration.selection_conditions['office_locations'])
-#users = get_intune_devices_from_API(headers=headers, naming_tags=["EVN"])
-# Saving users info into the JSON file
-save_json(data=users, file_path='C:/KEK/kek.json')#file_path=configuration.file_paths['path_user'])
-'''
+#Open data grabbed from API
 users = open_json(configuration.file_paths['path_user'])
 
 # Creating departments from users and devices data
