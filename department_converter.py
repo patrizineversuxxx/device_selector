@@ -129,7 +129,7 @@ def get_data_from_json(users: typing.Dict) -> typing.Dict[str, Department]:
             manager_mail=user_record['manager_mail'],
             job_title=user_record['jobTitle'],
             location=user_record['officeLocation'],
-            cost_center=user_record['cost_center']
+            cost_center=user_record['cost_center'],
             device_list=[]
         )
 
