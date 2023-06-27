@@ -40,10 +40,14 @@ def assign_device_group(device_record):
             device_group = "iPhone MAM"
 
         case "IPad":
+            if device_enrollment_type == "null":
+                return None
             device_type = "iPad"
             device_group = "iPad MDM"
 
         case "IPhone":
+            if device_enrollment_type == "null":
+                return None
             device_type = "iPhone"
             device_group = "iPhone MDM"
 
