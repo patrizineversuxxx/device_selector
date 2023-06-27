@@ -48,13 +48,7 @@ def check_device_count(group: str, needed: typing.Dict, requirements: typing.Dic
 
 
 def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dict[Department, typing.Dict[User, Device]]:
-    data = get_data_from_xlsx(path)
-
-    department_map = data[0]
-    user_map = data[1]
-
-    departments = list(department_map.values())
-    user_map = list(user_map.values())
+    departments = get_data_from_xlsx(path)[0]
     result_map = {}
 
     requirements = selection_conditions['required']
@@ -65,7 +59,7 @@ def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dic
         needed[key] = 0
 
     # needs to be rewritten because of dict (d, dict) construction
-    for department in departments:
+    for department in departments.values():
         department_target = check_department_target(
             department, selection_conditions)
         
