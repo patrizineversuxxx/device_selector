@@ -25,7 +25,7 @@ class User:
     device_list: list[Device]
 
     def add_device(self, device: Device):
-        self._device_list.append(device)
+        self.device_list.append(device)
 
 
 @dataclass
@@ -34,4 +34,4 @@ class Department:
     user_list: list[User]
 
     def add_user(self, user: User):
-        self._user_list.append(user)
+        self.user_list.append(user)
