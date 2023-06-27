@@ -44,7 +44,7 @@ def create_device(device_info) -> Device:
         case "IPad":
             if device_enrollment_type == "null":
                 return None
-            
+
             device_type = "iPad"
             device_enrollment_type = "MDM"
             device_group = "iPad MDM"
@@ -52,7 +52,7 @@ def create_device(device_info) -> Device:
         case "IPhone":
             if device_enrollment_type == "null":
                 return None
-            
+
             device_type = "iPhone"
             device_enrollment_type = "MDM"
             device_group = "iPhone MDM"
@@ -118,32 +118,33 @@ def get_data_from_json(users: typing.Dict) -> typing.Dict[str, Department]:
     user_map = {}
 
     # Read all of the user records in the file
-    for user_record in users:
-        user_id = user_record['id']
+    for user_info in users:
+        if not user_info['devices']:
+            continue
+
+        user_id = user_info['id']
 
         user = User(
             id=user_id,
-            name=user_record['displayName'],
-            mail=user_record['mail'],
-            manager_name=user_record['manager_name'],
-            manager_mail=user_record['manager_mail'],
-            job_title=user_record['jobTitle'],
-            location=user_record['officeLocation'],
-            cost_center=user_record['cost_center'],
+            name=user_info['displayName'],
+            mail=user_info['mail'],
+            manager_name=user_info['manager_name'],
+            manager_mail=user_info['manager_mail'],
+            job_title=user_info['jobTitle'],
+            location=user_info['officeLocation'],
+            cost_center=user_info['cost_center'],
             device_list=[]
         )
 
         user_map[user_id] = user
 
-        if not user_record['devices']:
-            continue
-        for device_record in user_record['devices']:
+        for device_record in user_info['devices']:
             device = create_device(device_record)
             if device is None:
                 continue
             user.add_device(device)
 
-        department_name = user_record['department']
+        department_name = user_info['department']
 
         if department_name in department_map:
             department_map[department_name].add_user(user)
