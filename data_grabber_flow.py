@@ -8,6 +8,7 @@ from сonfig import get_config
 # Reading the configuration files
 configuration = get_config()
 
+# Create request headers
 headers = connect_to_api(
     connection_parameters=configuration.connection_parameters, device_flow=True)
 
