@@ -20,7 +20,7 @@ def is_virtual(device_info: typing.Dict) -> bool:
     return False
 
 
-def create_device_object(device_info) -> Device:
+def create_device(device_info) -> Device:
     device_is_managed = device_info['isManaged']
     device_last_checkin_date = device_info['approximateLastSignInDateTime']
     device_enrollment_type = device_info['enrollmentType']
@@ -138,7 +138,7 @@ def get_data_from_json(users: typing.Dict) -> typing.Dict[str, Department]:
         if not user_record['devices']:
             continue
         for device_record in user_record['devices']:
-            device = create_device_object(device_record)
+            device = create_device(device_record)
             if device is None:
                 continue
             user.add_device(device)
