@@ -10,7 +10,8 @@ def get_users_from_API(headers, office_locations):
     all_users = []
 
     for office_location in office_locations:
-        next_link = r"https://graph.microsoft.com/v1.0/users?$count=true&$filter=onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
+        next_link = r"https://graph.microsoft.com/v1.0/users?$count=true&$filter=officeLocation+eq+'RU+Moscow'+and+onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
+        #next_link
         while next_link:
             response = requests.get(next_link, headers=headers)
             json_data = response.json()
@@ -34,7 +35,7 @@ def get_users_from_API(headers, office_locations):
             user['manager_mail'] = manager_data.get('mail')
 
             devices_url = r'https://graph.microsoft.com/v1.0/users/' + \
-                user["id"]+r'/ownedDevices?$count=true&$filter=isManaged+ne+false&$select=displayName,id,enrollmentType,operatingSystem,' + \
+                user["id"]+r'/ownedDevices?$select=displayName,id,enrollmentType,operatingSystem,' + \
                 r'isManaged,approximateLastSignInDateTime,manufacturer,model'
 
             devices_response = requests.get(devices_url, headers=headers)
