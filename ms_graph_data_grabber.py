@@ -9,7 +9,7 @@ def get_users_from_API(headers):
     start = time.time()
     all_users = []
     
-    next_link = r"https://graph.microsoft.com/v1.0/users?$count=true&$filter=onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
+    next_link = r"https://graph.microsoft.com/beta/users?$count=true&$filter=onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department"
 
     while next_link:
         response = requests.get(next_link, headers=headers)
@@ -24,7 +24,7 @@ def get_users_from_API(headers):
 
     for user in all_users:
         if user.get('id'):
-            manager_url = r'https://graph.microsoft.com/v1.0/users/' + \
+            manager_url = r'https://graph.microsoft.com/beta/users/' + \
                 user['id']+r'/manager?$select=displayName,mail'
 
             manager_response = requests.get(manager_url, headers=headers)
@@ -33,7 +33,7 @@ def get_users_from_API(headers):
             user['manager_name'] = manager_data.get("displayName")
             user['manager_mail'] = manager_data.get("mail")
 
-            devices_url = r'https://graph.microsoft.com/v1.0/users/' + \
+            devices_url = r'https://graph.microsoft.com/beta/users/' + \
                 user['id']+r'/ownedDevices?$select=displayName,id,enrollmentType,operatingSystem,' + \
                 r'isManaged,approximateLastSignInDateTime,manufacturer,model'
 
