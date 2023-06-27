@@ -76,10 +76,10 @@ def create_device_object(device_record) -> Device:
 
             if check_virtual_device(device_record):
                 device_type = "Virtual Machine"
-                device_group = "Virtual Windows" + device_enrollment_type
+                device_group = "Virtual Windows " + device_enrollment_type
             else:
                 device_type = "Computer"
-                device_group = "Windows" + device_enrollment_type
+                device_group = "Windows " + device_enrollment_type
 
         case _:
             device_type = "Android"
