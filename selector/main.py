@@ -2,7 +2,7 @@ from department_converter import get_data_from_json as kek
 from file_recorder.json_parser import *
 from file_recorder.xlsx_parser import *
 from job_title_selector import *
-from device_selector import *
+from random_device_selector import *
 from сonfig import get_config
 
 

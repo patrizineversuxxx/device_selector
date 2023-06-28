@@ -1,6 +1,5 @@
 import json
 import typing
-from entities import *
 
 
 def open_json(path: str) -> typing.Dict[str, typing.Any]:
