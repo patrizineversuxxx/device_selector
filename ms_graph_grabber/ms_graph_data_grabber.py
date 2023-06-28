@@ -1,7 +1,7 @@
 import time
 import requests
-from entities import *
-from json_parser import *
+from model.entities import *
+from file_recorder.json_parser import *
 
 
 def get_users_from_API(headers: typing.Dict) -> typing.Dict:
