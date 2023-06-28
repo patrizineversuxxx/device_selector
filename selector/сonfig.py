@@ -1,5 +1,5 @@
 import typing
-from json_parser import open_json
+from file_recorder.json_parser import open_json
 
 
 class Config:
@@ -29,9 +29,9 @@ class Config:
 
 def get_config():
     # Reading all of the configurational files
-    connection_parameters = open_json("config.json")
-    file_paths = open_json("file_paths.json")
-    selection_conditions = open_json("selection_conditions.json")
+    connection_parameters = open_json(r"config_files\config.json")
+    file_paths = open_json(r"config_files\file_paths.json")
+    selection_conditions = open_json(r"config_files\selection_conditions.json")
 
     # Creating an entity for using configurational parameters
     return Config(
