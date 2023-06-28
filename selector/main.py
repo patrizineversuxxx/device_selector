@@ -1,11 +1,9 @@
-from department_converter import get_data_from_json
-from сonfig import *
-from json_parser import *
-from ms_graph_data_grabber import *
+from department_converter import get_data_from_json as kek
+from file_recorder.json_parser import *
+from file_recorder.xlsx_parser import *
 from job_title_selector import *
-from entities import *
-from random_device_selector import *
-from ms_graph_connector import *
+from device_selector import *
+from сonfig import get_config
 
 
 # Reading the configuration files
@@ -15,7 +13,7 @@ configuration = get_config()
 users = open_json(configuration.file_paths['path_user'])
 
 # Creating departments from users and devices data
-departmens = get_data_from_json(users)
+departmens = kek.get_data_from_json(users)
 
 # Saving records in xlsx table
 save_data_to_xlsx_prepational_step(

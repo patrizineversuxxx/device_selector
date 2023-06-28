@@ -1,2 +1,2 @@
-cd C:\KEK\Python\PilotTool\device_selector
+cd C:\KEK\Python\PilotTool\device_selector\ms_graph_grabber
 python scheduler.py

@@ -2,7 +2,6 @@ import time
 import requests
 from entities import *
 from json_parser import *
-from random_device_selector import *
 
 
 def get_users_from_API(headers: typing.Dict) -> typing.Dict:
