@@ -14,6 +14,7 @@ def data_grabber_flow():
         connection_parameters=configuration.connection_parameters)
 
     print("Connection established!")
+    
     # Grabbing all of the users info from MS Graph
     users = get_users_from_API(headers=headers)
 

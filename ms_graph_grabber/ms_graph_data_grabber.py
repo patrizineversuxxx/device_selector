@@ -18,6 +18,9 @@ def get_users_from_API(headers: typing.Dict) -> typing.Dict:
 
     counter = 0
     user_count = len(all_users)
+
+    print("Today we have ", user_count, "users")
+    
     persent = user_count/100
     prev_progress = 0
 
