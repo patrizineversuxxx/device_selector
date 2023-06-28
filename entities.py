@@ -1,37 +1,38 @@
-from attr import dataclass
+from dataclasses import dataclass, field
+from typing import List
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class Device:
-    id: str
-    name: str
-    group: str
-    enrollment_type: str
-    os: str
-    type: str
-    last_checkin_date: str
+    id: str = field(hash=True)
+    name: str = field(hash=True)
+    group: str = field(hash=True)
+    enrollment_type: str = field(hash=True)
+    os: str = field(hash=True)
+    type: str = field(hash=True)
+    last_checkin_date: str = field(hash=True)
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class User:
-    id: str
-    name: str
-    mail: str
-    manager_name: str
-    manager_mail: str
-    job_title: str
-    location: str
-    cost_center: int
-    device_list: list[Device]
+    id: str = field(hash=True)
+    name: str = field(hash=True)
+    mail: str = field(hash=True)
+    manager_name: str = field(hash=True)
+    manager_mail: str = field(hash=True)
+    job_title: str = field(hash=True)
+    location: str = field(hash=True)
+    cost_center: int = field(hash=True)
+    device_list: List[Device] = field(default_factory=list, init=True, compare=False, hash=False)
 
     def add_device(self, device: Device):
         self.device_list.append(device)
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class Department:
-    name: str
-    user_list: list[User]
+    name: str = field(hash=True)
+    user_list: List[Device] = field(default_factory=list, init=True, compare=False, hash=False)
 
     def add_user(self, user: User):
         self.user_list.append(user)
