@@ -1,6 +1,6 @@
 import typing
 
-from entities import *
+from model.entities import *
 
 vm_vendors = ["Parallels International GmbH.",
               "Parallels Software International Inc.", "VMware, Inc."]

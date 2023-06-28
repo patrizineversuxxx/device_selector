@@ -1,31 +1,29 @@
-from department_converter import get_data_from_json as kek
+from model.department_converter import get_data_from_json
 from file_recorder.json_parser import *
 from file_recorder.xlsx_parser import *
-from job_title_selector import *
-from random_device_selector import *
-from сonfig import get_config
+from selector.job_title_selector import *
+from selector.random_device_selector import *
+from selector.сonfig import *
 
 
-# Reading the configuration files
-configuration = get_config()
+def device_selector_flow(configuration: Config):
+    # Open data grabbed from API
+    users = open_json(configuration.file_paths['path_user'])
 
-# Open data grabbed from API
-users = open_json(configuration.file_paths['path_user'])
+    # Creating departments from users and devices data
+    departmens = get_data_from_json(users)
 
-# Creating departments from users and devices data
-departmens = kek.get_data_from_json(users)
+    # Saving records in xlsx table
+    save_data_to_xlsx_prepational_step(
+        departmens, configuration.file_paths['start_file'])
 
-# Saving records in xlsx table
-save_data_to_xlsx_prepational_step(
-    departmens, configuration.file_paths['start_file'])
+    # Deleting records from previous table, which contains filtered job titles, and saves the result in the another xlsx file
+    check_xlsx_for_vip(file_paths=configuration.file_paths)
 
-# Deleting records from previous table, which contains filtered job titles, and saves the result in the another xlsx file
-check_xlsx_for_vip(file_paths=configuration.file_paths)
+    # Randomly selecting needed devices using user's conditions
+    result = random_selection(selection_conditions=configuration.selection_conditions,
+                            path=configuration.file_paths['middle_file'])
 
-# Randomly selecting needed devices using user's conditions
-result = random_selection(selection_conditions=configuration.selection_conditions,
-                          path=configuration.file_paths['middle_file'])
-
-# Saving the result in the xlsx table
-save_data_to_xlsx(result, configuration.file_paths['result_file'])
+    # Saving the result in the xlsx table
+    save_data_to_xlsx(result, configuration.file_paths['result_file'])
 

@@ -1,7 +1,7 @@
 import random
-from entities import *
-from json_parser import *
-from xlsx_parser import *
+from model.entities import *
+from file_recorder.json_parser import *
+from file_recorder.xlsx_parser import *
 
 
 def check_department_target(department: Department, params: typing.Dict) -> int:
