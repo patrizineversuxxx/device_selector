@@ -44,7 +44,6 @@ def get_users_from_API(headers: typing.Dict) -> typing.Dict:
         all_users += json_data["value"]
         next_link = json_data.get("@odata.nextLink")
 
-    counter = 0
     user_count = len(all_users)
 
     print("Today we have ", user_count, "users")
