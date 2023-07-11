@@ -7,8 +7,7 @@ vm_vendors = ["Parallels International GmbH.",
               "Parallels Software International Inc.", "VMware, Inc."]
 vm_models = ["Cloud PC Enterprise", "VirtualBox"]
 
-def get_affected_users_and_devices():
-    affected_groups = open_json("C:\KEK\KEK_Affected_Users.json")
+def parse_affected(affected_groups: typing.Dict):
     affected_users = {}
     affected_devices = {}
     for affected_group in affected_groups:
