@@ -85,3 +85,19 @@ def get_intune_devices_from_API(headers: typing.Dict, naming_tags: typing.Dict) 
             next_link = json_data.get("@odata.nextLink")
 
     return all_devices
+
+def get_affected_users(headers: typing.Dict) -> typing.Dict:
+    all_users = []
+    naming_tags = ["POC", "UAT", "_test_vneskorodov", "pilot"]
+    for naming_tag in naming_tags:
+        next_link = r"https://graph.microsoft.com/beta/groups?filter=startsWith(displayName,'" + \
+        naming_tag + \
+        "')&$expand=members"
+
+        while next_link:
+            response = requests.get(next_link, headers=headers)
+            json_data = response.json()
+            all_users += json_data['value']
+            next_link = json_data.get("@odata.nextLink")
+
+    return all_users

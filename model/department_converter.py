@@ -1,3 +1,4 @@
+from file_recorder.json_parser import open_json
 import typing
 
 from model.entities import *
@@ -5,6 +6,18 @@ from model.entities import *
 vm_vendors = ["Parallels International GmbH.",
               "Parallels Software International Inc.", "VMware, Inc."]
 vm_models = ["Cloud PC Enterprise", "VirtualBox"]
+
+def get_affected_users_and_devices():
+    affected_groups = open_json("C:\KEK\KEK_Affected_Users.json")
+    affected_users = {}
+    affected_devices = {}
+    for affected_group in affected_groups:
+        for member in affected_group['members']:
+            if member['@odata.type'] == "#microsoft.graph.user":
+                affected_users[member['id']] = affected_group['displayName']
+            if member['@odata.type'] == "#microsoft.graph.device":
+                affected_devices[member['id']] = affected_group['displayName']
+    return affected_users, affected_devices
 
 
 def is_virtual(device_info: typing.Dict) -> bool:
