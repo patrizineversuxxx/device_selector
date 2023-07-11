@@ -49,6 +49,22 @@ def check_device_count(group: str, needed: typing.Dict, requirements: typing.Dic
 
 def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dict[Department, typing.Dict[User, Device]]:
     departments = get_data_from_xlsx(path)[0]
+
+    toRemove = []
+
+    for department in departments.values():
+        i = 0
+        while(i < len(department.user_list)):
+            if department.user_list[i].location in selection_conditions['office_locations']:
+                i+=1
+            else:
+                department.user_list.pop(i)
+        if len(department.user_list) == 0:
+            toRemove.append(department.name)
+
+    for key in toRemove:
+        departments.pop(key)
+
     result_map = {}
 
     requirements = selection_conditions['required']
