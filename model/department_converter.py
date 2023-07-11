@@ -14,9 +14,10 @@ def is_virtual(device_info: typing.Dict) -> bool:
             return True
         else:
             device_model = device_info['model']
-            for vm_model in vm_models:
-                if vm_model in device_model:
-                    return True
+            if device_model:
+                for vm_model in vm_models:
+                    if vm_model in device_model:
+                        return True
     return False
 
 
