@@ -55,7 +55,7 @@ def create_device(device_info, device_affected) -> Device:
             device_group = "iPhone MAM"
 
         case "IPad":
-            if device_enrollment_type == "null":
+            if device_enrollment_type  is None:
                 return None
 
             device_type = "iPad"
@@ -63,7 +63,7 @@ def create_device(device_info, device_affected) -> Device:
             device_group = "iPad MDM"
 
         case "IPhone":
-            if device_enrollment_type == "null":
+            if device_enrollment_type  is None:
                 return None
 
             device_type = "iPhone"
@@ -97,7 +97,7 @@ def create_device(device_info, device_affected) -> Device:
         case _:
             device_type = "Android"
 
-            if device_enrollment_type == "null":
+            if device_enrollment_type is None:
                 device_enrollment_type = "MAM"
                 device_group = "Android MAM"
             else:
