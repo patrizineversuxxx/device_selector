@@ -55,10 +55,23 @@ def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dic
     for department in departments.values():
         i = 0
         while(i < len(department.user_list)):
-            if department.user_list[i].location in selection_conditions['office_locations']:
-                i+=1
-            else:
+            is_affected = False
+
+            if not department.user_list[i].location in selection_conditions['office_locations']:
                 department.user_list.pop(i)
+                continue
+            if not department.user_list[i].affected is None:
+                department.user_list.pop(i)
+                continue
+            else:
+                for device in department.user_list[i].device_list:
+                    if not device.affected is None:
+                        department.user_list.pop(i)
+                        is_affected = True
+                        break
+                if (is_affected):
+                    continue
+            i+=1
         if len(department.user_list) == 0:
             toRemove.append(department.name)
 

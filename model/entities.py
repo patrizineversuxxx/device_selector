@@ -5,6 +5,7 @@ from typing import List
 @dataclass(unsafe_hash=True)
 class Device:
     id: str = field(hash=True)
+    affected: str = field(hash=True)
     name: str = field(hash=True)
     group: str = field(hash=True)
     enrollment_type: str = field(hash=True)
@@ -16,6 +17,7 @@ class Device:
 @dataclass(unsafe_hash=True)
 class User:
     id: str = field(hash=True)
+    affected: str = field(hash=True)
     name: str = field(hash=True)
     mail: str = field(hash=True)
     manager_name: str = field(hash=True)

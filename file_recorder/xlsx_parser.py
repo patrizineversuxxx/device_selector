@@ -19,6 +19,8 @@ def create_table_header(result_sheet):
     result_sheet.cell(row=1, column=14, value='Location')
     result_sheet.cell(row=1, column=15, value='Cost center')
     result_sheet.cell(row=1, column=16, value='Department name')
+    result_sheet.cell(row=1, column=17, value='Current Device Pilot Group')
+    result_sheet.cell(row=1, column=18, value='Current User Pilot Group')
 
 
 def create_table_row(result_sheet, row_counter, device, user, department_name):
@@ -43,6 +45,10 @@ def create_table_row(result_sheet, row_counter, device, user, department_name):
                       value=user.cost_center)
     result_sheet.cell(row=row_counter, column=16,
                       value=department_name)
+    result_sheet.cell(row=row_counter, column=17,
+                      value=device.affected)
+    result_sheet.cell(row=row_counter, column=18,
+                      value=user.affected)
 
 
 def get_data_from_xlsx(path: str):
@@ -72,9 +78,10 @@ def get_data_from_xlsx(path: str):
         user_location = row[13].value
         user_cost_center = row[14].value
         department_name  = row[15].value
-        
+        device_affected  = row[16].value
+        user_affected  = row[17].value
 
-        device = Device(id=device_id, name=device_name, group=device_group,
+        device = Device(id=device_id, affected=device_affected,name=device_name, group=device_group,
                         os=device_os, enrollment_type=device_enrollment_type, type=device_type,
                         last_checkin_date=device_last_checkin_date)
 
@@ -82,7 +89,7 @@ def get_data_from_xlsx(path: str):
             user_map[user_name].add_device(device)
 
         else:
-            user = User(id=user_id, name=user_name, mail=user_mail, manager_name=user_manager_name, manager_mail=user_manager_mail,
+            user = User(id=user_id, affected=user_affected,name=user_name, mail=user_mail, manager_name=user_manager_name, manager_mail=user_manager_mail,
                         job_title=user_job_title, location=user_location, cost_center=user_cost_center, device_list=[device])
             user_map[user.name] = user
 
