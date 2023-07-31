@@ -22,6 +22,9 @@ Project is created with:
 ## Setup
 For using this product you need to have:
 * Azure Active Directory license
+* Administrator rights to create app registration and grant admin permissions to the app
+* Python 3.10
+* Installed libraries MSAL, Openpyxl, Schedule
 
 After cloning the repository you should create folder for configurational files. Later you need to create these files:
 * config.json - file, where tenant connection information will be stored
