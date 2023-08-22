@@ -1,10 +1,10 @@
 import time
 import requests
 import concurrent.futures
-from file_recorder.json_parser import *
+import typing
 
-naming_tags = ["POC", "UAT", "_test_vneskorodov", "pilot"]
 
+PILOT_GROUPS_NAMING_TAGS = ("POC", "UAT", "_test_vneskorodov", "pilot")
 
 def invoke_cost_center(user: typing.Dict):
     user['cost_center'] = user.get(
@@ -72,7 +72,7 @@ def get_users_from_API(headers: typing.Dict) -> typing.Dict:
 
 def get_affected_users(headers: typing.Dict) -> typing.Dict:
     all_users = []
-    for naming_tag in naming_tags:
+    for naming_tag in PILOT_GROUPS_NAMING_TAGS:
         next_link = f"https://graph.microsoft.com/beta/groups?filter=startsWith(displayName,'{naming_tag}')&$expand=members"
 
         while next_link:
