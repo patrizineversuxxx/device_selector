@@ -3,6 +3,8 @@ import requests
 import concurrent.futures
 from file_recorder.json_parser import *
 
+naming_tags = ["POC", "UAT", "_test_vneskorodov", "pilot"]
+
 
 def invoke_cost_center(user: typing.Dict):
     user['cost_center'] = user.get(
@@ -41,7 +43,7 @@ def get_users_from_API(headers: typing.Dict) -> typing.Dict:
     start = time.time()
     all_users = []
 
-    next_link = r"https://graph.microsoft.com/beta/users?$count=true&$filter=onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department,onPremisesExtensionAttributes"
+    next_link = "https://graph.microsoft.com/beta/users?$count=true&$filter=onPremisesExtensionAttributes/extensionAttribute11+eq+'Employee'+and+accountEnabled+eq+true&$select=id,displayName,mail,jobTitle,officeLocation,department,onPremisesExtensionAttributes"
 
     while next_link:
         response = requests.get(next_link, headers=headers)
@@ -65,34 +67,18 @@ def get_users_from_API(headers: typing.Dict) -> typing.Dict:
 
     end = time.time()
     print("Data grabbing completed!", user_count)
-    print("Grabbing process took ", end-start)
+    print("Grabbing process took ", (end-start)//60)
     print(start)
     print(end)
     return all_users
 
 
-def get_intune_devices_from_API(headers: typing.Dict, naming_tags: typing.Dict) -> typing.Dict:
-    all_devices = []
-
-    for naming_tag in naming_tags:
-        next_link = r"https://graph.microsoft.com/beta/deviceManagement/managedDevices?$filter=startswith(devicename,'"+naming_tag + \
-            r"')&select=devicename,userid,azureActiveDirectoryDeviceId,deviceEnrollmentType,operatingSystem,usersLoggedOn"
-
-        while next_link:
-            response = requests.get(next_link, headers=headers)
-            json_data = response.json()
-            all_devices += json_data['value']
-            next_link = json_data.get("@odata.nextLink")
-
-    return all_devices
-
 def get_affected_users(headers: typing.Dict) -> typing.Dict:
     all_users = []
-    naming_tags = ["POC", "UAT", "_test_vneskorodov", "pilot"]
     for naming_tag in naming_tags:
         next_link = r"https://graph.microsoft.com/beta/groups?filter=startsWith(displayName,'" + \
-        naming_tag + \
-        "')&$expand=members"
+            naming_tag + \
+            "')&$expand=members"
 
         while next_link:
             response = requests.get(next_link, headers=headers)
