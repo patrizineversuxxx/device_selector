@@ -20,26 +20,21 @@ def fetch_data(url: str, headers: typing.Dict) -> typing.Dict:
     return response.json()
 
 
-def fetch_manager_info(headers: typing.Dict, user: typing.Dict):
-    manager_url = f"{API_BASE_URL}/users/{user['id']}/manager?$select=displayName,mail"
-    return fetch_data(manager_url, headers)
-
-
-def fetch_devices_info(headers: typing.Dict, user: typing.Dict):
-    devices_url = f"{API_BASE_URL}/users/{user['id']}/ownedDevices?$select=displayName,id,enrollmentType,operatingSystem,isManaged,approximateLastSignInDateTime,manufacturer,model"
-    return fetch_data(devices_url, headers)
-
-
 # Data processing functions
 def process_user_data(headers: typing.Dict, user: typing.Dict):
     user['cost_center'] = user.get(
         "onPremisesExtensionAttributes").get("extensionAttribute15")
     del user['onPremisesExtensionAttributes']
-    manager_data = fetch_manager_info(user['id'], headers)
+
+    # Fetch manager info directly here
+    manager_url = f"{API_BASE_URL}/users/{user['id']}/manager?$select=displayName,mail"
+    manager_data = fetch_data(manager_url, headers)
     user['manager_name'] = manager_data.get('displayName')
     user['manager_mail'] = manager_data.get('mail')
 
-    devices_data = fetch_devices_info(user['id'], headers)
+    # Fetch devices info directly here
+    devices_url = f"{API_BASE_URL}/users/{user['id']}/ownedDevices?$select=displayName,id,enrollmentType,operatingSystem,isManaged,approximateLastSignInDateTime,manufacturer,model"
+    devices_data = fetch_data(devices_url, headers)
     user['devices'] = devices_data.get('value')
 
 
