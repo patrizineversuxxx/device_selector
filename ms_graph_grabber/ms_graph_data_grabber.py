@@ -13,8 +13,7 @@ def invoke_cost_center(user: typing.Dict):
 
 
 def fetch_manager_info(headers: typing.Dict, user: typing.Dict):
-    manager_url = r'https://graph.microsoft.com/beta/users/' + \
-        user['id']+r'/manager?$select=displayName,mail'
+    manager_url = f'https://graph.microsoft.com/beta/users/{user["id"]}/manager?$select=displayName,mail'
 
     manager_response = requests.get(manager_url, headers=headers)
     manager_data = manager_response.json()
@@ -24,9 +23,7 @@ def fetch_manager_info(headers: typing.Dict, user: typing.Dict):
 
 
 def fetch_devices_info(headers: typing.Dict, user: typing.Dict):
-    devices_url = r'https://graph.microsoft.com/beta/users/' + \
-        user['id']+r'/ownedDevices?$select=displayName,id,enrollmentType,operatingSystem,' + \
-        r'isManaged,approximateLastSignInDateTime,manufacturer,model'
+    devices_url = f'https://graph.microsoft.com/beta/users/{user["id"]}/ownedDevices?$select=displayName,id,enrollmentType,operatingSystem,isManaged,approximateLastSignInDateTime,manufacturer,model'
 
     devices_response = requests.get(devices_url, headers=headers)
     devices_data = devices_response.json()
@@ -76,9 +73,7 @@ def get_users_from_API(headers: typing.Dict) -> typing.Dict:
 def get_affected_users(headers: typing.Dict) -> typing.Dict:
     all_users = []
     for naming_tag in naming_tags:
-        next_link = r"https://graph.microsoft.com/beta/groups?filter=startsWith(displayName,'" + \
-            naming_tag + \
-            "')&$expand=members"
+        next_link = f"https://graph.microsoft.com/beta/groups?filter=startsWith(displayName,'{naming_tag}')&$expand=members"
 
         while next_link:
             response = requests.get(next_link, headers=headers)
