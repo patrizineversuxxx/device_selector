@@ -11,6 +11,11 @@ def invoke_cost_center(user: typing.Dict):
         "onPremisesExtensionAttributes").get("extensionAttribute15")
     del user['onPremisesExtensionAttributes']
 
+def format_time(seconds: float) -> str:
+    minutes = seconds // 60
+    seconds %= 60
+    return f"{minutes:.0f} minutes {seconds:.2f} seconds"
+
 
 def fetch_manager_info(headers: typing.Dict, user: typing.Dict):
     manager_url = f'https://graph.microsoft.com/beta/users/{user["id"]}/manager?$select=displayName,mail'
@@ -64,7 +69,8 @@ def get_users_from_API(headers: typing.Dict) -> typing.Dict:
 
     end = time.time()
     print("Data grabbing completed!", user_count)
-    print("Grabbing process took ", (end-start)//60)
+    elapsed_time = (end - start)
+    print("Grabbing process took", format_time(elapsed_time))
     print(start)
     print(end)
     return all_users
