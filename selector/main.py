@@ -9,9 +9,10 @@ from selector.сonfig import *
 def device_selector_flow(configuration: Config):
     # Open data grabbed from API
     users = open_json(configuration.file_paths['path_user'])
+    affected = open_json(configuration.file_paths['path_affected'])
 
     # Creating departments from users and devices data
-    departmens = get_data_from_json(users)
+    departmens = get_data_from_json(users, affected)
 
     # Saving records in xlsx table
     save_data_to_xlsx_prepational_step(

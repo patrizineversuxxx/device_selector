@@ -13,7 +13,7 @@ def open_json(path: str) -> typing.Dict[str, typing.Any]:
         A dictionary representing the contents of the JSON file.
     """
     with open(path) as file:
-        data = json.load(file)
+        data = json.loads(file.read())
     return data
 
 

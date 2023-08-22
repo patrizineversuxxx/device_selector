@@ -33,7 +33,7 @@ def is_virtual(device_info: typing.Dict) -> bool:
     return False
 
 
-def create_device(device_info) -> Device:
+def create_device(device_info, device_affected) -> Device:
     device_is_managed = device_info['isManaged']
     device_last_checkin_date = device_info['approximateLastSignInDateTime']
     device_enrollment_type = device_info['enrollmentType']
@@ -55,7 +55,7 @@ def create_device(device_info) -> Device:
             device_group = "iPhone MAM"
 
         case "IPad":
-            if device_enrollment_type == "null":
+            if device_enrollment_type  is None:
                 return None
 
             device_type = "iPad"
@@ -63,7 +63,7 @@ def create_device(device_info) -> Device:
             device_group = "iPad MDM"
 
         case "IPhone":
-            if device_enrollment_type == "null":
+            if device_enrollment_type  is None:
                 return None
 
             device_type = "iPhone"
@@ -97,7 +97,7 @@ def create_device(device_info) -> Device:
         case _:
             device_type = "Android"
 
-            if device_enrollment_type == "null":
+            if device_enrollment_type is None:
                 device_enrollment_type = "MAM"
                 device_group = "Android MAM"
             else:
@@ -106,6 +106,7 @@ def create_device(device_info) -> Device:
 
     device = Device(
         id=device_info['id'],
+        affected=device_affected,
         name=device_info['displayName'],
         group=device_group,
         enrollment_type=device_enrollment_type,
@@ -117,7 +118,7 @@ def create_device(device_info) -> Device:
     return device
 
 
-def get_data_from_json(users: typing.Dict) -> typing.Dict[str, Department]:
+def get_data_from_json(users: typing.Dict, affected: typing.Dict) -> typing.Dict[str, Department]:
     """
     Parses user and device data from JSON files and creates Department objects.
 
@@ -136,9 +137,14 @@ def get_data_from_json(users: typing.Dict) -> typing.Dict[str, Department]:
             continue
 
         user_id = user_info['id']
+        user_affected = ""
+
+        if user_id in affected[0]:
+            user_affected = affected[0][user_id]
 
         user = User(
             id=user_id,
+            affected=user_affected,
             name=user_info['displayName'],
             mail=user_info['mail'],
             manager_name=user_info['manager_name'],
@@ -152,7 +158,12 @@ def get_data_from_json(users: typing.Dict) -> typing.Dict[str, Department]:
         user_map[user_id] = user
 
         for device_record in user_info['devices']:
-            device = create_device(device_record)
+            device_affected = ""
+            device_id = device_record['id']
+            if device_id in affected[1]:
+                device_affected = affected[1][device_id]
+            
+            device = create_device(device_record, device_affected)
             if device is None:
                 continue
             user.add_device(device)
