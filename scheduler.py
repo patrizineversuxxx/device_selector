@@ -40,6 +40,7 @@ def main():
 
         while True:
             schedule.run_pending()
+            logging.info(f"Data grabbing process started at {LAUNCH_TIME}")
             time.sleep(1)
     except KeyboardInterrupt:
         logging.info("Script stopped by user.")
