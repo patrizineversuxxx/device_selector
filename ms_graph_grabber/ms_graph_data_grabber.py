@@ -59,7 +59,7 @@ def get_users_from_API(headers: typing.Dict) -> typing.Dict:
     while next_link:
         json_data = fetch_data(next_link, headers=headers)
         all_users += json_data['value']
-        next_link = json_data['@odata.nextLink']
+        next_link = json_data.get('@odata.nextLink')
 
     user_count = len(all_users)
 
@@ -90,5 +90,5 @@ def get_affected_users(headers: typing.Dict) -> typing.Dict:
         while next_link:
             json_data = fetch_data(next_link, headers=headers)
             all_users += json_data['value']
-            next_link = json_data['@odata.nextLink']
+            next_link = json_data.get('@odata.nextLink')
     return all_users
