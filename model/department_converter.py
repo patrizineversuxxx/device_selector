@@ -6,6 +6,7 @@ vm_vendors = ["Parallels International GmbH.",
               "Parallels Software International Inc.", "VMware, Inc."]
 vm_models = ["Cloud PC Enterprise", "VirtualBox"]
 
+
 def parse_affected(affected_groups: typing.Dict):
     """
     Parses the affected users and devices from affected_groups data.
@@ -66,23 +67,25 @@ def create_device(device_info, device_affected) -> Device:
     device_enrollment_type = device_info['enrollmentType']
 
     device_os = device_info['operatingSystem']
-
+    # Right here, device will have
     match device_os:
+        # This means, that MacOS device is not managed by organisation and couldn't participate in Pilot groups
         case "MacOS":
             return None
-
+        # This means, that MacOS device is managed by organisation
         case "MacMDM":
             device_type = "Computer"
             device_enrollment_type = "Mac MDM"
             device_group = "Mac MDM"
-
+        # This means, that iOS device is managed by organisation
         case "iOS":
             device_type = "iPhone"
             device_enrollment_type = "MAM"
             device_group = "iPhone MAM"
 
         case "IPad":
-            if device_enrollment_type  is None:
+            # This means, that iOS device isn't managed by organisation
+            if device_enrollment_type is None:
                 return None
 
             device_type = "iPad"
@@ -90,7 +93,8 @@ def create_device(device_info, device_affected) -> Device:
             device_group = "iPad MDM"
 
         case "IPhone":
-            if device_enrollment_type  is None:
+            # This means, that iOS device isn't managed by organisation
+            if device_enrollment_type is None:
                 return None
 
             device_type = "iPhone"
@@ -106,6 +110,7 @@ def create_device(device_info, device_affected) -> Device:
                 device_group = "Linux"
 
         case "Windows":
+            # This means, that Windows device isn't managed by organisation
             if not device_is_managed is True:
                 return None
 
@@ -131,6 +136,7 @@ def create_device(device_info, device_affected) -> Device:
                 device_enrollment_type = "MDM"
                 device_group = "Android MDM"
 
+    # Creating Device object after assigning groups and properties
     device = Device(
         id=device_info['id'],
         affected=device_affected,
@@ -160,12 +166,14 @@ def get_data_from_json(users: typing.Dict, affected: typing.Dict) -> typing.Dict
 
     # Read all of the user records in the file
     for user_info in users:
+        # If user has no devices, this user will be skipped
         if not user_info['devices']:
             continue
 
         user_id = user_info['id']
         user_affected = ""
 
+        # If user participates in current Pilot group he will be marked as 'Affected user'
         if user_id in affected[0]:
             user_affected = affected[0][user_id]
 
@@ -183,13 +191,14 @@ def get_data_from_json(users: typing.Dict, affected: typing.Dict) -> typing.Dict
         )
 
         user_map[user_id] = user
-
+        # Reading user's devices data
         for device_record in user_info['devices']:
             device_affected = ""
             device_id = device_record['id']
+            # If user's device participates in current Pilot group he will be marked as 'Affected deivce'
             if device_id in affected[1]:
                 device_affected = affected[1][device_id]
-            
+
             device = create_device(device_record, device_affected)
             if device is None:
                 continue
@@ -197,8 +206,10 @@ def get_data_from_json(users: typing.Dict, affected: typing.Dict) -> typing.Dict
 
         department_name = user_info['department']
 
+        # If Department object was created earlier, User object will be added in it's user_list
         if department_name in department_map:
             department_map[department_name].add_user(user)
+        # If Department object wasn't created, it will be created with current User object inside of user_list
         else:
             department_map[department_name] = Department(
                 name=department_name,
