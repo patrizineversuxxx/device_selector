@@ -27,4 +27,5 @@ def device_selector_flow(configuration: Config):
 
     # Saving the result in the xlsx table
     save_data_to_xlsx(result, configuration.file_paths['result_file'])
+    return 0
 
