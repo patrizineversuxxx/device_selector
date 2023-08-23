@@ -1,6 +1,11 @@
+import logging
 import typing
 from file_recorder.json_parser import open_json
 
+
+# Set up logging
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 class Config:
     """
@@ -45,14 +50,29 @@ def get_config():
     Returns:
         Config: A Config object containing connection parameters, file paths, and selection conditions.
     """
-    # Reading all of the configurational files
-    connection_parameters = open_json(f"config_files\config.json")
-    file_paths = open_json(f"config_files\file_paths.json")
-    selection_conditions = open_json(f"config_files\selection_conditions.json")
+    try:
+        # Reading all of the configurational files
+        connection_parameters = open_json("config_files/config.json")
+        file_paths = open_json("config_files/file_paths.json")
+        selection_conditions = open_json("config_files/selection_conditions.json")
 
-    # Creating an entity for using configurational parameters
-    return Config(
-        connection_parameters=connection_parameters,
-        file_paths=file_paths,
-        selection_conditions=selection_conditions
-    )
+        # Creating an entity for using configurational parameters
+        return Config(
+            connection_parameters=connection_parameters,
+            file_paths=file_paths,
+            selection_conditions=selection_conditions
+        )
+    except FileNotFoundError as e:
+        logging.error("Configuration file not found.")
+        raise e
+    except Exception as e:
+        logging.error(f"An error occurred while reading configuration: {e}")
+        raise e
+
+if __name__ == "__main__":
+    try:
+        config = get_config()
+        logging.info("Configuration successfully loaded.")
+    except Exception as e:
+        logging.error(f"Failed to load configuration: {e}")
+        exit(1)
