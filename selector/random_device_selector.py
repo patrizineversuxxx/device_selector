@@ -54,7 +54,7 @@ def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dic
 
     for department in departments.values():
         i = 0
-        while(i < len(department.user_list)):
+        while (i < len(department.user_list)):
             is_affected = False
 
             if not department.user_list[i].location in selection_conditions['office_locations']:
@@ -71,7 +71,7 @@ def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dic
                         break
                 if (is_affected):
                     continue
-            i+=1
+            i += 1
         if len(department.user_list) == 0:
             toRemove.append(department.name)
 
@@ -91,7 +91,7 @@ def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dic
     for department in departments.values():
         department_target = check_department_target(
             department, selection_conditions)
-        
+
         if department in result_map:
             while len(result_map[department]) < department_target:
                 user = random.choice(department.user_list)

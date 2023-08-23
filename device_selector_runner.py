@@ -1,5 +1,6 @@
 import logging
 from selector.main import device_selector_flow
+from selector.сonfig import get_config
 
 def main():
     """
@@ -15,7 +16,8 @@ def main():
         None
     """
     try:
-        result = device_selector_flow()
+        configuration = get_config()
+        result = device_selector_flow(configuration)
         logging.info(f"Device selection has completed with exit code {result}")
 
     except Exception as e:

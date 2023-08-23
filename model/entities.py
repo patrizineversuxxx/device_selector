@@ -31,7 +31,7 @@ class User:
     job_title: str = field(hash=True)
     location: str = field(hash=True)
     cost_center: int = field(hash=True)
-    device_list: List[Device] = field(default_factory=list)
+    device_list: List[Device] = field(default_factory=list, init=True, compare=False, hash=False)
 
     def add_device(self, device: Device):
         """
@@ -46,10 +46,10 @@ class Department:
     Represents a department and its attributes.
     """
     name: str = field(hash=True)
-    users: List[User] = field(default_factory=list)
+    user_list: List[User] = field(default_factory=list, init=True, compare=False, hash=False)
 
     def add_user(self, user: User):
         """
         Adds a user to the department's user list.
         """
-        self.users.append(user)
+        self.user_list.append(user)
