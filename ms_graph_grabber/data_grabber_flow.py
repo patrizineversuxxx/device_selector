@@ -10,6 +10,7 @@ from selector.сonfig import get_config
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
+
 def data_grabber_flow():
     """
     Orchestrate the data grabbing flow from MS Graph API and save the results.
@@ -48,13 +49,10 @@ def data_grabber_flow():
         save_json(data=users, file_path=configuration.file_paths['path_user'])
 
         # Save affected users' and devices' info into separate JSON files
-        save_json(data=affected, file_path=configuration.file_paths['path_affected'])
+        save_json(data=affected,
+                  file_path=configuration.file_paths['path_affected'])
 
         logging.info("Data grabbing and saving completed!")
 
     except Exception as e:
         logging.error(f"An error occurred: {e}")
-
-# Entry point of the script
-if __name__ == "__main__":
-    data_grabber_flow()
