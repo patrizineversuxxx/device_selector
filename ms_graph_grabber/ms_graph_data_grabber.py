@@ -33,7 +33,7 @@ def fetch_data(url: str, headers: typing.Dict) -> typing.Dict:
 
 # User data processing function
 def process_user_data(headers: typing.Dict, user: typing.Dict):
-    '''Processes user data, fetching and storing manager and device information.'''
+    '''Processes user data, fetching and storing manager's and devices' information.'''
     user['cost_center'] = user['onPremisesExtensionAttributes']['extensionAttribute15']
     del user['onPremisesExtensionAttributes']
 
