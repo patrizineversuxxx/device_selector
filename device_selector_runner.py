@@ -15,7 +15,9 @@ def main():
         None
     """
     try:
-        device_selector_flow()
+        result = device_selector_flow()
+        logging.info(f"Device selection has completed with exit code {result}")
+
     except Exception as e:
         logging.error(f"An error occurred: {e}")
 
