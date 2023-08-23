@@ -7,6 +7,23 @@ from selector.сonfig import *
 
 
 def device_selector_flow(configuration: Config):
+    """
+    Orchestrates the device selection process.
+
+    This function performs the following steps:
+    1. Opens user and affected device data from JSON files.
+    2. Creates departments from the user and device data.
+    3. Saves the department records in a preparation XLSX table.
+    4. Filters job titles, deletes records from a previous table, and saves the result in another XLSX file.
+    5. Randomly selects devices based on user conditions.
+    6. Saves the result of the device selection in an XLSX table.
+
+    Args:
+        configuration (Config): A configuration object containing file paths and selection conditions.
+
+    Returns:
+        int: 0 indicating successful completion.
+    """
     # Open data grabbed from API
     users = open_json(configuration.file_paths['path_user'])
     affected = open_json(configuration.file_paths['path_affected'])
