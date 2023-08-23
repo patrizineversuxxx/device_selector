@@ -1,4 +1,5 @@
 # Import statements
+import datetime
 import logging
 from file_recorder.json_parser import save_json
 from model.department_converter import parse_affected
@@ -26,6 +27,7 @@ def data_grabber_flow():
     8. Save the affected users' and devices' information into separate JSON files specified in the configuration.
     """
     try:
+        logging.info(f"Data grabbing process started at {datetime.datetime.now()}")
         # Reading the configuration files
         configuration = get_config()
 
@@ -52,7 +54,7 @@ def data_grabber_flow():
         save_json(data=affected,
                   file_path=configuration.file_paths['path_affected'])
 
-        logging.info("Data grabbing and saving completed!")
+        logging.info(f"Data grabbing process has completed with exit code{0}")
 
     except Exception as e:
         logging.error(f"An error occurred: {e}")
