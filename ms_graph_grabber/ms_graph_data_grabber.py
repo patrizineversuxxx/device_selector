@@ -39,9 +39,19 @@ def process_user_data(headers: typing.Dict, user: typing.Dict):
 
     # Fetch manager info directly here
     manager_url = f"{API_BASE_URL}/users/{user['id']}/manager?$select=displayName,mail"
-    manager_data = fetch_data(manager_url, headers)
-    user['manager_name'] = manager_data['displayName']
-    user['manager_mail'] = manager_data['mail']
+    manager_response = requests.get(manager_url, headers=headers)
+    
+    if manager_response.status_code == 200:
+        manager_data = manager_response.json()
+        user['manager_name'] = manager_data['displayName']
+        user['manager_mail'] = manager_data['mail']
+    elif manager_response.status_code == 404:
+        logging.warning(f"User {user['displayName']} does not have a manager.")
+        user['manager_name'] = None
+        user['manager_mail'] = None
+    else:
+        logging.error(f"Request error: {manager_response.status_code}")
+        return
 
     # Fetch devices info directly here
     devices_url = f"{API_BASE_URL}/users/{user['id']}/ownedDevices?$select=displayName,id,enrollmentType,operatingSystem,isManaged,approximateLastSignInDateTime,manufacturer,model"
