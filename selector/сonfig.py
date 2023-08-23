@@ -1,5 +1,6 @@
 import logging
 import typing
+import os
 from file_recorder.json_parser import open_json
 
 
@@ -51,10 +52,15 @@ def get_config():
         Config: A Config object containing connection parameters, file paths, and selection conditions.
     """
     try:
+        # Joining file paths
+        settings_home_path = "config_files"
+        connection_settings_path = os.path.join(settings_home_path, "config.json")
+        file_paths_settings_path = os.path.join(settings_home_path, "file_paths.json")
+        selection_settings_path = os.path.join(settings_home_path, "selection_conditions.json")
         # Reading all of the configurational files
-        connection_parameters = open_json("config_files/config.json")
-        file_paths = open_json("config_files/file_paths.json")
-        selection_conditions = open_json("config_files/selection_conditions.json")
+        connection_parameters = open_json(connection_settings_path)
+        file_paths = open_json(file_paths_settings_path)
+        selection_conditions = open_json(selection_settings_path)
 
         # Creating an entity for using configurational parameters
         return Config(
