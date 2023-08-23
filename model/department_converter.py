@@ -1,13 +1,21 @@
-from file_recorder.json_parser import open_json
+from model.entities import *
 import typing
 
-from model.entities import *
-
+# List of virtual machine vendors and models
 vm_vendors = ["Parallels International GmbH.",
               "Parallels Software International Inc.", "VMware, Inc."]
 vm_models = ["Cloud PC Enterprise", "VirtualBox"]
 
 def parse_affected(affected_groups: typing.Dict):
+    """
+    Parses the affected users and devices from affected_groups data.
+
+    Args:
+        affected_groups: A dictionary containing affected group information.
+
+    Returns:
+        A tuple of two dictionaries: affected_users and affected_devices.
+    """
     affected_users = {}
     affected_devices = {}
     for affected_group in affected_groups:
@@ -20,6 +28,15 @@ def parse_affected(affected_groups: typing.Dict):
 
 
 def is_virtual(device_info: typing.Dict) -> bool:
+    """
+    Determines whether a device is a virtual machine based on its manufacturer and model.
+
+    Args:
+        device_info: A dictionary containing device information.
+
+    Returns:
+        A boolean indicating whether the device is a virtual machine.
+    """
     device_manufacturer = device_info['manufacturer']
     if device_manufacturer:
         if device_manufacturer in vm_vendors:
@@ -34,6 +51,16 @@ def is_virtual(device_info: typing.Dict) -> bool:
 
 
 def create_device(device_info, device_affected) -> Device:
+    """
+    Creates a Device object based on device information.
+
+    Args:
+        device_info: A dictionary containing device information.
+        device_affected: A string indicating the device's affected group.
+
+    Returns:
+        A Device object.
+    """
     device_is_managed = device_info['isManaged']
     device_last_checkin_date = device_info['approximateLastSignInDateTime']
     device_enrollment_type = device_info['enrollmentType']
