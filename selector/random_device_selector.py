@@ -57,7 +57,7 @@ def select_users_from_department(department:typing.Dict.values, selected_devices
 
 def random_selection(departments: typing.Dict, selection_conditions: typing.Dict) -> typing.Dict:
     result_map = {}
-    selected_devices = preparing_conditions()
+    selected_devices = preparing_conditions(selection_conditions['required'])
 
     for department in departments.values():
         selected_users = select_users_from_department(

@@ -51,7 +51,9 @@ def device_selector_flow(configuration: Config):
     logging.info(f"Saving processed data was completed")
 
     # Deleting records from previous table, which contains filtered job titles, and saves the result in the another xlsx file
+    logging.info(f"Removing predefined job titles")
     check_xlsx_for_vip(file_paths=configuration.file_paths)
+    logging.info(f"Removing predefined job titles was completed")
 
     # Randomly selecting needed devices using user's conditions
     logging.info(f"Reading processed data from XLSX table")
