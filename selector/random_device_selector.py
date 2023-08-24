@@ -69,7 +69,7 @@ def check_device_count(group: str, selected_devices: typing.Dict, required_devic
 
 
 def select_users_from_department(department: typing.Dict.values, selected_devices: typing.Dict, selection_conditions: typing.Dict) -> List[User]:
-    selected_users = {}
+    selected_users = []
     department_target = check_department_target(
         department, selection_conditions)
 
@@ -85,7 +85,8 @@ def select_users_from_department(department: typing.Dict.values, selected_device
                 if check_device_count(device.group, selected_devices, selection_conditions['required']):
                     continue
                 else:
-                    selected_users[user] = device
+                    user.device_list = [device]
+                    selected_users.append(user)
                     break
             else:
                 continue
