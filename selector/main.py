@@ -44,12 +44,6 @@ def device_selector_flow(configuration: Config):
     departments = get_data_from_json(users, affected)
     logging.info(f"Converting users data into objects was completed")
 
-    # Saving processed records in xlsx table (debugging purposes)
-    logging.info(f"Saving processed data into XLSX table")
-    save_data_to_xlsx_prepational_step(
-        departments, configuration.file_paths['start_file'])
-    logging.info(f"Saving processed data was completed")
-
     # Starting device selection process
     logging.info(f"Starting device selection process")
     result = random_selection(
