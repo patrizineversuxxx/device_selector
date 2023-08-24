@@ -99,7 +99,9 @@ def random_selection(departments: typing.Dict, selection_conditions: typing.Dict
     selected_devices = preparing_conditions(selection_conditions['required'])
     departments = preparing_departments(
         departments, selection_conditions['office_locations'])
-
+    departments = list(departments.items())
+    random.shuffle(departments)
+    departments = dict(departments)
     for department in departments.values():
         selected_users = select_users_from_department(
             department, selected_devices, selection_conditions)
