@@ -7,6 +7,28 @@ vm_vendors = ["Parallels International GmbH.",
 vm_models = ["Cloud PC Enterprise", "VirtualBox"]
 
 
+def is_vip(job_title: str) -> bool:  # nneds to be rewritten to job_titles gotten from config class
+    # Convert job title to lowercase for case-insensitive matching
+    if not job_title:
+        return True
+    job_title = job_title.lower()
+
+    # Check if the job title contains any VIP keywords
+    if "country manager" in job_title or \
+       ("sr" in job_title and "manager" in job_title) or \
+       ("senior" in job_title and "manager" in job_title) or \
+       "gm" in job_title or \
+       "president" in job_title or \
+       "director" in job_title or \
+            "clinical" in job_title or \
+    "vp" in job_title or \
+        "emc" in job_title or \
+            "Executive Admin Assistant" in job_title:
+        return True
+    else:
+        return False
+
+
 def parse_affected(affected_groups: typing.Dict):
     """
     Parses the affected users and devices from affected_groups data.
@@ -168,6 +190,9 @@ def get_data_from_json(users: typing.Dict, affected: typing.Dict) -> typing.Dict
     for user_info in users:
         # If user has no devices, this user will be skipped
         if not user_info['devices']:
+            continue
+        # If user's job title from VIP list, user will be skipped
+        if is_vip(user_info['jobTitle']):
             continue
 
         user_id = user_info['id']

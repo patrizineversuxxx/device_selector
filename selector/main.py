@@ -44,21 +44,13 @@ def device_selector_flow(configuration: Config):
     departments = get_data_from_json(users, affected)
     logging.info(f"Converting users data into objects was completed")
 
-    # Saving records in xlsx table
+    # Saving processed records in xlsx table (debugging purposes)
     logging.info(f"Saving processed data into XLSX table")
     save_data_to_xlsx_prepational_step(
         departments, configuration.file_paths['start_file'])
     logging.info(f"Saving processed data was completed")
 
-    # Deleting records from previous table, which contains filtered job titles, and saves the result in the another xlsx file
-    logging.info(f"Removing predefined job titles")
-    check_xlsx_for_vip(file_paths=configuration.file_paths)
-    logging.info(f"Removing predefined job titles was completed")
-
-    # Randomly selecting needed devices using user's conditions
-    logging.info(f"Reading processed data from XLSX table")
-    departments = get_data_from_xlsx(
-        path=configuration.file_paths['middle_file'])[0]
+    # Starting device selection process
     logging.info(f"Starting device selection process")
     result = random_selection(
         departments=departments, selection_conditions=configuration.selection_conditions,)
