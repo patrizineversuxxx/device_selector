@@ -128,16 +128,21 @@ def select_users_from_department(department: typing.Dict.values, selected_device
     Returns:
         List[User]: List of selected users.
     """
+    # Creating empty selected users list
     selected_users = []
+    # Calculating maximal number of affected users in department
     department_target = check_department_target(
         department, selection_conditions)
-
+    # Shuffling user list
     random.shuffle(department.user_list)
     for user in department.user_list:
+        # If department already had enough users in pilot groups, stop selecting users
         if len(selected_users) >= department_target:
             break
+        # If user already participated in Pilot group, app will check other users
         if user in selected_devices:
             continue
+        # Shuffling user's devices
         random.shuffle(user.device_list)
         for device in user.device_list:
             if device.group in selection_conditions['required']:
@@ -165,18 +170,23 @@ def random_selection(departments: typing.Dict, selection_conditions: typing.Dict
         typing.Dict: Dictionary mapping department names to selected users.
     """
     result_map = {}
+    # Creating selected devices dictionary {"type":device_count}
     selected_devices = preparing_conditions(selection_conditions['required'])
+    # Removing users and departments based on office location and affected in Pilot groups criteria
     departments = preparing_departments(
         departments, selection_conditions['office_locations'])
+    # Shuffling department
     departments = list(departments.items())
     random.shuffle(departments)
     departments = dict(departments)
+    # Selecting users for Pilot groups for each department
     for department in departments.values():
         selected_users = select_users_from_department(
             department, selected_devices, selection_conditions)
         if selected_users:
             result_map[department.name] = Department(
                 department.name, selected_users)
+    # Checking selected and required devices count
     for device_group, value in selected_devices.items():
         if value < selection_conditions['required'][device_group]:
             logging.info(
