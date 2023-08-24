@@ -15,6 +15,37 @@ def preparing_conditions(required_device_groups):
     return needed
 
 
+def preparing_departments(departments: typing.Dict, office_locations: typing.Dict) -> typing.Dict:
+    toRemove = []
+
+    for department in departments.values():
+        i = 0
+        while (i < len(department.user_list)):
+            is_affected = False
+
+            if not department.user_list[i].location in office_locations:
+                department.user_list.pop(i)
+                continue
+            if not department.user_list[i].affected is None:
+                department.user_list.pop(i)
+                continue
+            else:
+                for device in department.user_list[i].device_list:
+                    if not device.affected is None:
+                        department.user_list.pop(i)
+                        is_affected = True
+                        break
+                if (is_affected):
+                    continue
+            i += 1
+        if len(department.user_list) == 0:
+            toRemove.append(department.name)
+
+    for key in toRemove:
+        departments.pop(key)
+    return departments
+
+
 def check_department_target(department: Department, selection_conditions: typing.Dict) -> int:
     target_percent = selection_conditions['target_percent']/100
     return int(target_percent * len(department.user_list))+1
@@ -32,7 +63,7 @@ def check_device_count(group: str, selected_devices: typing.Dict, required_devic
         return False
 
 
-def select_users_from_department(department:typing.Dict.values, selected_devices:typing.Dict, selection_conditions:typing.Dict):
+def select_users_from_department(department: typing.Dict.values, selected_devices: typing.Dict, selection_conditions: typing.Dict):
     selected_users = {}
     department_target = check_department_target(
         department, selection_conditions)
@@ -40,7 +71,7 @@ def select_users_from_department(department:typing.Dict.values, selected_devices
     while len(selected_users) < department_target:
         user = random.choice(department.user_list)
 
-        if is_user_affected(user) or user.location not in selection_conditions['office_locations']:
+        if user in selected_devices:
             continue
 
         device = random.choice(user.device_list)
@@ -58,6 +89,8 @@ def select_users_from_department(department:typing.Dict.values, selected_devices
 def random_selection(departments: typing.Dict, selection_conditions: typing.Dict) -> typing.Dict:
     result_map = {}
     selected_devices = preparing_conditions(selection_conditions['required'])
+    departments = preparing_departments(
+        departments, selection_conditions['office_locations'])
 
     for department in departments.values():
         selected_users = select_users_from_department(
