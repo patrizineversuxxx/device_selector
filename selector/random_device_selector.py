@@ -9,6 +9,10 @@ def check_department_target(department: Department, params: typing.Dict) -> int:
     return int(target_percent * len(department.user_list))+1
 
 
+def is_user_affected(user):
+    return user.affected is not None or any(device.affected is not None for device in user.device_list)
+
+
 def check_device_count(group: str, needed: typing.Dict, requirements: typing.Dict) -> bool:
     if needed[group] >= requirements[group]:
         return True
@@ -17,8 +21,7 @@ def check_device_count(group: str, needed: typing.Dict, requirements: typing.Dic
         return False
 
 
-def random_selection(selection_conditions: typing.Dict, path: str) -> typing.Dict[Department, typing.Dict[User, Device]]:
-    departments = get_data_from_xlsx(path)[0]
+def legacy_random_selection(departments: typing.Dict, selection_conditions: typing.Dict, path: str) -> typing.Dict[Department, typing.Dict[User, Device]]:
 
     toRemove = []
 
