@@ -11,7 +11,6 @@ logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 
-
 def device_selector_flow(configuration: Config):
     """
     Orchestrates the device selection process.
@@ -30,7 +29,8 @@ def device_selector_flow(configuration: Config):
     Returns:
         int: 0 indicating successful completion.
     """
-    logging.info(f"Device selection process started at {datetime.datetime.now()}")
+    logging.info(
+        f"Device selection process started at {datetime.datetime.now()}")
     # Open data grabbed from API
     logging.info(f"Reading users data")
     users = open_json(configuration.file_paths['path_user'])

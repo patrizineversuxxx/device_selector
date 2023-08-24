@@ -2,6 +2,7 @@ import logging
 from selector.main import device_selector_flow
 from selector.сonfig import get_config
 
+
 def main():
     """
     Entry point of the script. Executes the device_selector_flow function and handles exceptions.
@@ -22,6 +23,7 @@ def main():
 
     except Exception as e:
         logging.error(f"An error occurred: {e}")
+
 
 if __name__ == "__main__":
     # Configure logging to display information with the desired format
