@@ -68,20 +68,22 @@ def select_users_from_department(department: typing.Dict.values, selected_device
     department_target = check_department_target(
         department, selection_conditions)
 
-    while len(selected_users) < department_target:
-        user = random.choice(department.user_list)
-
+    random.shuffle(department.user_list)
+    for user in department.user_list:
+        if len(selected_users) >= department_target:
+            break
         if user in selected_devices:
             continue
-
-        device = random.choice(user.device_list)
-        if device.group in selection_conditions['required']:
-            if check_device_count(device.group, selected_devices, selection_conditions['required']):
+        random.shuffle(user.device_list)
+        for device in user.device_list:
+            if device.group in selection_conditions['required']:
+                if check_device_count(device.group, selected_devices, selection_conditions['required']):
+                    continue
+                else:
+                    selected_users[user] = device
+                    break
+            else:
                 continue
-        else:
-            continue
-
-        selected_users[user] = device
 
     return selected_users
 
