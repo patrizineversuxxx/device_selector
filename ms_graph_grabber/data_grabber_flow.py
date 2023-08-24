@@ -54,7 +54,7 @@ def data_grabber_flow():
         save_json(data=affected,
                   file_path=configuration.file_paths['path_affected'])
 
-        logging.info(f"Data grabbing process has completed with exit code{0}")
+        logging.info(f"Data grabbing process has completed with exit code {0}")
 
     except Exception as e:
         logging.error(f"An error occurred: {e}")
