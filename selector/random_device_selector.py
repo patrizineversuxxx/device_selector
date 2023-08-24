@@ -46,12 +46,12 @@ def preparing_departments(departments: typing.Dict, office_locations: typing.Dic
         while (i < len(department.user_list)):
             is_affected = False
 
-            if (not department.user_list[i].location in office_locations) or (not department.user_list[i].affected is None):
+            if (not (department.user_list[i].location in office_locations)) or (department.user_list[i].affected):
                 department.user_list.pop(i)
                 continue
             else:
                 for device in department.user_list[i].device_list:
-                    if not device.affected is None:
+                    if device.affected:
                         department.user_list.pop(i)
                         is_affected = True
                         break
