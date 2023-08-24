@@ -20,6 +20,18 @@ def check_device_count(group: str, needed: typing.Dict, requirements: typing.Dic
         needed[group] += 1
         return False
 
+def select_users_from_department():
+    return 1
+
+def random_selection(departments: typing.Dict):
+    result_map = {}
+
+    for department in departments.values():
+        selected_users = select_users_from_department(department)
+        if selected_users:
+            result_map[department] = selected_users
+
+    return result_map
 
 def legacy_random_selection(departments: typing.Dict, selection_conditions: typing.Dict, path: str) -> typing.Dict[Department, typing.Dict[User, Device]]:
 
