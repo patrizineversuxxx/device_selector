@@ -4,8 +4,19 @@ from file_recorder.json_parser import *
 from file_recorder.xlsx_parser import *
 
 
-def check_department_target(department: Department, params: typing.Dict) -> int:
-    target_percent = params['target_percent']/100
+def preparing_conditions(required_device_groups):
+
+    needed = {}
+
+    for group, count in required_device_groups.items():
+        if count > 0:
+            needed[group] = 0
+
+    return needed
+
+
+def check_department_target(department: Department, selection_conditions: typing.Dict) -> int:
+    target_percent = selection_conditions['target_percent']/100
     return int(target_percent * len(department.user_list))+1
 
 
@@ -13,27 +24,51 @@ def is_user_affected(user):
     return user.affected is not None or any(device.affected is not None for device in user.device_list)
 
 
-def check_device_count(group: str, needed: typing.Dict, requirements: typing.Dict) -> bool:
-    if needed[group] >= requirements[group]:
+def check_device_count(group: str, selected_devices: typing.Dict, required_devices: typing.Dict) -> bool:
+    if selected_devices[group] >= required_devices[group]:
         return True
     else:
-        needed[group] += 1
+        selected_devices[group] += 1
         return False
 
-def select_users_from_department():
-    return 1
 
-def random_selection(departments: typing.Dict):
+def select_users_from_department(department:typing.Dict.values, selected_devices:typing.Dict, selection_conditions:typing.Dict):
+    selected_users = {}
+    department_target = check_department_target(
+        department, selection_conditions)
+
+    while len(selected_users) < department_target:
+        user = random.choice(department.user_list)
+
+        if is_user_affected(user) or user.location not in selection_conditions['office_locations']:
+            continue
+
+        device = random.choice(user.device_list)
+        if device.group in selection_conditions['required']:
+            if check_device_count(device.group, selected_devices, selection_conditions['required']):
+                continue
+        else:
+            continue
+
+        selected_users[user] = device
+
+    return selected_users
+
+
+def random_selection(departments: typing.Dict, selection_conditions: typing.Dict) -> typing.Dict:
     result_map = {}
+    selected_devices = preparing_conditions()
 
     for department in departments.values():
-        selected_users = select_users_from_department(department)
+        selected_users = select_users_from_department(
+            department, selected_devices, selection_conditions)
         if selected_users:
             result_map[department] = selected_users
 
     return result_map
 
-def legacy_random_selection(departments: typing.Dict, selection_conditions: typing.Dict, path: str) -> typing.Dict[Department, typing.Dict[User, Device]]:
+
+'''def legacy_random_selection(departments: typing.Dict, selection_conditions: typing.Dict, path: str) -> typing.Dict[Department, typing.Dict[User, Device]]:
 
     toRemove = []
 
@@ -64,13 +99,6 @@ def legacy_random_selection(departments: typing.Dict, selection_conditions: typi
         departments.pop(key)
 
     result_map = {}
-
-    requirements = selection_conditions['required']
-
-    needed = {}
-
-    for key in requirements.keys():
-        needed[key] = 0
 
     # needs to be rewritten because of dict (d, dict) construction
     for department in departments.values():
@@ -103,3 +131,4 @@ def legacy_random_selection(departments: typing.Dict, selection_conditions: typi
             result_map[department][user] = device
 
     return result_map
+    '''

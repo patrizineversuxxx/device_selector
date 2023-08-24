@@ -41,9 +41,10 @@ def device_selector_flow(configuration: Config):
     # Randomly selecting needed devices using user's conditions
     departments = get_data_from_xlsx(
         path=configuration.file_paths['middle_file'])[0]
-    result = legacy_random_selection(departments=departments, selection_conditions=configuration.selection_conditions,
-                                     path=configuration.file_paths['middle_file'])
+    result = random_selection(
+        departments=departments, selection_conditions=configuration.selection_conditions,)
 
     # Saving the result in the xlsx table
-    save_data_to_xlsx(result, configuration.file_paths['result_file'])
+    save_data_to_xlsx_prepational_step(
+        result, configuration.file_paths['result_file'])
     return 0
