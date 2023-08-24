@@ -10,7 +10,15 @@ logging.basicConfig(level=logging.INFO,
 
 
 def preparing_conditions(required_device_groups: typing.Dict) -> typing.Dict:
+    """
+    Prepare a dictionary to track the needed count for each device group.
 
+    Args:
+        required_device_groups (typing.Dict): Required device counts for each device group.
+
+    Returns:
+        typing.Dict: Dictionary with initialized counts for each device group.
+    """
     needed = {}
 
     for group, count in required_device_groups.items():
@@ -21,6 +29,16 @@ def preparing_conditions(required_device_groups: typing.Dict) -> typing.Dict:
 
 
 def preparing_departments(departments: typing.Dict, office_locations: typing.Dict) -> typing.Dict:
+    """
+    Prepare departments by filtering users based on office locations and affected status.
+
+    Args:
+        departments (typing.Dict): Dictionary of departments.
+        office_locations (typing.Dict): Allowed office locations.
+
+    Returns:
+        typing.Dict: Filtered departments.
+    """
     toRemove = []
 
     for department in departments.values():
@@ -52,15 +70,45 @@ def preparing_departments(departments: typing.Dict, office_locations: typing.Dic
 
 
 def check_department_target(department: Department, selection_conditions: typing.Dict) -> int:
+    """
+    Calculate the target number of users to select from a department.
+
+    Args:
+        department (Department): The department to calculate the target for.
+        selection_conditions (typing.Dict): Selection conditions.
+
+    Returns:
+        int: Target number of users to select.
+    """
     target_percent = selection_conditions['target_percent']/100
     return int(target_percent * len(department.user_list))+1
 
 
 def is_user_affected(user: User) -> bool:
+    """
+    Check if a user is affected based on affected status or affected devices.
+
+    Args:
+        user (User): The user to check.
+
+    Returns:
+        bool: True if user is affected, False otherwise.
+    """
     return user.affected is not None or any(device.affected is not None for device in user.device_list)
 
 
 def check_device_count(group: str, selected_devices: typing.Dict, required_devices: typing.Dict) -> bool:
+    """
+    Check if the selected device count for a group meets the requirement.
+
+    Args:
+        group (str): The device group.
+        selected_devices (typing.Dict): Dictionary to track selected devices.
+        required_devices (typing.Dict): Required device counts.
+
+    Returns:
+        bool: True if device count meets the requirement, False otherwise.
+    """
     if selected_devices[group] >= required_devices[group]:
         return True
     else:
@@ -69,6 +117,17 @@ def check_device_count(group: str, selected_devices: typing.Dict, required_devic
 
 
 def select_users_from_department(department: typing.Dict.values, selected_devices: typing.Dict, selection_conditions: typing.Dict) -> List[User]:
+    """
+    Select users from a department based on selection conditions.
+
+    Args:
+        department (Department): The department to select users from.
+        selected_devices (typing.Dict): Dictionary to track selected devices.
+        selection_conditions (typing.Dict): Selection conditions.
+
+    Returns:
+        List[User]: List of selected users.
+    """
     selected_users = []
     department_target = check_department_target(
         department, selection_conditions)
@@ -95,6 +154,16 @@ def select_users_from_department(department: typing.Dict.values, selected_device
 
 
 def random_selection(departments: typing.Dict, selection_conditions: typing.Dict) -> typing.Dict:
+    """
+    Perform random selection of users based on selection conditions.
+
+    Args:
+        departments (typing.Dict): Dictionary of departments.
+        selection_conditions (typing.Dict): Selection conditions.
+
+    Returns:
+        typing.Dict: Dictionary mapping department names to selected users.
+    """
     result_map = {}
     selected_devices = preparing_conditions(selection_conditions['required'])
     departments = preparing_departments(
