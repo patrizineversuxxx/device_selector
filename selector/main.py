@@ -29,20 +29,21 @@ def device_selector_flow(configuration: Config):
     affected = open_json(configuration.file_paths['path_affected'])
 
     # Creating departments from users and devices data
-    departmens = get_data_from_json(users, affected)
+    departments = get_data_from_json(users, affected)
 
     # Saving records in xlsx table
     save_data_to_xlsx_prepational_step(
-        departmens, configuration.file_paths['start_file'])
+        departments, configuration.file_paths['start_file'])
 
     # Deleting records from previous table, which contains filtered job titles, and saves the result in the another xlsx file
     check_xlsx_for_vip(file_paths=configuration.file_paths)
 
     # Randomly selecting needed devices using user's conditions
-    result = random_selection(selection_conditions=configuration.selection_conditions,
-                            path=configuration.file_paths['middle_file'])
+    departments = get_data_from_xlsx(
+        path=configuration.file_paths['middle_file'])[0]
+    result = legacy_random_selection(departments=departments, selection_conditions=configuration.selection_conditions,
+                                     path=configuration.file_paths['middle_file'])
 
     # Saving the result in the xlsx table
     save_data_to_xlsx(result, configuration.file_paths['result_file'])
     return 0
-
