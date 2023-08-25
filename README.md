@@ -20,28 +20,32 @@ Project is created with:
 * Schedule library version: 1.2.0
 
 ## Setup
-For using this product you need to have:
+For using this product, you need to have:
+
 * Azure Active Directory license
 * Administrator rights to create app registration and grant admin permissions to the app
 * Python 3.10
-* Installed libraries MSAL, Openpyxl, Schedule
+* Installed libraries from requirments.txt
 
-After cloning the repository you should create folder for configurational files. Later you need to create these files:
+After cloning the repository, you should create folder for configurational files. Later you need to create these files:
+
 * config.json - file, where tenant connection information will be stored
 * file_paths.json - file, where are file paths to intermediate and result files on your local device
 * selection_conditions.json - file, where selection conditions will be stored
 
-Later you need to create connection to your Azure tenant using 
-[this guideline](https://learn.microsoft.com/en-us/azure/active-directory/develop/web-app-quickstart?pivots=devlang-python&tabs=windows).
+Later you need to create connection to your Azure tenant using this guideline.
 
-Right now, my application, which works with Graph API, uses daemon app flow. It creates connection token silently and uses apllication delegated permissions:
+Right now, my application, which works with Graph API, uses daemon app flow. It creates connection token silently and uses application delegated permissions:
+
 * Device.Read.All
 * DeviceManagementManagedDevices
 * Directory.Read.All
 * User.ReadBasic.All
 
- For creating connection to Microsoft services, you need to put several parameters to your config.json file:
- * client_id - your app registration id in Azure Active Directory
- * scope - for daemon apps "https://graph.microsoft.com/.default"
- * "thumbprint" - after creating certificate in app registration, copy and paste thumbprint value
- * "private_key_file" - path to private key file
+For creating connection to Microsoft services, you need to put several parameters to your config.json file:
+
+* "client_id" - your app registration id in Azure Active Directory
+* "scope" - for daemon apps "https://graph.microsoft.com/.default"
+* "thumbprint" - after creating certificate in app registration, copy and paste thumbprint value
+* "private_key_file" - path to private key file
+* "thumbprint" - after creating certificate in app registration, copy and paste thumbprint value
