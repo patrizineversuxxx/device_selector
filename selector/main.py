@@ -51,7 +51,6 @@ def device_selector_flow(configuration: Config):
 
     # Saving the result in the xlsx table
     logging.info(f"Saving processed data into XLSX table")
-    save_data_to_xlsx_prepational_step(
-        result, configuration.file_paths['result_file'])
+    save_data_to_xlsx(result, configuration.file_paths['result_file'])
     logging.info(f"Saving processed data was completed")
     return 0

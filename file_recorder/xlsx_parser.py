@@ -77,11 +77,11 @@ def get_data_from_xlsx(path: str):
         user_job_title = row[12].value
         user_location = row[13].value
         user_cost_center = row[14].value
-        department_name  = row[15].value
-        device_affected  = row[16].value
-        user_affected  = row[17].value
+        department_name = row[15].value
+        device_affected = row[16].value
+        user_affected = row[17].value
 
-        device = Device(id=device_id, affected=device_affected,name=device_name, group=device_group,
+        device = Device(id=device_id, affected=device_affected, name=device_name, group=device_group,
                         os=device_os, enrollment_type=device_enrollment_type, type=device_type,
                         last_checkin_date=device_last_checkin_date)
 
@@ -89,7 +89,7 @@ def get_data_from_xlsx(path: str):
             user_map[user_name].add_device(device)
 
         else:
-            user = User(id=user_id, affected=user_affected,name=user_name, mail=user_mail, manager_name=user_manager_name, manager_mail=user_manager_mail,
+            user = User(id=user_id, affected=user_affected, name=user_name, mail=user_mail, manager_name=user_manager_name, manager_mail=user_manager_mail,
                         job_title=user_job_title, location=user_location, cost_center=user_cost_center, device_list=[device])
             user_map[user.name] = user
 
@@ -104,7 +104,7 @@ def get_data_from_xlsx(path: str):
     return department_map, user_map
 
 
-def save_data_to_xlsx_prepational_step(result_map, file_path):
+def save_data_to_xlsx(result_map, file_path):
     result_book = openpyxl.Workbook()
     result_sheet = result_book.active
 
@@ -125,27 +125,3 @@ def save_data_to_xlsx_prepational_step(result_map, file_path):
                 row_counter += 1
 
     result_book.save(file_path)
-
-
-def save_data_to_xlsx(result_map, path):
-    result_book = openpyxl.Workbook()
-    result_sheet = result_book.active
-
-    create_table_header(result_sheet)
-
-    row_counter = 2
-
-    for department, user_device in result_map.items():
-
-        department_name = department.name
-
-        # Iterate over the set of user-device tuples
-        device = list(user_device.values())[0]
-        user = list(user_device.keys())[0]
-
-        create_table_row(result_sheet, row_counter, device, user,
-                         department_name)
-
-        row_counter += 1
-
-    result_book.save(path)
