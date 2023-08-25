@@ -1,7 +1,7 @@
 # Import statements
 import datetime
 import logging
-from file_recorder.json_parser import save_json
+from file_recorders.json_recorder import save_json
 from model.department_converter import parse_affected
 from ms_graph_grabber.ms_graph_connector import connect_to_api
 from ms_graph_grabber.ms_graph_data_grabber import get_affected_users, get_users_from_API

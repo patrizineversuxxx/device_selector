@@ -1,8 +1,8 @@
 import logging
 import random
 from model.entities import *
-from file_recorder.json_parser import *
-from file_recorder.xlsx_parser import *
+from file_recorders.json_recorder import *
+from file_recorders.xlsx_recorder import *
 
 # Configure logging to display information with the desired format
 logging.basicConfig(level=logging.INFO,

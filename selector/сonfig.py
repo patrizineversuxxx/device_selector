@@ -1,7 +1,7 @@
 import logging
 import typing
 import os
-from file_recorder.json_parser import open_json
+from file_recorders.json_recorder import open_json
 
 
 # Set up logging
