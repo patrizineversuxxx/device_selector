@@ -2,7 +2,7 @@ import datetime
 from model.department_converter import get_data_from_json
 from file_recorders.json_recorder import *
 from file_recorders.xlsx_recorder import *
-from selector.random_device_selector import *
+from selector.device_selector import *
 from selector.сonfig import *
 
 # Configure logging
