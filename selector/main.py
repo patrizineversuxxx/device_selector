@@ -2,7 +2,6 @@ import datetime
 from model.department_converter import get_data_from_json
 from file_recorder.json_parser import *
 from file_recorder.xlsx_parser import *
-from selector.job_title_selector import *
 from selector.random_device_selector import *
 from selector.сonfig import *
 
