@@ -30,29 +30,33 @@ def data_grabber_flow():
         logging.info(f"Data grabbing process started at {datetime.datetime.now()}")
         # Reading the configuration files
         configuration = get_config()
-
+        logging.info(f"Creating access token and adding it to the request headers")
         # Create request headers
         headers = connect_to_api(
             connection_parameters=configuration.connection_parameters)
 
         # Log a message indicating a successful connection
         logging.info("Connection established!")
-
+        logging.info("Started getting user data")
         # Grab all users' info from MS Graph
         users = get_users_from_API(headers=headers)
-
+        logging.info("Getting user data was completed")
         # Grab info about users and devices participating in Pilots from MS Graph
+        logging.info("Started getting affected users data")
         affected = get_affected_users(headers=headers)
-
+        logging.info("Getting affected users data was completed")
         # Create two dictionaries of affected users and devices
         affected = parse_affected(affected)
 
         # Save users' info into the JSON file
+        logging.info("Saving user data")
         save_json(data=users, file_path=configuration.file_paths['path_user'])
-
+        logging.info("Saving user data was completed")
         # Save affected users' and devices' info into separate JSON files
+        logging.info("Saving affected user data")
         save_json(data=affected,
                   file_path=configuration.file_paths['path_affected'])
+        logging.info("Saving affected user data was completed")
 
         logging.info(f"Data grabbing process has completed with exit code {0}")
 
