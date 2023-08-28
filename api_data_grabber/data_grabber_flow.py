@@ -3,8 +3,8 @@ import datetime
 import logging
 from file_recorders.json_recorder import save_json
 from model.department_converter import parse_affected
-from ms_graph_grabber.api_connector import connect_to_api
-from ms_graph_grabber.api_data_grabber import get_affected_users, get_users_from_API
+from api_data_grabber.api_connector import connect_to_API
+from api_data_grabber.api_data_grabber import get_affected_users, get_users_from_API
 from selector.сonfig import get_config
 
 # Configure logging
@@ -32,7 +32,7 @@ def data_grabber_flow():
         configuration = get_config()
         logging.info(f"Creating access token and adding it to the request headers")
         # Create request headers
-        headers = connect_to_api(
+        headers = connect_to_API(
             connection_parameters=configuration.connection_parameters)
 
         # Log a message indicating a successful connection

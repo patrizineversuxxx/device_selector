@@ -32,7 +32,7 @@ def get_access_token_silent(connection_parameters: typing.Dict) -> typing.Dict:
     return token
 
 
-def connect_to_api(connection_parameters: typing.Dict) -> typing.Dict:
+def connect_to_API(connection_parameters: typing.Dict) -> typing.Dict:
     """
     Connects to an API using the provided connection parameters.
 
