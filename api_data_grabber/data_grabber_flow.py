@@ -3,8 +3,8 @@ import datetime
 import logging
 from file_recorders.json_recorder import save_json
 from model.department_converter import parse_affected
-from ms_graph_grabber.ms_graph_connector import connect_to_api
-from ms_graph_grabber.ms_graph_data_grabber import get_affected_users, get_users_from_API
+from ms_graph_grabber.api_connector import connect_to_api
+from ms_graph_grabber.api_data_grabber import get_affected_users, get_users_from_API
 from selector.сonfig import get_config
 
 # Configure logging

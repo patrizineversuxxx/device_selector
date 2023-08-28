@@ -1,7 +1,7 @@
 import logging
 import schedule
 import time
-from ms_graph_grabber.data_grabber_flow import data_grabber_flow
+from api_data_grabber.data_grabber_flow import data_grabber_flow
 
 # Define the time at which the script should be launched daily
 LAUNCH_TIME = "19:05"
