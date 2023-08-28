@@ -5,14 +5,15 @@ from file_recorders.json_recorder import save_json
 from model.department_converter import parse_affected
 from api_data_grabber.api_connector import connect_to_API
 from api_data_grabber.api_data_grabber import get_affected_users, get_users_from_API
-from selector.сonfig import get_config
+from selector.сonfig import Config
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 
-def data_grabber_flow():
+def data_grabber_flow(configuration:Config):
     """
     Orchestrate the data grabbing flow from MS Graph API and save the results.
 
@@ -28,10 +29,8 @@ def data_grabber_flow():
     """
     try:
         logging.info(f"Data grabbing process started at {datetime.datetime.now()}")
-        # Reading the configuration files
-        configuration = get_config()
-        logging.info(f"Creating access token and adding it to the request headers")
         # Create request headers
+        logging.info(f"Creating access token and adding it to the request headers")
         headers = connect_to_API(
             connection_parameters=configuration.connection_parameters)
 

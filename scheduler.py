@@ -2,9 +2,10 @@ import logging
 import schedule
 import time
 from api_data_grabber.data_grabber_flow import data_grabber_flow
+from selector.сonfig import Config, get_config
 
 # Define the time at which the script should be launched daily
-LAUNCH_TIME = "19:05"
+
 
 
 def configure_logging():
@@ -17,12 +18,12 @@ def configure_logging():
     )
 
 
-def schedule_data_grabbing():
+def schedule_data_grabbing(configuration:Config):
     """
     Schedules the data grabbing flow using the specified launch time.
     """
     # Schedule the script to be launched every day at a specific time
-    schedule.every().day.at(LAUNCH_TIME).do(data_grabber_flow)
+    schedule.every().day.at(configuration.connection_parameters['LAUNCH_TIME']).do(data_grabber_flow, configuration)
 
 
 def main():
@@ -30,9 +31,11 @@ def main():
     Main function that orchestrates the script's execution.
     """
     configure_logging()
-
+    configuration = get_config()
+    
+    LAUNCH_TIME = configuration.connection_parameters['LAUNCH_TIME']
     try:
-        schedule_data_grabbing()
+        schedule_data_grabbing(configuration=configuration)
 
         # Message for the user
         logging.info(
